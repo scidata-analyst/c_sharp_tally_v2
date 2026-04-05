@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "TALLY_APP/1.0.0": {
+        "runtime": {
+          "TALLY_APP.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TALLY_APP/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
