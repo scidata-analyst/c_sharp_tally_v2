@@ -1,31 +1,21 @@
 <#
 =====================================================
-ASP.NET CORE DTO GENERATOR (CLEAN ARCHITECTURE STYLE)
+ASP.NET CORE DTO GENERATOR (STRICT DOCBLOCK STYLE)
 =====================================================
 
-Structure:
-DTOs/
- ├── Request/{Group}/EntityRequest.cs
- ├── Response/{Group}/EntityResponse.cs
-
-- Uses database_schema.json
-- Auto folder creation fixed
-- DOCBLOCK style comments
+RULES:
+- Use ONLY JSDOC style comments (/** */)
+- Clean formatting (enterprise readable)
+- Request DTO = validation included
+- Response DTO = API output model
 =====================================================
 #>
 
-# ==============================
-# CONFIG
-# ==============================
 $schemaPath = "F:\DASHBOARD_APP\GIT_VERSION\TALLY\database_schema.json"
 $basePath   = "F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\DTOs"
 
-# ==============================
-# HELPERS
-# ==============================
 function Ensure-Folder {
     param([string]$path)
-
     if (!(Test-Path $path)) {
         New-Item -ItemType Directory -Path $path -Force | Out-Null
     }
@@ -42,23 +32,14 @@ function Convert-Type($type) {
     }
 }
 
-# ==============================
-# LOAD SCHEMA
-# ==============================
 $schema = Get-Content $schemaPath -Raw | ConvertFrom-Json
 
-Write-Host "DTO generation started..."
+Write-Host "DTO generation started (STRICT DOCBLOCK)..."
 
-# ==============================
-# MAIN LOOP
-# ==============================
 foreach ($group in $schema.groups) {
 
     $groupName = $group.name -replace '\s',''
 
-    # ==============================
-    # CREATE ROOT FOLDERS
-    # ==============================
     $requestBase  = Join-Path $basePath "Request"
     $responseBase = Join-Path $basePath "Response"
 
@@ -69,21 +50,16 @@ foreach ($group in $schema.groups) {
 
         $entityName = $entity.name
 
-        # ==============================
-        # GROUP FOLDERS
-        # ==============================
-        $requestGroupPath  = Join-Path $requestBase $groupName
-        $responseGroupPath = Join-Path $responseBase $groupName
+        $requestPath  = Join-Path (Join-Path $requestBase $groupName) "$entityName`Request.cs"
+        $responsePath = Join-Path (Join-Path $responseBase $groupName) "$entityName`Response.cs"
 
-        Ensure-Folder $requestGroupPath
-        Ensure-Folder $responseGroupPath
+        Ensure-Folder (Split-Path $requestPath)
+        Ensure-Folder (Split-Path $responsePath)
 
         # =====================================================
         # REQUEST DTO
         # =====================================================
-        $requestFilePath = Join-Path $requestGroupPath "$entityName`Request.cs"
-
-        $requestProps = ""
+        $reqProps = ""
 
         foreach ($field in $entity.fields) {
 
@@ -92,11 +68,34 @@ foreach ($group in $schema.groups) {
             }
 
             $type = Convert-Type $field.type
-            $requestProps += "        public $type $($field.name) { get; set; }`n"
+            $attrs = ""
+
+            if ($type -eq "string") {
+                $attrs += "        [Required]`n"
+            }
+
+            if ($field.maxLength) {
+                $attrs += "        [MaxLength($($field.maxLength))]`n"
+            }
+
+            if ($type -eq "decimal") {
+                $attrs += "        [Range(0, double.MaxValue)]`n"
+            }
+
+            $reqProps += @"
+        /**
+         * Field: $($field.name)
+         * Type: $type
+         * Description: Request property for $entityName
+         */
+$attrs        public $type $($field.name) { get; set; }
+
+"@
         }
 
         $requestContent = @"
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace POS_APP.DTOs.Request.$groupName
 {
@@ -104,29 +103,37 @@ namespace POS_APP.DTOs.Request.$groupName
      * Request DTO: $entityName
      *
      * Purpose:
-     * Used for Create/Update operations of $entityName
+     * Used for CREATE and UPDATE operations
+     * Includes validation rules based on schema
      */
     public class ${entityName}Request
     {
-$requestProps
+$reqProps
     }
 }
 "@
 
-        $requestContent | Out-File -FilePath $requestFilePath -Encoding UTF8
+        $requestContent | Out-File -FilePath $requestPath -Encoding UTF8
 
 
         # =====================================================
         # RESPONSE DTO
         # =====================================================
-        $responseFilePath = Join-Path $responseGroupPath "$entityName`Response.cs"
-
-        $responseProps = ""
+        $resProps = ""
 
         foreach ($field in $entity.fields) {
 
             $type = Convert-Type $field.type
-            $responseProps += "        public $type $($field.name) { get; set; }`n"
+
+            $resProps += @"
+        /**
+         * Field: $($field.name)
+         * Type: $type
+         * Description: Response property for $entityName
+         */
+        public $type $($field.name) { get; set; }
+
+"@
         }
 
         $responseContent = @"
@@ -138,19 +145,19 @@ namespace POS_APP.DTOs.Response.$groupName
      * Response DTO: $entityName
      *
      * Purpose:
-     * Used for API responses of $entityName
+     * API response model for $entityName
      */
     public class ${entityName}Response
     {
-$responseProps
+$resProps
     }
 }
 "@
 
-        $responseContent | Out-File -FilePath $responseFilePath -Encoding UTF8
+        $responseContent | Out-File -FilePath $responsePath -Encoding UTF8
 
-        Write-Host "DTO Generated: $groupName -> $entityName"
+        Write-Host "Generated: $groupName -> $entityName"
     }
 }
 
-Write-Host "DTO generation completed successfully."
+Write-Host "DONE - Strict DOCBLOCK DTO generation completed."

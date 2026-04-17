@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace POS_APP.DTOs.Request.AccountingFinance
 {
@@ -6,19 +7,84 @@ namespace POS_APP.DTOs.Request.AccountingFinance
      * Request DTO: BankAccount
      *
      * Purpose:
-     * Used for Create/Update operations of BankAccount
+     * Used for CREATE and UPDATE operations
+     * Includes validation rules based on schema
      */
     public class BankAccountRequest
     {
+        /**
+         * Field: AccountName
+         * Type: string
+         * Description: Request property for BankAccount
+         */
+        [Required]
+        [MaxLength(200)]
         public string AccountName { get; set; }
+        /**
+         * Field: AccountType
+         * Type: string
+         * Description: Request property for BankAccount
+         */
+        [Required]
+        [MaxLength(50)]
         public string AccountType { get; set; }
+        /**
+         * Field: BankName
+         * Type: string
+         * Description: Request property for BankAccount
+         */
+        [Required]
+        [MaxLength(200)]
         public string BankName { get; set; }
+        /**
+         * Field: AccountNumber
+         * Type: string
+         * Description: Request property for BankAccount
+         */
+        [Required]
+        [MaxLength(50)]
         public string AccountNumber { get; set; }
+        /**
+         * Field: IfscCode
+         * Type: string
+         * Description: Request property for BankAccount
+         */
+        [Required]
+        [MaxLength(20)]
         public string IfscCode { get; set; }
+        /**
+         * Field: OpeningBalance
+         * Type: decimal
+         * Description: Request property for BankAccount
+         */
+        [Range(0, double.MaxValue)]
         public decimal OpeningBalance { get; set; }
+        /**
+         * Field: CurrentBalance
+         * Type: decimal
+         * Description: Request property for BankAccount
+         */
+        [Range(0, double.MaxValue)]
         public decimal CurrentBalance { get; set; }
+        /**
+         * Field: Status
+         * Type: string
+         * Description: Request property for BankAccount
+         */
+        [Required]
+        [MaxLength(20)]
         public string Status { get; set; }
+        /**
+         * Field: CreatedAt
+         * Type: DateTime
+         * Description: Request property for BankAccount
+         */
         public DateTime CreatedAt { get; set; }
+        /**
+         * Field: UpdatedAt
+         * Type: DateTime
+         * Description: Request property for BankAccount
+         */
         public DateTime UpdatedAt { get; set; }
 
     }
