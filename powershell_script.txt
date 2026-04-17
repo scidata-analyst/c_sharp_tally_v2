@@ -15,7 +15,7 @@ Purpose:
 # ==============================
 # CONFIG
 # ==============================
-$schemaPath = "F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\database_schema.json"
+$schemaPath = "F:\DASHBOARD_APP\GIT_VERSION\TALLY\database_schema.json"
 $basePath   = "F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\Controllers"
 
 # ==============================
