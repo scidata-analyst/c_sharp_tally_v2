@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace POS_APP.DTOs.Request.AdditionalFeatures
+namespace TALLY_APP.DTOs.Request.AdditionalFeatures
 {
     /**
      * Request DTO: CustomReport

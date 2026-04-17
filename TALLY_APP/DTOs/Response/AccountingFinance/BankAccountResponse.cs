@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace POS_APP.DTOs.Response.AccountingFinance
+namespace TALLY_APP.DTOs.Response.AccountingFinance
 {
     /**
      * Response DTO: BankAccount

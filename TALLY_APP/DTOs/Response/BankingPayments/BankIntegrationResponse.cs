@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace POS_APP.DTOs.Response.BankingPayments
+namespace TALLY_APP.DTOs.Response.BankingPayments
 {
     /**
      * Response DTO: BankIntegration

@@ -5,7 +5,7 @@ using GSTTaxation.Services;
 using GSTTaxation.DTOs.Request;
 using GSTTaxation.DTOs.Response;
 
-namespace POS_APP.Controllers.GSTTaxation
+namespace TALLY_APP.Controllers.GSTTaxation
 {
     /**
      * Controller: GSTReturn

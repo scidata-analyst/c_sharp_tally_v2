@@ -5,7 +5,7 @@ using AccountingFinance.Services;
 using AccountingFinance.DTOs.Request;
 using AccountingFinance.DTOs.Response;
 
-namespace POS_APP.Controllers.AccountingFinance
+namespace TALLY_APP.Controllers.AccountingFinance
 {
     /**
      * Controller: LedgerAccount

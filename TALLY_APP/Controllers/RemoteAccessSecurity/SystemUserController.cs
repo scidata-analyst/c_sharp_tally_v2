@@ -5,7 +5,7 @@ using RemoteAccessSecurity.Services;
 using RemoteAccessSecurity.DTOs.Request;
 using RemoteAccessSecurity.DTOs.Response;
 
-namespace POS_APP.Controllers.RemoteAccessSecurity
+namespace TALLY_APP.Controllers.RemoteAccessSecurity
 {
     /**
      * Controller: SystemUser

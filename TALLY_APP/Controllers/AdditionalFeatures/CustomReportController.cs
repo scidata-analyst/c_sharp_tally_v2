@@ -5,7 +5,7 @@ using AdditionalFeatures.Services;
 using AdditionalFeatures.DTOs.Request;
 using AdditionalFeatures.DTOs.Response;
 
-namespace POS_APP.Controllers.AdditionalFeatures
+namespace TALLY_APP.Controllers.AdditionalFeatures
 {
     /**
      * Controller: CustomReport

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace POS_APP.DTOs.Response.ReportingAnalytics
+namespace TALLY_APP.DTOs.Response.ReportingAnalytics
 {
     /**
      * Response DTO: SalesPurchaseSummary

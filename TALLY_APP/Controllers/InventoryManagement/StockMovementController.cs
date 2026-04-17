@@ -5,7 +5,7 @@ using InventoryManagement.Services;
 using InventoryManagement.DTOs.Request;
 using InventoryManagement.DTOs.Response;
 
-namespace POS_APP.Controllers.InventoryManagement
+namespace TALLY_APP.Controllers.InventoryManagement
 {
     /**
      * Controller: StockMovement

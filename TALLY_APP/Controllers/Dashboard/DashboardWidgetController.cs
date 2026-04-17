@@ -5,7 +5,7 @@ using Dashboard.Services;
 using Dashboard.DTOs.Request;
 using Dashboard.DTOs.Response;
 
-namespace POS_APP.Controllers.Dashboard
+namespace TALLY_APP.Controllers.Dashboard
 {
     /**
      * Controller: DashboardWidget

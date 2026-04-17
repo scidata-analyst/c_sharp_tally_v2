@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace POS_APP.DTOs.Response.Dashboard
+namespace TALLY_APP.DTOs.Response.Dashboard
 {
     /**
      * Response DTO: DashboardWidget

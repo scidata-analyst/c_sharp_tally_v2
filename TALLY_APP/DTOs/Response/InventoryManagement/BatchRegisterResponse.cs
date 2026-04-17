@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace POS_APP.DTOs.Response.InventoryManagement
+namespace TALLY_APP.DTOs.Response.InventoryManagement
 {
     /**
      * Response DTO: BatchRegister

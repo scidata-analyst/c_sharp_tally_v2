@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace POS_APP.DTOs.Response.MultiLocationBranch
+namespace TALLY_APP.DTOs.Response.MultiLocationBranch
 {
     /**
      * Response DTO: BranchConsolidation

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace POS_APP.DTOs.Request.GSTTaxation
+namespace TALLY_APP.DTOs.Request.GSTTaxation
 {
     /**
      * Request DTO: GSTReturn

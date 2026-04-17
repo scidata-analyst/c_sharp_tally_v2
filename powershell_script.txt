@@ -97,7 +97,7 @@ $attrs        public $type $($field.name) { get; set; }
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace POS_APP.DTOs.Request.$groupName
+namespace TALLY_APP.DTOs.Request.$groupName
 {
     /**
      * Request DTO: $entityName
@@ -139,7 +139,7 @@ $reqProps
         $responseContent = @"
 using System;
 
-namespace POS_APP.DTOs.Response.$groupName
+namespace TALLY_APP.DTOs.Response.$groupName
 {
     /**
      * Response DTO: $entityName

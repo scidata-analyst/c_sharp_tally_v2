@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace POS_APP.DTOs.Response.AdditionalFeatures
+namespace TALLY_APP.DTOs.Response.AdditionalFeatures
 {
     /**
      * Response DTO: Budget

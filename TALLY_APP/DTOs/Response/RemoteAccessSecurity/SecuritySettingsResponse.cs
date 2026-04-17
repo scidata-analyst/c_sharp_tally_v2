@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace POS_APP.DTOs.Response.RemoteAccessSecurity
+namespace TALLY_APP.DTOs.Response.RemoteAccessSecurity
 {
     /**
      * Response DTO: SecuritySettings

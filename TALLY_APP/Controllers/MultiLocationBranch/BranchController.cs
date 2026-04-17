@@ -5,7 +5,7 @@ using MultiLocationBranch.Services;
 using MultiLocationBranch.DTOs.Request;
 using MultiLocationBranch.DTOs.Response;
 
-namespace POS_APP.Controllers.MultiLocationBranch
+namespace TALLY_APP.Controllers.MultiLocationBranch
 {
     /**
      * Controller: Branch

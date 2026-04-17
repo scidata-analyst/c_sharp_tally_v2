@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace POS_APP.DTOs.Request.BankingPayments
+namespace TALLY_APP.DTOs.Request.BankingPayments
 {
     /**
      * Request DTO: BankIntegration

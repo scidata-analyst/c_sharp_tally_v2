@@ -5,7 +5,7 @@ using PayrollManagement.Services;
 using PayrollManagement.DTOs.Request;
 using PayrollManagement.DTOs.Response;
 
-namespace POS_APP.Controllers.PayrollManagement
+namespace TALLY_APP.Controllers.PayrollManagement
 {
     /**
      * Controller: PayrollRun

@@ -5,7 +5,7 @@ using BankingPayments.Services;
 using BankingPayments.DTOs.Request;
 using BankingPayments.DTOs.Response;
 
-namespace POS_APP.Controllers.BankingPayments
+namespace TALLY_APP.Controllers.BankingPayments
 {
     /**
      * Controller: PaymentReminder

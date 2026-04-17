@@ -5,7 +5,7 @@ using ReportingAnalytics.Services;
 using ReportingAnalytics.DTOs.Request;
 using ReportingAnalytics.DTOs.Response;
 
-namespace POS_APP.Controllers.ReportingAnalytics
+namespace TALLY_APP.Controllers.ReportingAnalytics
 {
     /**
      * Controller: BalanceSheet

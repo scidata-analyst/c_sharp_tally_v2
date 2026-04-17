@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace POS_APP.DTOs.Response.GSTTaxation
+namespace TALLY_APP.DTOs.Response.GSTTaxation
 {
     /**
      * Response DTO: GSTReturn

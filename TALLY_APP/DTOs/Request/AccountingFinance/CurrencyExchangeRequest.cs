@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace POS_APP.DTOs.Request.AccountingFinance
+namespace TALLY_APP.DTOs.Request.AccountingFinance
 {
     /**
      * Request DTO: CurrencyExchange
