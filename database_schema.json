@@ -1,0 +1,904 @@
+{
+  "groups": [
+    {
+      "name": "Dashboard",
+      "entities": [
+        {
+          "name": "DashboardWidget",
+          "tableName": "dashboard_widget",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "WidgetType", "type": "string", "maxLength": 100},
+            {"name": "Title", "type": "string", "maxLength": 200},
+            {"name": "DataSource", "type": "string", "maxLength": 500},
+            {"name": "Configuration", "type": "string", "columnType": "varchar(max)"},
+            {"name": "Position", "type": "int"},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        }
+      ]
+    },
+    {
+      "name": "AccountingFinance",
+      "entities": [
+        {
+          "name": "LedgerAccount",
+          "tableName": "ledger_account",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "LedgerName", "type": "string", "maxLength": 200},
+            {"name": "LedgerCode", "type": "string", "maxLength": 50},
+            {"name": "GroupName", "type": "string", "maxLength": 100},
+            {"name": "AccountType", "type": "string", "maxLength": 50},
+            {"name": "OpeningBalance", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "BalanceType", "type": "string", "maxLength": 20},
+            {"name": "Description", "type": "string", "columnType": "varchar(max)"},
+            {"name": "Currency", "type": "string", "maxLength": 10},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "ParentGroup",
+              "relatedEntity": "LedgerAccount",
+              "foreignKey": "ParentGroupId",
+              "onDelete": "NoAction",
+              "isSelfReference": true
+            }
+          ]
+        },
+        {
+          "name": "VoucherEntry",
+          "tableName": "voucher_entry",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "VoucherNumber", "type": "string", "maxLength": 50},
+            {"name": "VoucherType", "type": "string", "maxLength": 50},
+            {"name": "VoucherDate", "type": "DateTime", "columnType": "date"},
+            {"name": "PartyId", "type": "long"},
+            {"name": "Amount", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "PaymentMode", "type": "string", "maxLength": 50},
+            {"name": "BankAccountId", "type": "long"},
+            {"name": "ReferenceNumber", "type": "string", "maxLength": 100},
+            {"name": "Narration", "type": "string", "columnType": "varchar(max)"},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "Party",
+              "relatedEntity": "PartyDirectory",
+              "foreignKey": "PartyId",
+              "onDelete": "NoAction"
+            },
+            {
+              "navigationProperty": "BankAccount",
+              "relatedEntity": "BankAccount",
+              "foreignKey": "BankAccountId",
+              "onDelete": "NoAction"
+            }
+          ]
+        },
+        {
+          "name": "PartyDirectory",
+          "tableName": "party_directory",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "PartyName", "type": "string", "maxLength": 200},
+            {"name": "PartyType", "type": "string", "maxLength": 50},
+            {"name": "Gstin", "type": "string", "maxLength": 50},
+            {"name": "PanNumber", "type": "string", "maxLength": 20},
+            {"name": "Phone", "type": "string", "maxLength": 20},
+            {"name": "Email", "type": "string", "maxLength": 100},
+            {"name": "Address", "type": "string", "columnType": "varchar(max)"},
+            {"name": "CreditLimit", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "CreditPeriod", "type": "int"},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        },
+        {
+          "name": "BankAccount",
+          "tableName": "bank_account",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "AccountName", "type": "string", "maxLength": 200},
+            {"name": "AccountType", "type": "string", "maxLength": 50},
+            {"name": "BankName", "type": "string", "maxLength": 200},
+            {"name": "AccountNumber", "type": "string", "maxLength": 50},
+            {"name": "IfscCode", "type": "string", "maxLength": 20},
+            {"name": "OpeningBalance", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "CurrentBalance", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        },
+        {
+          "name": "BankReconciliation",
+          "tableName": "bank_reconciliation",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "BankAccountId", "type": "long"},
+            {"name": "StatementDate", "type": "DateTime", "columnType": "date"},
+            {"name": "BankBalance", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "BookBalance", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "UnreconciledAmount", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "PendingItems", "type": "int"},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "ReconciledAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "BankAccount",
+              "relatedEntity": "BankAccount",
+              "foreignKey": "BankAccountId",
+              "onDelete": "NoAction"
+            }
+          ]
+        },
+        {
+          "name": "CurrencyExchange",
+          "tableName": "currency_exchange",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "CurrencyName", "type": "string", "maxLength": 100},
+            {"name": "CurrencyCode", "type": "string", "maxLength": 10},
+            {"name": "Symbol", "type": "string", "maxLength": 10},
+            {"name": "BuyRate", "type": "decimal", "precision": 18, "scale": 4},
+            {"name": "SellRate", "type": "decimal", "precision": 18, "scale": 4},
+            {"name": "LastUpdated", "type": "DateTime", "columnType": "datetime"},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        }
+      ]
+    },
+    {
+      "name": "InventoryManagement",
+      "entities": [
+        {
+          "name": "StockItem",
+          "tableName": "stock_item",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "ItemName", "type": "string", "maxLength": 200},
+            {"name": "ItemCode", "type": "string", "maxLength": 50},
+            {"name": "StockGroupId", "type": "long"},
+            {"name": "Category", "type": "string", "maxLength": 100},
+            {"name": "UnitOfMeasure", "type": "string", "maxLength": 20},
+            {"name": "OpeningQty", "type": "int"},
+            {"name": "PurchaseRate", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "SellingRate", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "ValuationMethod", "type": "string", "maxLength": 50},
+            {"name": "ReorderLevel", "type": "int"},
+            {"name": "GstRate", "type": "decimal", "precision": 5, "scale": 2},
+            {"name": "HsnSacCode", "type": "string", "maxLength": 20},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "StockGroup",
+              "relatedEntity": "StockGroup",
+              "foreignKey": "StockGroupId",
+              "onDelete": "NoAction"
+            }
+          ]
+        },
+        {
+          "name": "StockGroup",
+          "tableName": "stock_group",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "GroupName", "type": "string", "maxLength": 200},
+            {"name": "ParentGroup", "type": "string", "maxLength": 100},
+            {"name": "ItemsCount", "type": "int"},
+            {"name": "ValuationMethod", "type": "string", "maxLength": 50},
+            {"name": "TotalValue", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        },
+        {
+          "name": "BatchRegister",
+          "tableName": "batch_register",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "BatchNumber", "type": "string", "maxLength": 50},
+            {"name": "ItemId", "type": "long"},
+            {"name": "ManufacturingDate", "type": "DateTime", "columnType": "date"},
+            {"name": "ExpiryDate", "type": "DateTime", "columnType": "date"},
+            {"name": "Quantity", "type": "int"},
+            {"name": "SerialRange", "type": "string", "maxLength": 100},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "StockItem",
+              "relatedEntity": "StockItem",
+              "foreignKey": "ItemId",
+              "onDelete": "NoAction"
+            }
+          ]
+        },
+        {
+          "name": "StockMovement",
+          "tableName": "stock_movement",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "ReferenceNumber", "type": "string", "maxLength": 50},
+            {"name": "MovementDate", "type": "DateTime", "columnType": "date"},
+            {"name": "MovementType", "type": "string", "maxLength": 50},
+            {"name": "ItemId", "type": "long"},
+            {"name": "FromGodownId", "type": "long"},
+            {"name": "ToGodownId", "type": "long"},
+            {"name": "Quantity", "type": "int"},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "StockItem",
+              "relatedEntity": "StockItem",
+              "foreignKey": "ItemId",
+              "onDelete": "NoAction"
+            },
+            {
+              "navigationProperty": "FromGodown",
+              "relatedEntity": "Godown",
+              "foreignKey": "FromGodownId",
+              "onDelete": "NoAction"
+            },
+            {
+              "navigationProperty": "ToGodown",
+              "relatedEntity": "Godown",
+              "foreignKey": "ToGodownId",
+              "onDelete": "NoAction"
+            }
+          ]
+        },
+        {
+          "name": "Godown",
+          "tableName": "godown",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "GodownName", "type": "string", "maxLength": 200},
+            {"name": "Location", "type": "string", "maxLength": 200},
+            {"name": "Manager", "type": "string", "maxLength": 100},
+            {"name": "Capacity", "type": "string", "maxLength": 50},
+            {"name": "UsedPercentage", "type": "decimal", "precision": 5, "scale": 2},
+            {"name": "StockValue", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        }
+      ]
+    },
+    {
+      "name": "GSTTaxation",
+      "entities": [
+        {
+          "name": "GSTEntry",
+          "tableName": "gst_entry",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "InvoiceNumber", "type": "string", "maxLength": 50},
+            {"name": "InvoiceDate", "type": "DateTime", "columnType": "date"},
+            {"name": "PartyId", "type": "long"},
+            {"name": "PartyName", "type": "string", "maxLength": 200},
+            {"name": "TransactionType", "type": "string", "maxLength": 50},
+            {"name": "PartyGstin", "type": "string", "maxLength": 50},
+            {"name": "PlaceOfSupply", "type": "string", "maxLength": 100},
+            {"name": "TaxableAmount", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "GstRate", "type": "decimal", "precision": 5, "scale": 2},
+            {"name": "CgstAmount", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "SgstAmount", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "IgstAmount", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "TotalTax", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "Party",
+              "relatedEntity": "PartyDirectory",
+              "foreignKey": "PartyId",
+              "onDelete": "NoAction"
+            }
+          ]
+        },
+        {
+          "name": "VATServiceTax",
+          "tableName": "vat_service_tax",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "TaxType", "type": "string", "maxLength": 50},
+            {"name": "OutputTax", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "InputTax", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "NetTaxPayable", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Period", "type": "string", "maxLength": 20},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        },
+        {
+          "name": "GSTReturn",
+          "tableName": "gst_return",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "ReturnType", "type": "string", "maxLength": 50},
+            {"name": "Period", "type": "string", "maxLength": 20},
+            {"name": "DueDate", "type": "DateTime", "columnType": "date"},
+            {"name": "TotalOutward", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "TaxCollected", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "TotalInward", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "ItcAvailable", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "NetPayable", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "FiledDate", "type": "DateTime", "columnType": "datetime"},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        },
+        {
+          "name": "TDSTCSEntry",
+          "tableName": "tds_tcs_entry",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "Section", "type": "string", "maxLength": 20},
+            {"name": "PartyId", "type": "long"},
+            {"name": "PartyName", "type": "string", "maxLength": 200},
+            {"name": "PanNumber", "type": "string", "maxLength": 20},
+            {"name": "PaymentAmount", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "TdsRate", "type": "decimal", "precision": 5, "scale": 2},
+            {"name": "TdsAmount", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "CertificateNumber", "type": "string", "maxLength": 50},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "Party",
+              "relatedEntity": "PartyDirectory",
+              "foreignKey": "PartyId",
+              "onDelete": "NoAction"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PayrollManagement",
+      "entities": [
+        {
+          "name": "Employee",
+          "tableName": "employee",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "FirstName", "type": "string", "maxLength": 100},
+            {"name": "LastName", "type": "string", "maxLength": 100},
+            {"name": "EmployeeId", "type": "string", "maxLength": 50},
+            {"name": "JoiningDate", "type": "DateTime", "columnType": "date"},
+            {"name": "Department", "type": "string", "maxLength": 100},
+            {"name": "Designation", "type": "string", "maxLength": 100},
+            {"name": "BasicSalary", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Hra", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Allowances", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "GrossSalary", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "PanNumber", "type": "string", "maxLength": 20},
+            {"name": "AadharNumber", "type": "string", "maxLength": 20},
+            {"name": "PfApplicable", "type": "string", "maxLength": 10},
+            {"name": "EsiApplicable", "type": "string", "maxLength": 10},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        },
+        {
+          "name": "PayrollRun",
+          "tableName": "payroll_run",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "Period", "type": "string", "maxLength": 20},
+            {"name": "EmployeeId", "type": "long"},
+            {"name": "BasicSalary", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Hra", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Allowances", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "GrossSalary", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "PfDeduction", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "EsiDeduction", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "TdsDeduction", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "NetPay", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "ProcessedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "Employee",
+              "relatedEntity": "Employee",
+              "foreignKey": "EmployeeId",
+              "onDelete": "NoAction"
+            }
+          ]
+        },
+        {
+          "name": "Payslip",
+          "tableName": "payslip",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "EmployeeId", "type": "long"},
+            {"name": "Period", "type": "string", "maxLength": 20},
+            {"name": "BasicSalary", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Hra", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Allowances", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "GrossPay", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "PfDeduction", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "EsiDeduction", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "NetPay", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "PayslipData", "type": "string", "columnType": "varchar(max)"},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "Employee",
+              "relatedEntity": "Employee",
+              "foreignKey": "EmployeeId",
+              "onDelete": "NoAction"
+            }
+          ]
+        },
+        {
+          "name": "StatutoryDeduction",
+          "tableName": "statutory_deduction",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "DeductionType", "type": "string", "maxLength": 50},
+            {"name": "EmployeeId", "type": "long"},
+            {"name": "EmployeeContribution", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "EmployerContribution", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "TotalDeduction", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "DueDate", "type": "DateTime", "columnType": "date"},
+            {"name": "Period", "type": "string", "maxLength": 20},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "Employee",
+              "relatedEntity": "Employee",
+              "foreignKey": "EmployeeId",
+              "onDelete": "NoAction"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "BankingPayments",
+      "entities": [
+        {
+          "name": "PaymentEntry",
+          "tableName": "payment_entry",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "ReferenceNumber", "type": "string", "maxLength": 50},
+            {"name": "PaymentDate", "type": "DateTime", "columnType": "date"},
+            {"name": "PaymentMode", "type": "string", "maxLength": 50},
+            {"name": "PartyId", "type": "long"},
+            {"name": "PartyName", "type": "string", "maxLength": 200},
+            {"name": "BankAccountId", "type": "long"},
+            {"name": "BankAccount", "type": "string", "maxLength": 100},
+            {"name": "ChequeRefNumber", "type": "string", "maxLength": 50},
+            {"name": "Amount", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "Party",
+              "relatedEntity": "PartyDirectory",
+              "foreignKey": "PartyId",
+              "onDelete": "NoAction"
+            },
+            {
+              "navigationProperty": "BankAccount",
+              "relatedEntity": "BankAccount",
+              "foreignKey": "BankAccountId",
+              "onDelete": "NoAction"
+            }
+          ]
+        },
+        {
+          "name": "PaymentReminder",
+          "tableName": "payment_reminder",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "PartyId", "type": "long"},
+            {"name": "PartyName", "type": "string", "maxLength": 200},
+            {"name": "InvoiceNumber", "type": "string", "maxLength": 50},
+            {"name": "Amount", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "OverdueBy", "type": "int"},
+            {"name": "ReminderNumber", "type": "string", "maxLength": 20},
+            {"name": "LastSent", "type": "DateTime", "columnType": "datetime"},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "Party",
+              "relatedEntity": "PartyDirectory",
+              "foreignKey": "PartyId",
+              "onDelete": "NoAction"
+            }
+          ]
+        },
+        {
+          "name": "BankIntegration",
+          "tableName": "bank_integration",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "BankName", "type": "string", "maxLength": 200},
+            {"name": "AccountType", "type": "string", "maxLength": 50},
+            {"name": "AccountNumber", "type": "string", "maxLength": 50},
+            {"name": "ApiKey", "type": "string", "maxLength": 500},
+            {"name": "ApiSecret", "type": "string", "maxLength": 500},
+            {"name": "LastSync", "type": "DateTime", "columnType": "datetime"},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        }
+      ]
+    },
+    {
+      "name": "ReportingAnalytics",
+      "entities": [
+        {
+          "name": "TrialBalance",
+          "tableName": "trial_balance",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "AccountName", "type": "string", "maxLength": 200},
+            {"name": "GroupName", "type": "string", "maxLength": 100},
+            {"name": "OpeningDr", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "OpeningCr", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "TransactionDr", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "TransactionCr", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "ClosingDr", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "ClosingCr", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Period", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        },
+        {
+          "name": "BalanceSheet",
+          "tableName": "balance_sheet",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "Period", "type": "string", "maxLength": 20},
+            {"name": "ShareCapital", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "ReservesSurplus", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "SundryCreditors", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "GstPayable", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "TotalLiabilities", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "FixedAssets", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "StockInTrade", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "SundryDebtors", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "CashBank", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "TotalAssets", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        },
+        {
+          "name": "ProfitLoss",
+          "tableName": "profit_loss",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "Period", "type": "string", "maxLength": 20},
+            {"name": "SalesRevenue", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "OtherIncome", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "GrossIncome", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "CostOfGoodsSold", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "EmployeeCosts", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "AdminOverheads", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "NetProfit", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        },
+        {
+          "name": "CashFlowStatement",
+          "tableName": "cash_flow_statement",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "Period", "type": "string", "maxLength": 20},
+            {"name": "NetProfit", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Depreciation", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "IncreaseInDebtors", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "NetFromOperations", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "PurchaseOfAssets", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "NetCashFlow", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        },
+        {
+          "name": "StockReport",
+          "tableName": "stock_report",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "ItemName", "type": "string", "maxLength": 200},
+            {"name": "Category", "type": "string", "maxLength": 100},
+            {"name": "OpeningQty", "type": "int"},
+            {"name": "StockIn", "type": "int"},
+            {"name": "StockOut", "type": "int"},
+            {"name": "ClosingQty", "type": "int"},
+            {"name": "StockValue", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "ReportDate", "type": "DateTime", "columnType": "datetime"},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        },
+        {
+          "name": "SalesPurchaseSummary",
+          "tableName": "sales_purchase_summary",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "Period", "type": "string", "maxLength": 20},
+            {"name": "TotalSales", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "TotalPurchases", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "GrossMargin", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "ReturnOnSales", "type": "decimal", "precision": 5, "scale": 2},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        }
+      ]
+    },
+    {
+      "name": "MultiLocationBranch",
+      "entities": [
+        {
+          "name": "Branch",
+          "tableName": "branch",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "BranchName", "type": "string", "maxLength": 200},
+            {"name": "BranchCode", "type": "string", "maxLength": 50},
+            {"name": "CityLocation", "type": "string", "maxLength": 100},
+            {"name": "BranchManager", "type": "string", "maxLength": 100},
+            {"name": "Gstin", "type": "string", "maxLength": 50},
+            {"name": "Phone", "type": "string", "maxLength": 20},
+            {"name": "Address", "type": "string", "columnType": "varchar(max)"},
+            {"name": "Revenue", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "StockValue", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        },
+        {
+          "name": "BranchConsolidation",
+          "tableName": "branch_consolidation",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "BranchId", "type": "long"},
+            {"name": "Period", "type": "string", "maxLength": 20},
+            {"name": "Revenue", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "StockValue", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "ConsolidatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "Branch",
+              "relatedEntity": "Branch",
+              "foreignKey": "BranchId",
+              "onDelete": "NoAction"
+            }
+          ]
+        },
+        {
+          "name": "BranchPerformance",
+          "tableName": "branch_performance",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "BranchName", "type": "string", "maxLength": 200},
+            {"name": "OpeningStock", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Received", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Sold", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "ClosingStock", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Revenue", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Target", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "AchievedPercentage", "type": "decimal", "precision": 5, "scale": 2},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        }
+      ]
+    },
+    {
+      "name": "RemoteAccessSecurity",
+      "entities": [
+        {
+          "name": "SystemUser",
+          "tableName": "system_user",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "FullName", "type": "string", "maxLength": 200},
+            {"name": "Email", "type": "string", "maxLength": 100},
+            {"name": "Role", "type": "string", "maxLength": 50},
+            {"name": "PasswordHash", "type": "string", "maxLength": 500},
+            {"name": "ModuleAccess", "type": "string", "columnType": "varchar(max)"},
+            {"name": "LastLogin", "type": "DateTime", "columnType": "datetime"},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        },
+        {
+          "name": "AuditLog",
+          "tableName": "audit_log",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "Timestamp", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UserId", "type": "long"},
+            {"name": "UserName", "type": "string", "maxLength": 100},
+            {"name": "IpAddress", "type": "string", "maxLength": 50},
+            {"name": "Module", "type": "string", "maxLength": 100},
+            {"name": "Action", "type": "string", "maxLength": 100},
+            {"name": "Record", "type": "string", "maxLength": 100},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "User",
+              "relatedEntity": "SystemUser",
+              "foreignKey": "UserId",
+              "onDelete": "NoAction"
+            }
+          ]
+        },
+        {
+          "name": "SecuritySettings",
+          "tableName": "security_settings",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "LastBackup", "type": "DateTime", "columnType": "datetime"},
+            {"name": "BackupSchedule", "type": "string", "maxLength": 50},
+            {"name": "CloudBackup", "type": "string", "maxLength": 10},
+            {"name": "TwoFactorAuth", "type": "string", "maxLength": 10},
+            {"name": "Ssl", "type": "string", "maxLength": 10},
+            {"name": "EncryptionType", "type": "string", "maxLength": 50},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        }
+      ]
+    },
+    {
+      "name": "AdditionalFeatures",
+      "entities": [
+        {
+          "name": "AutomationRule",
+          "tableName": "automation_rule",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "RuleName", "type": "string", "maxLength": 200},
+            {"name": "RuleType", "type": "string", "maxLength": 50},
+            {"name": "Frequency", "type": "string", "maxLength": 50},
+            {"name": "NextRun", "type": "DateTime", "columnType": "date"},
+            {"name": "LastRun", "type": "DateTime", "columnType": "date"},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        },
+        {
+          "name": "Budget",
+          "tableName": "budget",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "CostCenter", "type": "string", "maxLength": 100},
+            {"name": "AnnualBudget", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "SpentYTD", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Remaining", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "PercentageUsed", "type": "decimal", "precision": 5, "scale": 2},
+            {"name": "Period", "type": "string", "maxLength": 20},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        },
+        {
+          "name": "ForexTransaction",
+          "tableName": "forex_transaction",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "ReferenceNumber", "type": "string", "maxLength": 50},
+            {"name": "TransactionDate", "type": "DateTime", "columnType": "date"},
+            {"name": "PartyId", "type": "long"},
+            {"name": "PartyName", "type": "string", "maxLength": 200},
+            {"name": "CurrencyId", "type": "long"},
+            {"name": "Currency", "type": "string", "maxLength": 10},
+            {"name": "ForeignAmount", "type": "decimal", "precision": 18, "scale": 4},
+            {"name": "ExchangeRate", "type": "decimal", "precision": 10, "scale": 4},
+            {"name": "InrAmount", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "ForexGainLoss", "type": "decimal", "precision": 18, "scale": 2},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": [
+            {
+              "navigationProperty": "Party",
+              "relatedEntity": "PartyDirectory",
+              "foreignKey": "PartyId",
+              "onDelete": "NoAction"
+            },
+            {
+              "navigationProperty": "Currency",
+              "relatedEntity": "CurrencyExchange",
+              "foreignKey": "CurrencyId",
+              "onDelete": "NoAction"
+            }
+          ]
+        },
+        {
+          "name": "CustomReport",
+          "tableName": "custom_report",
+          "fields": [
+            {"name": "Id", "type": "long", "isKey": true, "isAutoIncrement": true},
+            {"name": "ReportName", "type": "string", "maxLength": 200},
+            {"name": "Module", "type": "string", "maxLength": 100},
+            {"name": "Format", "type": "string", "maxLength": 20},
+            {"name": "QueryConfig", "type": "string", "columnType": "varchar(max)"},
+            {"name": "LastGenerated", "type": "DateTime", "columnType": "datetime"},
+            {"name": "Schedule", "type": "string", "maxLength": 50},
+            {"name": "Status", "type": "string", "maxLength": 20},
+            {"name": "CreatedAt", "type": "DateTime", "columnType": "datetime"},
+            {"name": "UpdatedAt", "type": "DateTime", "columnType": "datetime"}
+          ],
+          "relationships": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+    "TallyProModules": {
+        "Main": [
+            "Dashboard"
+        ],
+        "Accounting": [
+            "LedgerManagement",
+            "VoucherEntry",
+            "AccountsPayableReceivable",
+            "BankReconciliation",
+            "CashBankManagement",
+            "MultiCurrencySupport"
+        ],
+        "Inventory": [
+            "StockItems",
+            "StockGroups",
+            "BatchTracking",
+            "StockMovement",
+            "WarehouseManagement"
+        ],
+        "Taxation": [
+            "GSTCalculation",
+            "VATServiceTax",
+            "TaxReports",
+            "TDSTCSManagement"
+        ],
+        "Payroll": [
+            "EmployeeManagement",
+            "PayrollCalculation",
+            "PayslipGeneration",
+            "Deductions"
+        ],
+        "Banking": [
+            "Payments",
+            "BankReconciliation",
+            "PaymentReminders",
+            "BankIntegration"
+        ],
+        "Reports": [
+            "TrialBalance",
+            "CashFlow",
+            "StockReports",
+            "SalesPurchaseSummary"
+        ],
+        "MultiLocation": [
+            "BranchAccounting",
+            "AccountConsolidation",
+            "BranchTracking"
+        ],
+        "Security": [
+            "UserAccessControl",
+            "DataEncryption",
+            "AuditLogs"
+        ],
+        "Addons": [
+            "VoucherAutomation",
+            "Budgeting",
+            "MultiCurrencyTransactions",
+            "CustomReports"
+        ]
+    }
+}
