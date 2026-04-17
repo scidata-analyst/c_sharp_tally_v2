@@ -1,14 +1,16 @@
 <#
 =====================================================
-ASP.NET CORE MVC / API CONTROLLER GENERATOR
+ASP.NET CORE DTO GENERATOR (CLEAN ARCHITECTURE STYLE)
 =====================================================
 
-Purpose:
-- Generates Controllers from database_schema.json
-- Uses Clean Architecture naming convention
-- Applies DOC-BLOCK (XML-style) documentation
-- Produces production-ready API structure
+Structure:
+DTOs/
+ ├── Request/{Group}/EntityRequest.cs
+ ├── Response/{Group}/EntityResponse.cs
 
+- Uses database_schema.json
+- Auto folder creation fixed
+- DOCBLOCK style comments
 =====================================================
 #>
 
@@ -16,7 +18,7 @@ Purpose:
 # CONFIG
 # ==============================
 $schemaPath = "F:\DASHBOARD_APP\GIT_VERSION\TALLY\database_schema.json"
-$basePath   = "F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\Controllers"
+$basePath   = "F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\DTOs"
 
 # ==============================
 # HELPERS
@@ -29,12 +31,23 @@ function Ensure-Folder {
     }
 }
 
+function Convert-Type($type) {
+    switch ($type) {
+        "string"  { return "string" }
+        "long"    { return "long" }
+        "int"     { return "int" }
+        "decimal" { return "decimal" }
+        "DateTime"{ return "DateTime" }
+        default   { return "string" }
+    }
+}
+
 # ==============================
 # LOAD SCHEMA
 # ==============================
 $schema = Get-Content $schemaPath -Raw | ConvertFrom-Json
 
-Write-Host "Controller generation started..."
+Write-Host "DTO generation started..."
 
 # ==============================
 # MAIN LOOP
@@ -43,129 +56,101 @@ foreach ($group in $schema.groups) {
 
     $groupName = $group.name -replace '\s',''
 
+    # ==============================
+    # CREATE ROOT FOLDERS
+    # ==============================
+    $requestBase  = Join-Path $basePath "Request"
+    $responseBase = Join-Path $basePath "Response"
+
+    Ensure-Folder $requestBase
+    Ensure-Folder $responseBase
+
     foreach ($entity in $group.entities) {
 
         $entityName = $entity.name
 
-        $modulePath = Join-Path $basePath $groupName
-        Ensure-Folder $modulePath
-
-        $filePath = Join-Path $modulePath "$entityName`Controller.cs"
-
         # ==============================
-        # CONTROLLER CONTENT
+        # GROUP FOLDERS
         # ==============================
-        $content = @"
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using $groupName.Services;
-using $groupName.DTOs.Request;
-using $groupName.DTOs.Response;
+        $requestGroupPath  = Join-Path $requestBase $groupName
+        $responseGroupPath = Join-Path $responseBase $groupName
 
-namespace POS_APP.Controllers.$groupName
+        Ensure-Folder $requestGroupPath
+        Ensure-Folder $responseGroupPath
+
+        # =====================================================
+        # REQUEST DTO
+        # =====================================================
+        $requestFilePath = Join-Path $requestGroupPath "$entityName`Request.cs"
+
+        $requestProps = ""
+
+        foreach ($field in $entity.fields) {
+
+            if ($field.isAutoIncrement -eq $true -or $field.isKey -eq $true) {
+                continue
+            }
+
+            $type = Convert-Type $field.type
+            $requestProps += "        public $type $($field.name) { get; set; }`n"
+        }
+
+        $requestContent = @"
+using System;
+
+namespace POS_APP.DTOs.Request.$groupName
 {
-    /// <summary>
-    /// Controller for managing $entityName operations
-    /// </summary>
-    /// <remarks>
-    /// This controller provides full CRUD operations for $entityName.
-    /// It follows RESTful API standards and Clean Architecture principles.
-    /// </remarks>
-    [ApiController]
-    [Route("api/$groupName/$entityName")]
-    public class ${entityName}Controller : ControllerBase
+    /**
+     * Request DTO: $entityName
+     *
+     * Purpose:
+     * Used for Create/Update operations of $entityName
+     */
+    public class ${entityName}Request
     {
-        private readonly I${entityName}Service _service;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="$entityName Controller"/> class.
-        /// </summary>
-        /// <param name="service">Injected service layer for business logic</param>
-        public ${entityName}Controller(I${entityName}Service service)
-        {
-            _service = service;
-        }
-
-        /// <summary>
-        /// Retrieves all $entityName records
-        /// </summary>
-        /// <returns>List of $entityName response objects</returns>
-        [HttpGet("all")]
-        public async Task<ActionResult<List<${entityName}Response>>> GetAll()
-        {
-            return await _service.All();
-        }
-
-        /// <summary>
-        /// Retrieves paginated list of $entityName records
-        /// </summary>
-        /// <returns>List of paginated $entityName data</returns>
-        [HttpGet("index")]
-        public async Task<ActionResult<List<${entityName}Response>>> Index()
-        {
-            return await _service.Index();
-        }
-
-        /// <summary>
-        /// Retrieves a single $entityName by unique identifier
-        /// </summary>
-        /// <param name="id">Unique identifier of the record</param>
-        /// <returns>Single $entityName record</returns>
-        [HttpGet("view/{id}")]
-        public async Task<ActionResult<${entityName}Response>> View(long id)
-        {
-            return await _service.View(id);
-        }
-
-        /// <summary>
-        /// Creates a new $entityName record
-        /// </summary>
-        /// <param name="request">Request payload containing $entityName data</param>
-        /// <returns>Created $entityName response</returns>
-        [HttpPost("create")]
-        public async Task<ActionResult<${entityName}Response>> Create(
-            [FromBody] ${entityName}Request request)
-        {
-            return await _service.Create(request);
-        }
-
-        /// <summary>
-        /// Updates an existing $entityName record
-        /// </summary>
-        /// <param name="id">Unique identifier of the record</param>
-        /// <param name="request">Updated $entityName data</param>
-        /// <returns>Updated $entityName response</returns>
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult<${entityName}Response>> Update(
-            long id,
-            [FromBody] ${entityName}Request request)
-        {
-            return await _service.Update(id, request);
-        }
-
-        /// <summary>
-        /// Deletes a $entityName record permanently
-        /// </summary>
-        /// <param name="id">Unique identifier of the record</param>
-        /// <returns>Operation status message</returns>
-        [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> Delete(long id)
-        {
-            await _service.Delete(id);
-            return Ok(new { message = "Record deleted successfully" });
-        }
+$requestProps
     }
 }
 "@
 
-        # ==============================
-        # WRITE FILE
-        # ==============================
-        $content | Out-File -FilePath $filePath -Encoding UTF8
+        $requestContent | Out-File -FilePath $requestFilePath -Encoding UTF8
 
-        Write-Host "Generated: $groupName -> $entityName"
+
+        # =====================================================
+        # RESPONSE DTO
+        # =====================================================
+        $responseFilePath = Join-Path $responseGroupPath "$entityName`Response.cs"
+
+        $responseProps = ""
+
+        foreach ($field in $entity.fields) {
+
+            $type = Convert-Type $field.type
+            $responseProps += "        public $type $($field.name) { get; set; }`n"
+        }
+
+        $responseContent = @"
+using System;
+
+namespace POS_APP.DTOs.Response.$groupName
+{
+    /**
+     * Response DTO: $entityName
+     *
+     * Purpose:
+     * Used for API responses of $entityName
+     */
+    public class ${entityName}Response
+    {
+$responseProps
+    }
+}
+"@
+
+        $responseContent | Out-File -FilePath $responseFilePath -Encoding UTF8
+
+        Write-Host "DTO Generated: $groupName -> $entityName"
     }
 }
 
-Write-Host "Generation completed successfully."
+Write-Host "DTO generation completed successfully."
