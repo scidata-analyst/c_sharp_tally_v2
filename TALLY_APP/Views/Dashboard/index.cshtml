@@ -1,0 +1,3949 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TallyPro — Enterprise Accounting Suite</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- External CSS -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">T</div>
+      <div class="brand-text">
+        <h1>TallyPro</h1>
+        <span>v3.1 Enterprise</span>
+      </div>
+    </div>
+
+    <div class="sidebar-search position-relative">
+      <i class="bi bi-search search-icon"></i>
+      <input type="text" placeholder="Search modules..." id="moduleSearch" />
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav">
+
+      <!-- Dashboard -->
+      <div class="nav-section-label">Main</div>
+      <div class="nav-item">
+        <div class="nav-link active" onclick="showPage('dashboard')">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label">Dashboard</span>
+        </div>
+      </div>
+
+      <!-- 1. Accounting & Finance -->
+      <div class="nav-section-label">Core Modules</div>
+      <div class="nav-item" id="nav-accounting">
+        <div class="nav-link" onclick="toggleNav('nav-accounting')">
+          <span class="nav-icon">🧾</span>
+          <span class="nav-label">Accounting & Finance</span>
+          <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
+        </div>
+        <div class="nav-submenu">
+          <div class="nav-sublink" onclick="showPage('ledger')"><span class="sub-dot"></span>Ledger Management</div>
+          <div class="nav-sublink" onclick="showPage('voucher')"><span class="sub-dot"></span>Voucher Entry</div>
+          <div class="nav-sublink" onclick="showPage('payable')"><span class="sub-dot"></span>Accounts Payable &
+            Receivable</div>
+          <div class="nav-sublink" onclick="showPage('bank-recon')"><span class="sub-dot"></span>Bank Reconciliation
+          </div>
+          <div class="nav-sublink" onclick="showPage('cash-bank')"><span class="sub-dot"></span>Cash & Bank Management
+          </div>
+          <div class="nav-sublink" onclick="showPage('multicurrency')"><span class="sub-dot"></span>Multi-currency
+            Support</div>
+        </div>
+      </div>
+
+      <!-- 2. Inventory -->
+      <div class="nav-item" id="nav-inventory">
+        <div class="nav-link" onclick="toggleNav('nav-inventory')">
+          <span class="nav-icon">📦</span>
+          <span class="nav-label">Inventory Management</span>
+          <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
+        </div>
+        <div class="nav-submenu">
+          <div class="nav-sublink" onclick="showPage('stock-items')"><span class="sub-dot"></span>Stock Items &
+            Categories</div>
+          <div class="nav-sublink" onclick="showPage('stock-groups')"><span class="sub-dot"></span>Stock Groups &
+            Valuation</div>
+          <div class="nav-sublink" onclick="showPage('batch-tracking')"><span class="sub-dot"></span>Batch / Expiry /
+            Serial</div>
+          <div class="nav-sublink" onclick="showPage('stock-movement')"><span class="sub-dot"></span>Stock In/Out &
+            Transfer</div>
+          <div class="nav-sublink" onclick="showPage('godown')"><span class="sub-dot"></span>Godown / Warehouse</div>
+        </div>
+      </div>
+
+      <!-- 3. GST -->
+      <div class="nav-item" id="nav-gst">
+        <div class="nav-link" onclick="toggleNav('nav-gst')">
+          <span class="nav-icon">💰</span>
+          <span class="nav-label">GST & Taxation</span>
+          <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
+        </div>
+        <div class="nav-submenu">
+          <div class="nav-sublink" onclick="showPage('gst-calc')"><span class="sub-dot"></span>GST Calculation & Filing
+          </div>
+          <div class="nav-sublink" onclick="showPage('vat-service')"><span class="sub-dot"></span>VAT / Service Tax
+          </div>
+          <div class="nav-sublink" onclick="showPage('tax-reports')"><span class="sub-dot"></span>Tax Reports
+            (GSTR1/2/3B)</div>
+          <div class="nav-sublink" onclick="showPage('tds-tcs')"><span class="sub-dot"></span>TDS / TCS Management</div>
+        </div>
+      </div>
+
+      <!-- 4. Payroll -->
+      <div class="nav-item" id="nav-payroll">
+        <div class="nav-link" onclick="toggleNav('nav-payroll')">
+          <span class="nav-icon">👥</span>
+          <span class="nav-label">Payroll Management</span>
+          <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
+        </div>
+        <div class="nav-submenu">
+          <div class="nav-sublink" onclick="showPage('employees')"><span class="sub-dot"></span>Employee Info & Salary
+            Structure</div>
+          <div class="nav-sublink" onclick="showPage('payroll-calc')"><span class="sub-dot"></span>Payroll Calculation
+          </div>
+          <div class="nav-sublink" onclick="showPage('payslip')"><span class="sub-dot"></span>Payslip Generation</div>
+          <div class="nav-sublink" onclick="showPage('deductions')"><span class="sub-dot"></span>PF / ESI / TDS
+            Deductions</div>
+        </div>
+      </div>
+
+      <!-- 5. Banking -->
+      <div class="nav-item" id="nav-banking">
+        <div class="nav-link" onclick="toggleNav('nav-banking')">
+          <span class="nav-icon">🏦</span>
+          <span class="nav-label">Banking & Payments</span>
+          <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
+        </div>
+        <div class="nav-submenu">
+          <div class="nav-sublink" onclick="showPage('payments')"><span class="sub-dot"></span>Cheque / Online Payments
+          </div>
+          <div class="nav-sublink" onclick="showPage('bank-recon2')"><span class="sub-dot"></span>Bank Reconciliation
+          </div>
+          <div class="nav-sublink" onclick="showPage('reminders')"><span class="sub-dot"></span>Payment Reminders</div>
+          <div class="nav-sublink" onclick="showPage('banking-integration')"><span class="sub-dot"></span>Online Banking
+            Integration</div>
+        </div>
+      </div>
+
+      <!-- 6. Reports -->
+      <div class="nav-item" id="nav-reports">
+        <div class="nav-link" onclick="toggleNav('nav-reports')">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Reporting & Analytics</span>
+          <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
+        </div>
+        <div class="nav-submenu">
+          <div class="nav-sublink" onclick="showPage('trial-balance')"><span class="sub-dot"></span>Trial Balance /
+            B.Sheet / P&L</div>
+          <div class="nav-sublink" onclick="showPage('cashflow')"><span class="sub-dot"></span>Cash Flow Statements
+          </div>
+          <div class="nav-sublink" onclick="showPage('stock-reports')"><span class="sub-dot"></span>Stock & Inventory
+            Reports</div>
+          <div class="nav-sublink" onclick="showPage('sales-purchase')"><span class="sub-dot"></span>Sales & Purchase
+            Summary</div>
+        </div>
+      </div>
+
+      <!-- 7. Multi-location -->
+      <div class="nav-item" id="nav-multiloc">
+        <div class="nav-link" onclick="toggleNav('nav-multiloc')">
+          <span class="nav-icon">🌍</span>
+          <span class="nav-label">Multi-location / Branch</span>
+          <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
+        </div>
+        <div class="nav-submenu">
+          <div class="nav-sublink" onclick="showPage('branches')"><span class="sub-dot"></span>Branch Accounting</div>
+          <div class="nav-sublink" onclick="showPage('consolidation')"><span class="sub-dot"></span>Consolidation of
+            Accounts</div>
+          <div class="nav-sublink" onclick="showPage('branch-tracking')"><span class="sub-dot"></span>Stock & Sales per
+            Branch</div>
+        </div>
+      </div>
+
+      <!-- 8. Security -->
+      <div class="nav-item" id="nav-security">
+        <div class="nav-link" onclick="toggleNav('nav-security')">
+          <span class="nav-icon">🔒</span>
+          <span class="nav-label">Remote Access & Security</span>
+          <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
+        </div>
+        <div class="nav-submenu">
+          <div class="nav-sublink" onclick="showPage('user-access')"><span class="sub-dot"></span>User Access Control
+          </div>
+          <div class="nav-sublink" onclick="showPage('encryption')"><span class="sub-dot"></span>Data Encryption &
+            Backup</div>
+          <div class="nav-sublink" onclick="showPage('audit')"><span class="sub-dot"></span>Audit Trails & Logs</div>
+        </div>
+      </div>
+
+      <!-- 9. Additional -->
+      <div class="nav-item" id="nav-addons">
+        <div class="nav-link" onclick="toggleNav('nav-addons')">
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-label">Additional Features</span>
+          <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
+        </div>
+        <div class="nav-submenu">
+          <div class="nav-sublink" onclick="showPage('automation')"><span class="sub-dot"></span>Voucher Automation
+          </div>
+          <div class="nav-sublink" onclick="showPage('budget')"><span class="sub-dot"></span>Budgeting & Cost Centers
+          </div>
+          <div class="nav-sublink" onclick="showPage('multi-curr-tx')"><span class="sub-dot"></span>Multi-currency
+            Transactions</div>
+          <div class="nav-sublink" onclick="showPage('custom-reports')"><span class="sub-dot"></span>Custom Reports
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar">AD</div>
+        <div class="user-info">
+          <h6>Admin User</h6>
+          <small>Super Administrator</small>
+        </div>
+        <i class="bi bi-three-dots-vertical ms-auto" style="color:var(--text-muted);font-size:14px;"></i>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== HEADER ===== -->
+  <header class="main-header">
+    <div class="header-breadcrumb">
+      <span class="breadcrumb-root">TallyPro</span>
+      <span class="breadcrumb-sep"><i class="bi bi-chevron-right"></i></span>
+      <span class="breadcrumb-current" id="breadcrumbCurrent">Dashboard</span>
+    </div>
+
+    <div class="header-actions">
+      <div class="company-selector">
+        <div class="company-dot"></div>
+        <span>ABC Enterprises Ltd.</span>
+        <i class="bi bi-chevron-down" style="font-size:10px;"></i>
+      </div>
+      <div class="header-btn" title="Notifications">
+        <i class="bi bi-bell"></i>
+        <div class="notif-badge"></div>
+      </div>
+      <div class="header-btn" title="Search">
+        <i class="bi bi-search"></i>
+      </div>
+      <div class="header-btn" title="Settings">
+        <i class="bi bi-gear"></i>
+      </div>
+      <div class="header-btn" title="Full Screen">
+        <i class="bi bi-fullscreen"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+
+    <!-- ===================== DASHBOARD PAGE ===================== -->
+    <div class="page active" id="page-dashboard">
+      <!-- Hero -->
+      <div class="dashboard-hero">
+        <div class="row align-items-center">
+          <div class="col-lg-7">
+            <div class="hero-greeting">Good Morning, Admin</div>
+            <div class="hero-title">Financial Overview<br><span style="color:var(--primary)">FY 2024-25</span></div>
+            <div class="hero-date"><i class="bi bi-calendar3 me-1"></i>Wednesday, March 11, 2026 · Q4 Review Period
+            </div>
+            <div class="hero-stats-row">
+              <div class="hero-stat">
+                <div class="hero-stat-label">Net Revenue</div>
+                <div class="hero-stat-val" style="color:var(--primary)">₹48.2L</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-label">Expenses</div>
+                <div class="hero-stat-val" style="color:var(--danger)">₹31.4L</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-label">Net Profit</div>
+                <div class="hero-stat-val" style="color:var(--accent)">₹16.8L</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5 d-none d-lg-block text-end">
+            <div style="font-size:80px;opacity:0.1;filter:blur(1px)">📊</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI Row -->
+      <div class="row g-3 mb-4 dashboard-kpi-row">
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card" style="--card-accent:var(--primary); --card-icon-bg:var(--primary-glow)">
+            <div class="stat-icon">💳</div>
+            <div class="stat-label">Total Receivable</div>
+            <div class="stat-value">₹12.4L</div>
+            <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>+8.3% vs last month</div>
+            <div class="mini-chart" style="margin-top:10px;">
+              <div class="mini-bar" style="height:40%"></div>
+              <div class="mini-bar" style="height:60%"></div>
+              <div class="mini-bar" style="height:45%"></div>
+              <div class="mini-bar" style="height:80%"></div>
+              <div class="mini-bar" style="height:65%"></div>
+              <div class="mini-bar" style="height:90%"></div>
+              <div class="mini-bar" style="height:75%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card" style="--card-accent:var(--danger); --card-icon-bg:rgba(255,82,82,0.15)">
+            <div class="stat-icon">📤</div>
+            <div class="stat-label">Total Payable</div>
+            <div class="stat-value">₹7.8L</div>
+            <div class="stat-change down"><i class="bi bi-arrow-down-short"></i>-2.1% vs last month</div>
+            <div class="mini-chart">
+              <div class="mini-bar accent" style="height:60%"></div>
+              <div class="mini-bar accent" style="height:40%"></div>
+              <div class="mini-bar accent" style="height:70%"></div>
+              <div class="mini-bar accent" style="height:50%"></div>
+              <div class="mini-bar accent" style="height:80%"></div>
+              <div class="mini-bar accent" style="height:60%"></div>
+              <div class="mini-bar accent" style="height:45%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card" style="--card-accent:var(--accent); --card-icon-bg:rgba(245,166,35,0.15)">
+            <div class="stat-icon">📦</div>
+            <div class="stat-label">Stock Value</div>
+            <div class="stat-value">₹34.2L</div>
+            <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>+12% vs last month</div>
+            <div class="mini-chart">
+              <div class="mini-bar" style="height:55%;background:rgba(245,166,35,0.2)"></div>
+              <div class="mini-bar" style="height:70%;background:rgba(245,166,35,0.2)"></div>
+              <div class="mini-bar" style="height:50%;background:rgba(245,166,35,0.2)"></div>
+              <div class="mini-bar" style="height:85%;background:rgba(245,166,35,0.2)"></div>
+              <div class="mini-bar" style="height:65%;background:rgba(245,166,35,0.2)"></div>
+              <div class="mini-bar" style="height:90%;background:rgba(245,166,35,0.2)"></div>
+              <div class="mini-bar" style="height:75%;background:rgba(245,166,35,0.2)"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card" style="--card-accent:var(--accent2); --card-icon-bg:rgba(108,99,255,0.15)">
+            <div class="stat-icon">💼</div>
+            <div class="stat-label">GST Liability</div>
+            <div class="stat-value">₹3.6L</div>
+            <div class="stat-change up"><i class="bi bi-arrow-up-short"></i>+4.7% this quarter</div>
+            <div class="mini-chart">
+              <div class="mini-bar" style="height:30%;background:rgba(108,99,255,0.2)"></div>
+              <div class="mini-bar" style="height:50%;background:rgba(108,99,255,0.2)"></div>
+              <div class="mini-bar" style="height:40%;background:rgba(108,99,255,0.2)"></div>
+              <div class="mini-bar" style="height:70%;background:rgba(108,99,255,0.2)"></div>
+              <div class="mini-bar" style="height:55%;background:rgba(108,99,255,0.2)"></div>
+              <div class="mini-bar" style="height:85%;background:rgba(108,99,255,0.2)"></div>
+              <div class="mini-bar" style="height:65%;background:rgba(108,99,255,0.2)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module Overview -->
+      <div class="tally-card mb-4">
+        <div class="card-header-row">
+          <div class="card-label">All Modules</div>
+          <span class="badge-tally badge-success">9 Active</span>
+        </div>
+        <div class="row g-3">
+          <div class="col-xl-4 col-md-6">
+            <div class="module-card" onclick="toggleNav('nav-accounting');showPage('ledger')"
+              style="--card-accent:#00C896;--card-icon-bg:rgba(0,200,150,0.12)">
+              <div class="module-count">6 Sub-modules</div>
+              <div class="module-icon">🧾</div>
+              <h5>Accounting & Finance</h5>
+              <p>Ledger, vouchers, payables, receivables, multi-currency</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="module-card" onclick="toggleNav('nav-inventory');showPage('stock-items')"
+              style="--card-accent:#F5A623;--card-icon-bg:rgba(245,166,35,0.12)">
+              <div class="module-count">5 Sub-modules</div>
+              <div class="module-icon">📦</div>
+              <h5>Inventory Management</h5>
+              <p>Stock items, batches, serial tracking, godowns</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="module-card" onclick="toggleNav('nav-gst');showPage('gst-calc')"
+              style="--card-accent:#6C63FF;--card-icon-bg:rgba(108,99,255,0.12)">
+              <div class="module-count">4 Sub-modules</div>
+              <div class="module-icon">💰</div>
+              <h5>GST & Taxation</h5>
+              <p>GST filing, GSTR1/2/3B reports, TDS/TCS</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="module-card" onclick="toggleNav('nav-payroll');showPage('employees')"
+              style="--card-accent:#29B6F6;--card-icon-bg:rgba(41,182,246,0.12)">
+              <div class="module-count">4 Sub-modules</div>
+              <div class="module-icon">👥</div>
+              <h5>Payroll Management</h5>
+              <p>Employees, payslips, PF/ESI/TDS deductions</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="module-card" onclick="toggleNav('nav-banking');showPage('payments')"
+              style="--card-accent:#FF5252;--card-icon-bg:rgba(255,82,82,0.12)">
+              <div class="module-count">4 Sub-modules</div>
+              <div class="module-icon">🏦</div>
+              <h5>Banking & Payments</h5>
+              <p>Cheques, online transfers, reconciliation</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="module-card" onclick="toggleNav('nav-reports');showPage('trial-balance')"
+              style="--card-accent:#FFB300;--card-icon-bg:rgba(255,179,0,0.12)">
+              <div class="module-count">4 Sub-modules</div>
+              <div class="module-icon">📊</div>
+              <h5>Reporting & Analytics</h5>
+              <p>Trial balance, P&L, cash flow, stock reports</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="module-card" onclick="toggleNav('nav-multiloc');showPage('branches')"
+              style="--card-accent:#00BCD4;--card-icon-bg:rgba(0,188,212,0.12)">
+              <div class="module-count">3 Sub-modules</div>
+              <div class="module-icon">🌍</div>
+              <h5>Multi-location / Branch</h5>
+              <p>Branch accounting, consolidation, tracking</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="module-card" onclick="toggleNav('nav-security');showPage('user-access')"
+              style="--card-accent:#E91E63;--card-icon-bg:rgba(233,30,99,0.12)">
+              <div class="module-count">3 Sub-modules</div>
+              <div class="module-icon">🔒</div>
+              <h5>Remote Access & Security</h5>
+              <p>User roles, encryption, audit trails</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="module-card" onclick="toggleNav('nav-addons');showPage('automation')"
+              style="--card-accent:#9C27B0;--card-icon-bg:rgba(156,39,176,0.12)">
+              <div class="module-count">4 Sub-modules</div>
+              <div class="module-icon">⚙️</div>
+              <h5>Additional Features</h5>
+              <p>Automation, budgeting, custom reports</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="row g-3">
+        <div class="col-lg-6">
+          <div class="tally-card">
+            <div class="card-header-row">
+              <div class="card-label">Recent Transactions</div>
+              <button class="btn-tally-outline" style="font-size:11px;padding:5px 10px;">View All</button>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--primary)"></div>
+              <div class="activity-content">
+                <div class="activity-text"><strong>Payment Voucher #PV-2024-891</strong> recorded against Supplier ABC
+                </div>
+                <div class="activity-time">2 min ago · ₹45,000</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--accent2)"></div>
+              <div class="activity-content">
+                <div class="activity-text"><strong>Sales Invoice #SI-2024-3421</strong> created for Client XYZ</div>
+                <div class="activity-time">18 min ago · ₹1,20,000</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--accent)"></div>
+              <div class="activity-content">
+                <div class="activity-text"><strong>Stock Transfer</strong> from Main Godown → Delhi Branch</div>
+                <div class="activity-time">1 hour ago · 150 units</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--danger)"></div>
+              <div class="activity-content">
+                <div class="activity-text"><strong>GST GSTR-3B</strong> filed for January 2025</div>
+                <div class="activity-time">3 hours ago · ₹3,62,100</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--info)"></div>
+              <div class="activity-content">
+                <div class="activity-text"><strong>Payroll Processed</strong> for 34 employees — February</div>
+                <div class="activity-time">5 hours ago · ₹8,40,000</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="tally-card">
+            <div class="card-header-row">
+              <div class="card-label">Cash & Bank Summary</div>
+              <span class="badge-tally badge-success">Live</span>
+            </div>
+            <div class="info-row"><span class="info-key">HDFC Bank — Current A/c</span><span
+                class="info-val amount-positive">₹18,42,300</span></div>
+            <div class="info-row"><span class="info-key">ICICI Bank — Savings A/c</span><span
+                class="info-val amount-positive">₹6,10,000</span></div>
+            <div class="info-row"><span class="info-key">SBI Bank — OD Account</span><span
+                class="info-val amount-negative">-₹2,50,000</span></div>
+            <div class="info-row"><span class="info-key">Petty Cash — Mumbai HQ</span><span
+                class="info-val amount-positive">₹45,200</span></div>
+            <div class="info-row"><span class="info-key">Petty Cash — Delhi Branch</span><span
+                class="info-val amount-positive">₹28,600</span></div>
+            <div class="border-sep"></div>
+            <div class="info-row"><span class="info-key" style="font-weight:700;color:var(--text-primary)">Total Cash &
+                Bank</span><span class="info-val" style="font-size:16px;color:var(--primary)">₹22,76,100</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== LEDGER MANAGEMENT ===================== -->
+    <div class="page" id="page-ledger">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Ledger Management</div>
+          <div class="page-subtitle">Accounting & Finance · Create and manage ledger accounts</div>
+        </div>
+        <button class="btn-tally-primary" onclick="openModal('ledgerModal')">
+          <i class="bi bi-plus-lg"></i> New Ledger
+        </button>
+      </div>
+
+      <!-- Stats -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--primary)">
+            <div class="stat-label">Total Ledgers</div>
+            <div class="stat-value">248</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent2)">
+            <div class="stat-label">Asset Accounts</div>
+            <div class="stat-value">62</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent)">
+            <div class="stat-label">Liability Accounts</div>
+            <div class="stat-value">48</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--danger)">
+            <div class="stat-label">Expense Accounts</div>
+            <div class="stat-value">84</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">All Ledger Accounts</div>
+          <div class="table-actions">
+            <input type="text" class="table-search" placeholder="Search ledger...">
+            <button class="btn-tally-outline"><i class="bi bi-funnel"></i> Filter</button>
+            <button class="btn-tally-outline"><i class="bi bi-download"></i> Export</button>
+          </div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Ledger Name</th>
+              <th>Group</th>
+              <th>Type</th>
+              <th>Opening Bal</th>
+              <th>Current Bal</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="ledgerTableBody">
+            <tr>
+              <td>001</td>
+              <td>Cash in Hand</td>
+              <td>Cash-in-Hand</td>
+              <td>Asset</td>
+              <td class="amount-positive">₹1,20,000</td>
+              <td class="amount-positive">₹45,200</td>
+              <td><span class="badge-tally badge-success">Active</span></td>
+              <td><button class="btn-tally-edit" onclick="editLedger(1)"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger" onclick="deleteLedger(1)"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>002</td>
+              <td>HDFC Bank A/c</td>
+              <td>Bank Accounts</td>
+              <td>Asset</td>
+              <td class="amount-positive">₹5,00,000</td>
+              <td class="amount-positive">₹18,42,300</td>
+              <td><span class="badge-tally badge-success">Active</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>003</td>
+              <td>Sundry Debtors</td>
+              <td>Sundry Debtors</td>
+              <td>Asset</td>
+              <td class="amount-positive">₹0</td>
+              <td class="amount-positive">₹12,40,000</td>
+              <td><span class="badge-tally badge-success">Active</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>004</td>
+              <td>Purchase Account</td>
+              <td>Purchase Accounts</td>
+              <td>Expense</td>
+              <td class="amount-neutral">₹0</td>
+              <td class="amount-negative">₹31,40,000</td>
+              <td><span class="badge-tally badge-success">Active</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>005</td>
+              <td>Sales Account</td>
+              <td>Sales Accounts</td>
+              <td>Revenue</td>
+              <td class="amount-neutral">₹0</td>
+              <td class="amount-positive">₹48,20,000</td>
+              <td><span class="badge-tally badge-success">Active</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>006</td>
+              <td>Output GST 18%</td>
+              <td>Duties & Taxes</td>
+              <td>Liability</td>
+              <td class="amount-neutral">₹0</td>
+              <td class="amount-negative">₹2,10,000</td>
+              <td><span class="badge-tally badge-warning">Review</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===================== VOUCHER ENTRY ===================== -->
+    <div class="page" id="page-voucher">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Voucher Entry</div>
+          <div class="page-subtitle">Create payment, receipt, contra and journal vouchers</div>
+        </div>
+        <button class="btn-tally-primary" onclick="openModal('voucherModal')">
+          <i class="bi bi-plus-lg"></i> New Voucher
+        </button>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--danger)">
+            <div class="stat-label">Payment Vouchers</div>
+            <div class="stat-value">142</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--primary)">
+            <div class="stat-label">Receipt Vouchers</div>
+            <div class="stat-value">98</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent2)">
+            <div class="stat-label">Journal Vouchers</div>
+            <div class="stat-value">56</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent)">
+            <div class="stat-label">Contra Vouchers</div>
+            <div class="stat-value">23</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Voucher Type Quick Select -->
+      <div class="tally-card mb-4">
+        <div class="card-label mb-3">Quick Create Voucher</div>
+        <div class="voucher-type-grid">
+          <button class="voucher-type-btn active" onclick="selectVoucherType(this,'Payment')">
+            <span class="v-icon">💸</span>Payment
+          </button>
+          <button class="voucher-type-btn" onclick="selectVoucherType(this,'Receipt')">
+            <span class="v-icon">💵</span>Receipt
+          </button>
+          <button class="voucher-type-btn" onclick="selectVoucherType(this,'Journal')">
+            <span class="v-icon">📓</span>Journal
+          </button>
+          <button class="voucher-type-btn" onclick="selectVoucherType(this,'Contra')">
+            <span class="v-icon">🔄</span>Contra
+          </button>
+        </div>
+      </div>
+
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Recent Vouchers</div>
+          <div class="table-actions">
+            <input type="text" class="table-search" placeholder="Search vouchers...">
+            <button class="btn-tally-outline"><i class="bi bi-calendar3"></i> Date Range</button>
+          </div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Voucher No.</th>
+              <th>Type</th>
+              <th>Date</th>
+              <th>Party / Account</th>
+              <th>Narration</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>PV-2024-891</td>
+              <td><span class="badge-tally badge-danger">Payment</span></td>
+              <td class="text-mono">11-03-2026</td>
+              <td>Supplier ABC Pvt Ltd</td>
+              <td>Raw material purchase</td>
+              <td class="amount-negative">₹45,000</td>
+              <td><span class="badge-tally badge-success">Posted</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>RV-2024-341</td>
+              <td><span class="badge-tally badge-success">Receipt</span></td>
+              <td class="text-mono">11-03-2026</td>
+              <td>Client XYZ Corp</td>
+              <td>Invoice settlement #INV-3421</td>
+              <td class="amount-positive">₹1,20,000</td>
+              <td><span class="badge-tally badge-success">Posted</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>JV-2024-102</td>
+              <td><span class="badge-tally badge-accent">Journal</span></td>
+              <td class="text-mono">10-03-2026</td>
+              <td>Depreciation A/c</td>
+              <td>Monthly depreciation entry</td>
+              <td class="amount-neutral">₹12,000</td>
+              <td><span class="badge-tally badge-warning">Draft</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>CV-2024-018</td>
+              <td><span class="badge-tally badge-info">Contra</span></td>
+              <td class="text-mono">10-03-2026</td>
+              <td>HDFC → Petty Cash</td>
+              <td>Cash withdrawal for expenses</td>
+              <td class="amount-neutral">₹10,000</td>
+              <td><span class="badge-tally badge-success">Posted</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===================== ACCOUNTS PAYABLE & RECEIVABLE ===================== -->
+    <div class="page" id="page-payable">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Accounts Payable & Receivable</div>
+          <div class="page-subtitle">Track outstanding payments and collections</div>
+        </div>
+        <button class="btn-tally-primary" onclick="openModal('partyModal')"><i class="bi bi-plus-lg"></i> Add
+          Party</button>
+      </div>
+      <div class="tally-tabs">
+        <button class="tally-tab active" onclick="switchTab(this,'tab-receivable')">Receivable</button>
+        <button class="tally-tab" onclick="switchTab(this,'tab-payable')">Payable</button>
+      </div>
+      <div id="tab-receivable">
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <div class="stat-card" style="--card-accent:var(--primary)">
+              <div class="stat-label">Total Receivable</div>
+              <div class="stat-value">₹12,40,000</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-card" style="--card-accent:var(--warning)">
+              <div class="stat-label">Overdue (>30 days)</div>
+              <div class="stat-value">₹3,20,000</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-card" style="--card-accent:var(--danger)">
+              <div class="stat-label">Overdue (>60 days)</div>
+              <div class="stat-value">₹80,000</div>
+            </div>
+          </div>
+        </div>
+        <div class="data-table-wrapper">
+          <div class="table-toolbar">
+            <div class="table-title">Outstanding Receivables</div>
+            <div class="table-actions"><input class="table-search" placeholder="Search party..."></div>
+          </div>
+          <table class="tally-table">
+            <thead>
+              <tr>
+                <th>Invoice No.</th>
+                <th>Party</th>
+                <th>Invoice Date</th>
+                <th>Due Date</th>
+                <th>Amount</th>
+                <th>Aging</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>INV-3421</td>
+                <td>Client XYZ Corp</td>
+                <td class="text-mono">01-02-2026</td>
+                <td class="text-mono">15-03-2026</td>
+                <td class="amount-positive">₹1,20,000</td>
+                <td><span class="badge-tally badge-success">Current</span></td>
+                <td><button class="btn-tally-edit"><i class="bi bi-send"></i> Remind</button></td>
+              </tr>
+              <tr>
+                <td>INV-3385</td>
+                <td>ABC Industries</td>
+                <td class="text-mono">10-01-2026</td>
+                <td class="text-mono">10-02-2026</td>
+                <td class="amount-positive">₹2,50,000</td>
+                <td><span class="badge-tally badge-warning">29 days</span></td>
+                <td><button class="btn-tally-edit"><i class="bi bi-send"></i> Remind</button></td>
+              </tr>
+              <tr>
+                <td>INV-3210</td>
+                <td>Global Traders</td>
+                <td class="text-mono">05-12-2025</td>
+                <td class="text-mono">05-01-2026</td>
+                <td class="amount-positive">₹80,000</td>
+                <td><span class="badge-tally badge-danger">65 days</span></td>
+                <td><button class="btn-tally-edit"><i class="bi bi-send"></i> Remind</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="tab-payable" style="display:none">
+        <div class="data-table-wrapper">
+          <div class="table-toolbar">
+            <div class="table-title">Outstanding Payables</div>
+          </div>
+          <table class="tally-table">
+            <thead>
+              <tr>
+                <th>Bill No.</th>
+                <th>Supplier</th>
+                <th>Bill Date</th>
+                <th>Due Date</th>
+                <th>Amount</th>
+                <th>Aging</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>PO-891</td>
+                <td>Supplier ABC Pvt</td>
+                <td class="text-mono">01-03-2026</td>
+                <td class="text-mono">31-03-2026</td>
+                <td class="amount-negative">₹45,000</td>
+                <td><span class="badge-tally badge-success">Current</span></td>
+                <td><button class="btn-tally-primary" style="font-size:11px;padding:5px 10px;"><i
+                      class="bi bi-credit-card"></i> Pay</button></td>
+              </tr>
+              <tr>
+                <td>PO-832</td>
+                <td>Raw Materials Co.</td>
+                <td class="text-mono">01-02-2026</td>
+                <td class="text-mono">15-02-2026</td>
+                <td class="amount-negative">₹1,80,000</td>
+                <td><span class="badge-tally badge-danger">24 days</span></td>
+                <td><button class="btn-tally-primary" style="font-size:11px;padding:5px 10px;"><i
+                      class="bi bi-credit-card"></i> Pay</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== STOCK ITEMS ===================== -->
+    <div class="page" id="page-stock-items">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Stock Items & Categories</div>
+          <div class="page-subtitle">Inventory Management · Manage all stock items and categories</div>
+        </div>
+        <button class="btn-tally-primary" onclick="openModal('stockModal')"><i class="bi bi-plus-lg"></i> Add Stock
+          Item</button>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent)">
+            <div class="stat-label">Total Items</div>
+            <div class="stat-value">1,248</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--primary)">
+            <div class="stat-label">In Stock</div>
+            <div class="stat-value">1,102</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--warning)">
+            <div class="stat-label">Low Stock</div>
+            <div class="stat-value">86</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--danger)">
+            <div class="stat-label">Out of Stock</div>
+            <div class="stat-value">60</div>
+          </div>
+        </div>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Stock Items</div>
+          <div class="table-actions">
+            <input class="table-search" placeholder="Search items...">
+            <button class="btn-tally-outline"><i class="bi bi-funnel"></i> Category</button>
+            <button class="btn-tally-outline"><i class="bi bi-download"></i> Export</button>
+          </div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Item Code</th>
+              <th>Item Name</th>
+              <th>Category</th>
+              <th>Unit</th>
+              <th>Opening Qty</th>
+              <th>Current Qty</th>
+              <th>Reorder Level</th>
+              <th>Valuation</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-mono">ITM-001</td>
+              <td>Steel Pipe 2"</td>
+              <td>Pipes & Fittings</td>
+              <td>Pcs</td>
+              <td>500</td>
+              <td><span style="color:var(--primary)">342</span></td>
+              <td>50</td>
+              <td><span class="badge-tally badge-info">FIFO</span></td>
+              <td><span class="badge-tally badge-success">In Stock</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td class="text-mono">ITM-002</td>
+              <td>Copper Wire 1.5mm</td>
+              <td>Electrical</td>
+              <td>Roll</td>
+              <td>200</td>
+              <td><span style="color:var(--warning)">18</span></td>
+              <td>20</td>
+              <td><span class="badge-tally badge-accent">LIFO</span></td>
+              <td><span class="badge-tally badge-warning">Low Stock</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td class="text-mono">ITM-003</td>
+              <td>Cement OPC 53</td>
+              <td>Building Materials</td>
+              <td>Bag</td>
+              <td>1000</td>
+              <td><span style="color:var(--danger)">0</span></td>
+              <td>100</td>
+              <td><span class="badge-tally badge-success">Avg Cost</span></td>
+              <td><span class="badge-tally badge-danger">Out of Stock</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td class="text-mono">ITM-004</td>
+              <td>Laptop Dell XPS 15</td>
+              <td>Electronics</td>
+              <td>Pcs</td>
+              <td>50</td>
+              <td><span style="color:var(--primary)">34</span></td>
+              <td>5</td>
+              <td><span class="badge-tally badge-info">FIFO</span></td>
+              <td><span class="badge-tally badge-success">In Stock</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===================== GST CALCULATION ===================== -->
+    <div class="page" id="page-gst-calc">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">GST Calculation & Filing</div>
+          <div class="page-subtitle">GST & Taxation · Manage GST transactions and filing status</div>
+        </div>
+        <button class="btn-tally-primary" onclick="openModal('gstModal')"><i class="bi bi-plus-lg"></i> Add GST
+          Entry</button>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--primary)">
+            <div class="stat-label">Output GST</div>
+            <div class="stat-value">₹3,62,100</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent2)">
+            <div class="stat-label">Input Tax Credit</div>
+            <div class="stat-value">₹1,84,300</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--danger)">
+            <div class="stat-label">Net GST Payable</div>
+            <div class="stat-value">₹1,77,800</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--warning)">
+            <div class="stat-label">Pending Returns</div>
+            <div class="stat-value">2</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-lg-4">
+          <div class="gst-report-card" onclick="showPage('tax-reports')">
+            <div class="gst-card-icon" style="background:rgba(0,200,150,0.15)">📋</div>
+            <div class="gst-card-info">
+              <h6>GSTR-1 — Outward Supplies</h6>
+              <p>Due: 11 Mar 2026 · <span style="color:var(--warning)">Pending</span></p>
+            </div>
+            <i class="bi bi-arrow-right" style="color:var(--text-muted)"></i>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="gst-report-card" onclick="showPage('tax-reports')">
+            <div class="gst-card-icon" style="background:rgba(108,99,255,0.15)">📊</div>
+            <div class="gst-card-info">
+              <h6>GSTR-2A — Auto-Populated ITC</h6>
+              <p>Period: Feb 2026 · <span style="color:var(--primary)">Reconciled</span></p>
+            </div>
+            <i class="bi bi-arrow-right" style="color:var(--text-muted)"></i>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="gst-report-card" onclick="showPage('tax-reports')">
+            <div class="gst-card-icon" style="background:rgba(255,179,0,0.15)">🏛️</div>
+            <div class="gst-card-info">
+              <h6>GSTR-3B — Summary Return</h6>
+              <p>Due: 20 Mar 2026 · <span style="color:var(--danger)">Draft</span></p>
+            </div>
+            <i class="bi bi-arrow-right" style="color:var(--text-muted)"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">GST Transactions</div>
+          <div class="table-actions"><input class="table-search" placeholder="Search..."><button
+              class="btn-tally-outline"><i class="bi bi-calendar3"></i> Month</button></div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Invoice No.</th>
+              <th>Party</th>
+              <th>GSTIN</th>
+              <th>Invoice Amt</th>
+              <th>CGST</th>
+              <th>SGST</th>
+              <th>IGST</th>
+              <th>Total Tax</th>
+              <th>Type</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>INV-3421</td>
+              <td>Client XYZ Corp</td>
+              <td class="text-mono" style="font-size:11px;">27AAACX1234F1Z5</td>
+              <td>₹1,01,695</td>
+              <td class="amount-positive">₹9,152</td>
+              <td class="amount-positive">₹9,152</td>
+              <td class="text-muted-c">—</td>
+              <td class="amount-positive">₹18,304</td>
+              <td><span class="badge-tally badge-success">B2B</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>INV-3385</td>
+              <td>ABC Industries</td>
+              <td class="text-mono" style="font-size:11px;">29AAAAB5678G1ZK</td>
+              <td>₹2,11,864</td>
+              <td class="text-muted-c">—</td>
+              <td class="text-muted-c">—</td>
+              <td class="amount-positive">₹38,136</td>
+              <td class="amount-positive">₹38,136</td>
+              <td><span class="badge-tally badge-accent">B2B IGST</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===================== EMPLOYEES ===================== -->
+    <div class="page" id="page-employees">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Employee Info & Salary Structure</div>
+          <div class="page-subtitle">Payroll Management · Manage employees and compensation</div>
+        </div>
+        <button class="btn-tally-primary" onclick="openModal('employeeModal')"><i class="bi bi-plus-lg"></i> Add
+          Employee</button>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--info)">
+            <div class="stat-label">Total Employees</div>
+            <div class="stat-value">34</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--primary)">
+            <div class="stat-label">Active</div>
+            <div class="stat-value">32</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent)">
+            <div class="stat-label">Monthly Payroll</div>
+            <div class="stat-value">₹8,40,000</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent2)">
+            <div class="stat-label">Departments</div>
+            <div class="stat-value">6</div>
+          </div>
+        </div>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Employee Directory</div>
+          <div class="table-actions"><input class="table-search" placeholder="Search employee..."><button
+              class="btn-tally-outline"><i class="bi bi-funnel"></i> Dept</button></div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Emp ID</th>
+              <th>Name</th>
+              <th>Department</th>
+              <th>Designation</th>
+              <th>Basic Salary</th>
+              <th>Gross Salary</th>
+              <th>PF</th>
+              <th>ESI</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-mono">EMP-001</td>
+              <td>Rajesh Kumar</td>
+              <td>Accounts</td>
+              <td>Senior Accountant</td>
+              <td>₹35,000</td>
+              <td>₹42,000</td>
+              <td>₹4,200</td>
+              <td>₹735</td>
+              <td><span class="badge-tally badge-success">Active</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td class="text-mono">EMP-002</td>
+              <td>Priya Sharma</td>
+              <td>HR</td>
+              <td>HR Manager</td>
+              <td>₹45,000</td>
+              <td>₹55,000</td>
+              <td>₹5,400</td>
+              <td>₹963</td>
+              <td><span class="badge-tally badge-success">Active</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td class="text-mono">EMP-003</td>
+              <td>Vikram Singh</td>
+              <td>Sales</td>
+              <td>Sales Executive</td>
+              <td>₹22,000</td>
+              <td>₹28,000</td>
+              <td>₹2,640</td>
+              <td>₹490</td>
+              <td><span class="badge-tally badge-success">Active</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td class="text-mono">EMP-004</td>
+              <td>Anita Desai</td>
+              <td>IT</td>
+              <td>Software Developer</td>
+              <td>₹60,000</td>
+              <td>₹72,000</td>
+              <td>₹7,200</td>
+              <td>—</td>
+              <td><span class="badge-tally badge-warning">On Leave</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===================== TRIAL BALANCE ===================== -->
+    <div class="page" id="page-trial-balance">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Trial Balance / Balance Sheet / P&L</div>
+          <div class="page-subtitle">Reporting & Analytics · Financial statements as of 11 March 2026</div>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn-tally-outline"><i class="bi bi-printer"></i> Print</button>
+          <button class="btn-tally-outline"><i class="bi bi-download"></i> Export PDF</button>
+        </div>
+      </div>
+      <div class="tally-tabs">
+        <button class="tally-tab active" onclick="switchTab(this,'rpt-trial')">Trial Balance</button>
+        <button class="tally-tab" onclick="switchTab(this,'rpt-bs')">Balance Sheet</button>
+        <button class="tally-tab" onclick="switchTab(this,'rpt-pl')">Profit & Loss</button>
+      </div>
+
+      <div id="rpt-trial">
+        <div class="data-table-wrapper">
+          <div class="table-toolbar">
+            <div class="table-title">Trial Balance — FY 2024-25</div>
+          </div>
+          <table class="tally-table">
+            <thead>
+              <tr>
+                <th>Account</th>
+                <th>Group</th>
+                <th>Opening Dr</th>
+                <th>Opening Cr</th>
+                <th>Txn Dr</th>
+                <th>Txn Cr</th>
+                <th>Closing Dr</th>
+                <th>Closing Cr</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Cash in Hand</td>
+                <td>Cash-in-Hand</td>
+                <td class="amount-positive">₹1,20,000</td>
+                <td>—</td>
+                <td class="amount-positive">₹2,50,000</td>
+                <td class="amount-negative">₹3,24,800</td>
+                <td class="amount-positive">₹45,200</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>HDFC Bank</td>
+                <td>Bank Accounts</td>
+                <td class="amount-positive">₹5,00,000</td>
+                <td>—</td>
+                <td class="amount-positive">₹42,10,000</td>
+                <td class="amount-negative">₹28,67,700</td>
+                <td class="amount-positive">₹18,42,300</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>Sales Account</td>
+                <td>Sales Accounts</td>
+                <td>—</td>
+                <td>—</td>
+                <td>—</td>
+                <td class="amount-positive">₹48,20,000</td>
+                <td>—</td>
+                <td class="amount-positive">₹48,20,000</td>
+              </tr>
+              <tr>
+                <td>Purchase Account</td>
+                <td>Purchase Accounts</td>
+                <td>—</td>
+                <td>—</td>
+                <td class="amount-negative">₹31,40,000</td>
+                <td>—</td>
+                <td class="amount-negative">₹31,40,000</td>
+                <td>—</td>
+              </tr>
+              <tr class="report-total-row">
+                <td colspan="6" style="text-align:right;padding-right:20px;">TOTAL</td>
+                <td class="amount-positive">₹49,87,500</td>
+                <td class="amount-positive">₹49,87,500</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="rpt-bs" style="display:none">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="tally-card">
+              <div class="card-label mb-3" style="color:var(--danger)">LIABILITIES</div>
+              <div class="info-row"><span class="info-key">Share Capital</span><span class="info-val">₹10,00,000</span>
+              </div>
+              <div class="info-row"><span class="info-key">Reserves & Surplus</span><span
+                  class="info-val">₹6,80,000</span></div>
+              <div class="info-row"><span class="info-key">Sundry Creditors</span><span
+                  class="info-val">₹7,80,000</span></div>
+              <div class="info-row"><span class="info-key">GST Payable</span><span class="info-val">₹3,60,000</span>
+              </div>
+              <div class="border-sep"></div>
+              <div class="info-row"><span class="info-key fw-800">TOTAL LIABILITIES</span><span class="info-val fw-800"
+                  style="color:var(--danger)">₹28,20,000</span></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="tally-card">
+              <div class="card-label mb-3" style="color:var(--primary)">ASSETS</div>
+              <div class="info-row"><span class="info-key">Fixed Assets</span><span class="info-val">₹5,14,500</span>
+              </div>
+              <div class="info-row"><span class="info-key">Stock in Trade</span><span class="info-val">₹34,20,000</span>
+              </div>
+              <div class="info-row"><span class="info-key">Sundry Debtors</span><span class="info-val">₹12,40,000</span>
+              </div>
+              <div class="info-row"><span class="info-key">Cash & Bank</span><span class="info-val">₹22,76,100</span>
+              </div>
+              <div class="border-sep"></div>
+              <div class="info-row"><span class="info-key fw-800">TOTAL ASSETS</span><span class="info-val fw-800"
+                  style="color:var(--primary)">₹28,20,000</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="rpt-pl" style="display:none">
+        <div class="tally-card">
+          <div class="card-label mb-3">Profit & Loss Account — FY 2024-25</div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="info-row"><span class="info-key">Sales / Revenue</span><span
+                  class="info-val amount-positive">₹48,20,000</span></div>
+              <div class="info-row"><span class="info-key">Other Income</span><span
+                  class="info-val amount-positive">₹1,20,000</span></div>
+              <div class="border-sep"></div>
+              <div class="info-row"><span class="info-key fw-800">Gross Income</span><span
+                  class="info-val amount-positive fw-800">₹49,40,000</span></div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-row"><span class="info-key">Cost of Goods Sold</span><span
+                  class="info-val amount-negative">₹31,40,000</span></div>
+              <div class="info-row"><span class="info-key">Employee Costs</span><span
+                  class="info-val amount-negative">₹8,40,000</span></div>
+              <div class="info-row"><span class="info-key">Admin & Overheads</span><span
+                  class="info-val amount-negative">₹2,10,000</span></div>
+              <div class="border-sep"></div>
+              <div class="info-row"><span class="info-key fw-800">Net Profit</span><span class="info-val fw-800"
+                  style="color:var(--primary);font-size:18px;">₹16,80,000</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== USER ACCESS CONTROL ===================== -->
+    <div class="page" id="page-user-access">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">User Access Control</div>
+          <div class="page-subtitle">Remote Access & Security · Manage roles and permissions</div>
+        </div>
+        <button class="btn-tally-primary" onclick="openModal('userModal')"><i class="bi bi-person-plus"></i> Add
+          User</button>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--primary)">
+            <div class="stat-label">Total Users</div>
+            <div class="stat-value">12</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent2)">
+            <div class="stat-label">Active Sessions</div>
+            <div class="stat-value">4</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent)">
+            <div class="stat-label">Admin Roles</div>
+            <div class="stat-value">2</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--danger)">
+            <div class="stat-label">Failed Logins Today</div>
+            <div class="stat-value">3</div>
+          </div>
+        </div>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">System Users</div>
+          <div class="table-actions"><input class="table-search" placeholder="Search users..."></div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Modules Access</th>
+              <th>Last Login</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Admin User</td>
+              <td class="text-mono" style="font-size:11px;">admin@abcent.com</td>
+              <td><span class="badge-tally badge-danger">Super Admin</span></td>
+              <td>All Modules</td>
+              <td class="text-mono">11-03-2026 09:14</td>
+              <td><span class="badge-tally badge-success">Online</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button></td>
+            </tr>
+            <tr>
+              <td>Rajesh Kumar</td>
+              <td class="text-mono" style="font-size:11px;">rajesh@abcent.com</td>
+              <td><span class="badge-tally badge-accent">Accountant</span></td>
+              <td>Accounting, GST, Reports</td>
+              <td class="text-mono">11-03-2026 08:52</td>
+              <td><span class="badge-tally badge-success">Online</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>Priya Sharma</td>
+              <td class="text-mono" style="font-size:11px;">priya@abcent.com</td>
+              <td><span class="badge-tally badge-info">HR Manager</span></td>
+              <td>Payroll, Employees</td>
+              <td class="text-mono">10-03-2026 17:30</td>
+              <td><span class="badge-tally badge-warning">Offline</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>Vikram Singh</td>
+              <td class="text-mono" style="font-size:11px;">vikram@abcent.com</td>
+              <td><span class="badge-tally badge-success">Inventory</span></td>
+              <td>Inventory, Stock Reports</td>
+              <td class="text-mono">11-03-2026 10:01</td>
+              <td><span class="badge-tally badge-success">Online</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===================== BRANCHES ===================== -->
+    <div class="page" id="page-branches">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Branch Accounting</div>
+          <div class="page-subtitle">Multi-location · Manage all company branches</div>
+        </div>
+        <button class="btn-tally-primary" onclick="openModal('branchModal')"><i class="bi bi-plus-lg"></i> Add
+          Branch</button>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--primary)">
+            <div class="stat-label">Total Branches</div>
+            <div class="stat-value">5</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent)">
+            <div class="stat-label">Total Revenue</div>
+            <div class="stat-value">₹48.2L</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--info)">
+            <div class="stat-label">Consolidated Stock</div>
+            <div class="stat-value">₹34.2L</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent2)">
+            <div class="stat-label">Inter-branch Transfers</div>
+            <div class="stat-value">28</div>
+          </div>
+        </div>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Branch Overview</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Branch Code</th>
+              <th>Branch Name</th>
+              <th>Location</th>
+              <th>Manager</th>
+              <th>Revenue (MTD)</th>
+              <th>Stock Value</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-mono">HQ-MUM</td>
+              <td>Mumbai HQ</td>
+              <td>Mumbai, MH</td>
+              <td>Admin User</td>
+              <td class="amount-positive">₹24,10,000</td>
+              <td class="amount-positive">₹18,40,000</td>
+              <td><span class="badge-tally badge-success">Active</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td class="text-mono">BR-DEL</td>
+              <td>Delhi Branch</td>
+              <td>New Delhi</td>
+              <td>Suresh Patel</td>
+              <td class="amount-positive">₹12,50,000</td>
+              <td class="amount-positive">₹8,20,000</td>
+              <td><span class="badge-tally badge-success">Active</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td class="text-mono">BR-BAN</td>
+              <td>Bangalore Branch</td>
+              <td>Bangalore, KA</td>
+              <td>Meena Rao</td>
+              <td class="amount-positive">₹8,20,000</td>
+              <td class="amount-positive">₹5,80,000</td>
+              <td><span class="badge-tally badge-success">Active</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td class="text-mono">BR-CHE</td>
+              <td>Chennai Branch</td>
+              <td>Chennai, TN</td>
+              <td>Arjun Nair</td>
+              <td class="amount-positive">₹3,40,000</td>
+              <td class="amount-positive">₹1,60,000</td>
+              <td><span class="badge-tally badge-warning">Under Review</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===================== AUDIT TRAIL ===================== -->
+    <div class="page" id="page-audit">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Audit Trails & Logs</div>
+          <div class="page-subtitle">Remote Access & Security · Complete activity log of all users</div>
+        </div>
+        <button class="btn-tally-outline"><i class="bi bi-download"></i> Export Logs</button>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">System Audit Log</div>
+          <div class="table-actions"><input class="table-search" placeholder="Search logs..."><button
+              class="btn-tally-outline"><i class="bi bi-funnel"></i> Filter</button></div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>User</th>
+              <th>IP Address</th>
+              <th>Module</th>
+              <th>Action</th>
+              <th>Record</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-mono">11-03-2026 10:12:34</td>
+              <td>Admin User</td>
+              <td class="text-mono">192.168.1.10</td>
+              <td>Voucher Entry</td>
+              <td><span class="badge-tally badge-success">CREATE</span></td>
+              <td>PV-2024-891</td>
+              <td><span class="badge-tally badge-success">Success</span></td>
+            </tr>
+            <tr>
+              <td class="text-mono">11-03-2026 09:58:01</td>
+              <td>Rajesh Kumar</td>
+              <td class="text-mono">192.168.1.22</td>
+              <td>Ledger</td>
+              <td><span class="badge-tally badge-info">EDIT</span></td>
+              <td>Sales Account</td>
+              <td><span class="badge-tally badge-success">Success</span></td>
+            </tr>
+            <tr>
+              <td class="text-mono">11-03-2026 09:14:22</td>
+              <td>Admin User</td>
+              <td class="text-mono">192.168.1.10</td>
+              <td>Auth</td>
+              <td><span class="badge-tally badge-accent">LOGIN</span></td>
+              <td>Session #8841</td>
+              <td><span class="badge-tally badge-success">Success</span></td>
+            </tr>
+            <tr>
+              <td class="text-mono">10-03-2026 18:42:11</td>
+              <td>Unknown</td>
+              <td class="text-mono">203.45.12.88</td>
+              <td>Auth</td>
+              <td><span class="badge-tally badge-danger">LOGIN</span></td>
+              <td>Failed Attempt</td>
+              <td><span class="badge-tally badge-danger">Blocked</span></td>
+            </tr>
+            <tr>
+              <td class="text-mono">10-03-2026 17:30:05</td>
+              <td>Priya Sharma</td>
+              <td class="text-mono">192.168.1.15</td>
+              <td>Payroll</td>
+              <td><span class="badge-tally badge-warning">DELETE</span></td>
+              <td>Payslip EMP-003</td>
+              <td><span class="badge-tally badge-success">Success</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===================== GENERIC PLACEHOLDER PAGES ===================== -->
+    <!-- Bank Reconciliation -->
+    <div class="page" id="page-bank-recon">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Bank Reconciliation</div>
+          <div class="page-subtitle">Match bank statements with book entries</div>
+        </div><button class="btn-tally-primary"><i class="bi bi-arrow-left-right"></i> Start Reconciliation</button>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--primary)">
+            <div class="stat-label">Bank Balance</div>
+            <div class="stat-value">₹18,42,300</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent2)">
+            <div class="stat-label">Book Balance</div>
+            <div class="stat-value">₹18,38,100</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--danger)">
+            <div class="stat-label">Unreconciled</div>
+            <div class="stat-value">₹4,200</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--warning)">
+            <div class="stat-label">Pending Items</div>
+            <div class="stat-value">3</div>
+          </div>
+        </div>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Bank Statement Matching</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Bank Narration</th>
+              <th>Bank Amount</th>
+              <th>Book Narration</th>
+              <th>Book Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="recon-match">
+              <td>11-03-2026</td>
+              <td>NEFT CR - CLIENT XYZ</td>
+              <td class="amount-positive">₹1,20,000</td>
+              <td>Receipt Voucher RV-341</td>
+              <td class="amount-positive">₹1,20,000</td>
+              <td><span class="badge-tally badge-success">Matched</span></td>
+            </tr>
+            <tr class="recon-mismatch">
+              <td>10-03-2026</td>
+              <td>IMPS DR - SUPPLIER</td>
+              <td class="amount-negative">₹45,000</td>
+              <td>Payment Voucher PV-891</td>
+              <td class="amount-negative">₹40,800</td>
+              <td><span class="badge-tally badge-danger">Mismatch</span></td>
+            </tr>
+            <tr>
+              <td>09-03-2026</td>
+              <td>CHQ CLR - 000421</td>
+              <td class="amount-negative">₹10,000</td>
+              <td>—</td>
+              <td>—</td>
+              <td><span class="badge-tally badge-warning">Unmatched</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Cash & Bank -->
+    <div class="page" id="page-cash-bank">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Cash & Bank Management</div>
+          <div class="page-subtitle">Monitor all cash and bank account balances</div>
+        </div><button class="btn-tally-primary" onclick="openModal('bankModal')"><i class="bi bi-plus-lg"></i> Add Bank
+          Account</button>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="stat-card" style="--card-accent:var(--primary)">
+            <div class="stat-label">HDFC Current A/c</div>
+            <div class="stat-value">₹18,42,300</div>
+            <div class="stat-change up"><i class="bi bi-bank"></i> •••• 4821</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-card" style="--card-accent:var(--accent2)">
+            <div class="stat-label">ICICI Savings</div>
+            <div class="stat-value">₹6,10,000</div>
+            <div class="stat-change up"><i class="bi bi-bank"></i> •••• 3210</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-card" style="--card-accent:var(--accent)">
+            <div class="stat-label">Petty Cash Total</div>
+            <div class="stat-value">₹73,800</div>
+            <div class="stat-change up"><i class="bi bi-cash-coin"></i> 2 Locations</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Multi-currency -->
+    <div class="page" id="page-multicurrency">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Multi-currency Support</div>
+          <div class="page-subtitle">Manage foreign currency accounts and exchange rates</div>
+        </div><button class="btn-tally-primary" onclick="openModal('currencyModal')"><i class="bi bi-plus-lg"></i> Add
+          Currency</button>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Currency Exchange Rates</div>
+          <div class="table-actions"><button class="btn-tally-outline"><i class="bi bi-arrow-clockwise"></i> Refresh
+              Rates</button></div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Currency</th>
+              <th>Code</th>
+              <th>Symbol</th>
+              <th>Buy Rate</th>
+              <th>Sell Rate</th>
+              <th>Last Updated</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Indian Rupee</td>
+              <td class="text-mono">INR</td>
+              <td>₹</td>
+              <td class="text-mono">1.0000</td>
+              <td class="text-mono">1.0000</td>
+              <td class="text-mono">11-03-2026</td>
+              <td><span class="badge-tally badge-info">Base</span></td>
+            </tr>
+            <tr>
+              <td>US Dollar</td>
+              <td class="text-mono">USD</td>
+              <td>$</td>
+              <td class="text-mono">83.24</td>
+              <td class="text-mono">83.42</td>
+              <td class="text-mono">11-03-2026</td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>Euro</td>
+              <td class="text-mono">EUR</td>
+              <td>€</td>
+              <td class="text-mono">90.18</td>
+              <td class="text-mono">90.52</td>
+              <td class="text-mono">11-03-2026</td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>British Pound</td>
+              <td class="text-mono">GBP</td>
+              <td>£</td>
+              <td class="text-mono">105.61</td>
+              <td class="text-mono">106.10</td>
+              <td class="text-mono">11-03-2026</td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Generic pages for all remaining modules -->
+    <div class="page" id="page-stock-groups">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Stock Groups & Valuation</div>
+          <div class="page-subtitle">FIFO / LIFO / Average Cost methods</div>
+        </div><button class="btn-tally-primary" onclick="openModal('genericModal','Stock Group')"><i
+            class="bi bi-plus-lg"></i> Add Group</button>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Stock Groups</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Group Name</th>
+              <th>Parent Group</th>
+              <th>Items</th>
+              <th>Valuation Method</th>
+              <th>Total Value</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Electrical Goods</td>
+              <td>Primary</td>
+              <td>124</td>
+              <td><span class="badge-tally badge-info">FIFO</span></td>
+              <td class="amount-positive">₹8,40,000</td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>Building Materials</td>
+              <td>Primary</td>
+              <td>86</td>
+              <td><span class="badge-tally badge-success">Avg Cost</span></td>
+              <td class="amount-positive">₹12,60,000</td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>Electronics</td>
+              <td>Primary</td>
+              <td>42</td>
+              <td><span class="badge-tally badge-accent">LIFO</span></td>
+              <td class="amount-positive">₹13,20,000</td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page" id="page-batch-tracking">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Batch / Expiry / Serial Tracking</div>
+          <div class="page-subtitle">Track inventory by batch, expiry date, and serial number</div>
+        </div><button class="btn-tally-primary" onclick="openModal('genericModal','Batch')"><i
+            class="bi bi-plus-lg"></i> Add Batch</button>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Batch Register</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Batch No.</th>
+              <th>Item</th>
+              <th>Mfg Date</th>
+              <th>Expiry Date</th>
+              <th>Qty</th>
+              <th>Serial Range</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-mono">BTH-2024-001</td>
+              <td>Pharma Product A</td>
+              <td class="text-mono">01-01-2024</td>
+              <td class="text-mono">01-01-2026</td>
+              <td>500</td>
+              <td>SN-1001 to SN-1500</td>
+              <td><span class="badge-tally badge-danger">Expired</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button></td>
+            </tr>
+            <tr>
+              <td class="text-mono">BTH-2025-012</td>
+              <td>Pharma Product B</td>
+              <td class="text-mono">01-06-2025</td>
+              <td class="text-mono">01-06-2027</td>
+              <td>1200</td>
+              <td>SN-2001 to SN-3200</td>
+              <td><span class="badge-tally badge-success">Active</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page" id="page-stock-movement">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Stock In/Out & Transfer</div>
+          <div class="page-subtitle">Manage stock movements between godowns</div>
+        </div><button class="btn-tally-primary" onclick="openModal('genericModal','Stock Transfer')"><i
+            class="bi bi-plus-lg"></i> New Transfer</button>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Stock Movement Register</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Ref No.</th>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Item</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Qty</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-mono">STK-MV-001</td>
+              <td>11-03-2026</td>
+              <td><span class="badge-tally badge-success">Transfer</span></td>
+              <td>Steel Pipe 2"</td>
+              <td>Mumbai HQ</td>
+              <td>Delhi Branch</td>
+              <td>150 Pcs</td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button></td>
+            </tr>
+            <tr>
+              <td class="text-mono">STK-IN-082</td>
+              <td>10-03-2026</td>
+              <td><span class="badge-tally badge-info">Stock In</span></td>
+              <td>Copper Wire 1.5mm</td>
+              <td>Supplier ABC</td>
+              <td>Mumbai HQ</td>
+              <td>200 Roll</td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page" id="page-godown">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Godown / Warehouse Management</div>
+          <div class="page-subtitle">Manage warehouses and storage locations</div>
+        </div><button class="btn-tally-primary" onclick="openModal('genericModal','Godown')"><i
+            class="bi bi-plus-lg"></i> Add Godown</button>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Godowns</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Godown Name</th>
+              <th>Location</th>
+              <th>Manager</th>
+              <th>Capacity</th>
+              <th>Used %</th>
+              <th>Stock Value</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Main Godown</td>
+              <td>Mumbai, MH</td>
+              <td>Rajesh Kumar</td>
+              <td>10,000 sqft</td>
+              <td>
+                <div class="progress-tally mt-1" style="width:100px">
+                  <div class="progress-bar-tally" style="width:72%"></div>
+                </div><small>72%</small>
+              </td>
+              <td class="amount-positive">₹18,40,000</td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>Delhi Warehouse</td>
+              <td>New Delhi</td>
+              <td>Suresh Patel</td>
+              <td>6,000 sqft</td>
+              <td>
+                <div class="progress-tally mt-1" style="width:100px">
+                  <div class="progress-bar-tally" style="width:54%"></div>
+                </div><small>54%</small>
+              </td>
+              <td class="amount-positive">₹8,20,000</td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- More module pages -->
+    <div class="page" id="page-vat-service">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">VAT / Service Tax Compliance</div>
+          <div class="page-subtitle">Manage VAT and service tax obligations</div>
+        </div>
+      </div>
+      <div class="tally-card">
+        <div class="card-label mb-3">VAT & Service Tax Summary</div>
+        <div class="info-row"><span class="info-key">VAT Collected (Output)</span><span
+            class="info-val amount-positive">₹2,40,000</span></div>
+        <div class="info-row"><span class="info-key">VAT Paid (Input)</span><span
+            class="info-val amount-negative">₹1,20,000</span></div>
+        <div class="info-row"><span class="info-key">Net VAT Payable</span><span
+            class="info-val fw-800">₹1,20,000</span></div>
+        <div class="info-row"><span class="info-key">Service Tax Payable</span><span
+            class="info-val amount-negative">₹84,000</span></div>
+      </div>
+    </div>
+
+    <div class="page" id="page-tax-reports">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Tax Reports (GSTR1 / GSTR2 / GSTR3B)</div>
+          <div class="page-subtitle">Generate and file GST returns</div>
+        </div><button class="btn-tally-primary"><i class="bi bi-send"></i> File Return</button>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="tally-card">
+            <div class="card-label mb-2">GSTR-1</div>
+            <div class="info-row"><span class="info-key">Period</span><span class="info-val">Feb 2026</span></div>
+            <div class="info-row"><span class="info-key">Due Date</span><span class="info-val">11-Mar-2026</span></div>
+            <div class="info-row"><span class="info-key">Total Outward</span><span class="info-val">₹48,20,000</span>
+            </div>
+            <div class="info-row"><span class="info-key">Tax Collected</span><span
+                class="info-val amount-positive">₹3,62,100</span></div>
+            <div class="mt-3"><span class="badge-tally badge-warning">Pending</span></div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="tally-card">
+            <div class="card-label mb-2">GSTR-2A</div>
+            <div class="info-row"><span class="info-key">Period</span><span class="info-val">Feb 2026</span></div>
+            <div class="info-row"><span class="info-key">Total Inward</span><span class="info-val">₹31,40,000</span>
+            </div>
+            <div class="info-row"><span class="info-key">ITC Available</span><span
+                class="info-val amount-positive">₹1,84,300</span></div>
+            <div class="mt-3"><span class="badge-tally badge-success">Auto-Populated</span></div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="tally-card">
+            <div class="card-label mb-2">GSTR-3B</div>
+            <div class="info-row"><span class="info-key">Period</span><span class="info-val">Feb 2026</span></div>
+            <div class="info-row"><span class="info-key">Due Date</span><span class="info-val">20-Mar-2026</span></div>
+            <div class="info-row"><span class="info-key">Net Payable</span><span class="info-val fw-800"
+                style="color:var(--danger)">₹1,77,800</span></div>
+            <div class="mt-3"><span class="badge-tally badge-danger">Draft</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-tds-tcs">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">TDS / TCS Management</div>
+          <div class="page-subtitle">Track and manage tax deductions at source</div>
+        </div><button class="btn-tally-primary" onclick="openModal('genericModal','TDS Entry')"><i
+            class="bi bi-plus-lg"></i> Add TDS Entry</button>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">TDS Register</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Section</th>
+              <th>Party</th>
+              <th>PAN</th>
+              <th>Payment Amt</th>
+              <th>TDS Rate</th>
+              <th>TDS Amount</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>194C</td>
+              <td>Contractor ABC</td>
+              <td class="text-mono">ABCPA1234B</td>
+              <td>₹2,00,000</td>
+              <td>2%</td>
+              <td class="amount-negative">₹4,000</td>
+              <td><span class="badge-tally badge-success">Deducted</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button></td>
+            </tr>
+            <tr>
+              <td>194J</td>
+              <td>Professional XYZ</td>
+              <td class="text-mono">XYZPB5678C</td>
+              <td>₹50,000</td>
+              <td>10%</td>
+              <td class="amount-negative">₹5,000</td>
+              <td><span class="badge-tally badge-warning">Pending</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page" id="page-payroll-calc">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Payroll Calculation</div>
+          <div class="page-subtitle">Run and manage monthly payroll</div>
+        </div><button class="btn-tally-primary"><i class="bi bi-calculator"></i> Run Payroll</button>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--primary)">
+            <div class="stat-label">Total Gross</div>
+            <div class="stat-value">₹9,12,000</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--danger)">
+            <div class="stat-label">Total Deductions</div>
+            <div class="stat-value">₹72,000</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--primary)">
+            <div class="stat-label">Net Payable</div>
+            <div class="stat-value">₹8,40,000</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent)">
+            <div class="stat-label">Period</div>
+            <div class="stat-value">Feb 2026</div>
+          </div>
+        </div>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Payroll Summary — Feb 2026</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Employee</th>
+              <th>Basic</th>
+              <th>HRA</th>
+              <th>Allowances</th>
+              <th>Gross</th>
+              <th>PF</th>
+              <th>ESI</th>
+              <th>TDS</th>
+              <th>Net Pay</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Rajesh Kumar</td>
+              <td>₹35,000</td>
+              <td>₹14,000</td>
+              <td>₹3,000</td>
+              <td>₹42,000</td>
+              <td>₹4,200</td>
+              <td>₹735</td>
+              <td>₹0</td>
+              <td class="amount-positive">₹37,065</td>
+            </tr>
+            <tr>
+              <td>Priya Sharma</td>
+              <td>₹45,000</td>
+              <td>₹18,000</td>
+              <td>₹2,000</td>
+              <td>₹55,000</td>
+              <td>₹5,400</td>
+              <td>₹963</td>
+              <td>₹2,500</td>
+              <td class="amount-positive">₹46,137</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page" id="page-payslip">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Payslip Generation</div>
+          <div class="page-subtitle">Generate and distribute employee payslips</div>
+        </div><button class="btn-tally-primary"><i class="bi bi-printer"></i> Print All Payslips</button>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="payslip-preview">
+            <div class="ps-header">
+              <div class="ps-title">ABC Enterprises Ltd.</div>
+              <div style="color:var(--text-muted);font-size:11px;margin-top:4px;">Payslip for February 2026</div>
+            </div>
+            <div class="info-row"><span class="info-key">Employee</span><span class="info-val">Rajesh Kumar</span></div>
+            <div class="info-row"><span class="info-key">Emp ID</span><span class="info-val">EMP-001</span></div>
+            <div class="info-row"><span class="info-key">Department</span><span class="info-val">Accounts</span></div>
+            <div class="border-sep"></div>
+            <div class="info-row"><span class="info-key">Basic Salary</span><span class="info-val">₹35,000</span></div>
+            <div class="info-row"><span class="info-key">HRA</span><span class="info-val">₹14,000</span></div>
+            <div class="info-row"><span class="info-key">Allowances</span><span class="info-val">₹3,000</span></div>
+            <div class="info-row" style="color:var(--primary)"><span class="info-key">Gross Pay</span><span
+                class="info-val">₹42,000</span></div>
+            <div class="border-sep"></div>
+            <div class="info-row"><span class="info-key">PF (12%)</span><span
+                class="info-val amount-negative">-₹4,200</span></div>
+            <div class="info-row"><span class="info-key">ESI (1.75%)</span><span
+                class="info-val amount-negative">-₹735</span></div>
+            <div class="border-sep"></div>
+            <div class="info-row" style="font-size:15px;"><span class="info-key"
+                style="color:var(--text-primary);font-weight:800;">NET PAY</span><span class="info-val"
+                style="color:var(--primary);font-size:18px;">₹37,065</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-deductions">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">PF / ESI / TDS Deductions</div>
+          <div class="page-subtitle">Statutory deduction management and filing</div>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="tally-card">
+            <div class="card-label mb-3" style="color:var(--accent2)">Provident Fund (PF)</div>
+            <div class="info-row"><span class="info-key">Employee Contribution</span><span
+                class="info-val">₹42,000</span></div>
+            <div class="info-row"><span class="info-key">Employer Contribution</span><span
+                class="info-val">₹42,000</span></div>
+            <div class="info-row"><span class="info-key">Total PF</span><span class="info-val fw-800">₹84,000</span>
+            </div>
+            <div class="info-row"><span class="info-key">Due Date</span><span class="info-val">15-Mar-2026</span></div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="tally-card">
+            <div class="card-label mb-3" style="color:var(--primary)">ESI</div>
+            <div class="info-row"><span class="info-key">Employee Contribution</span><span
+                class="info-val">₹14,210</span></div>
+            <div class="info-row"><span class="info-key">Employer Contribution</span><span
+                class="info-val">₹49,735</span></div>
+            <div class="info-row"><span class="info-key">Total ESI</span><span class="info-val fw-800">₹63,945</span>
+            </div>
+            <div class="info-row"><span class="info-key">Due Date</span><span class="info-val">21-Mar-2026</span></div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="tally-card">
+            <div class="card-label mb-3" style="color:var(--accent)">TDS on Salaries</div>
+            <div class="info-row"><span class="info-key">Total TDS Deducted</span><span class="info-val">₹12,500</span>
+            </div>
+            <div class="info-row"><span class="info-key">Employees Covered</span><span class="info-val">8</span></div>
+            <div class="info-row"><span class="info-key">Status</span><span class="info-val"><span
+                  class="badge-tally badge-warning">Pending</span></span></div>
+            <div class="info-row"><span class="info-key">Due Date</span><span class="info-val">07-Apr-2026</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-payments">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Cheque / Online Payments</div>
+          <div class="page-subtitle">Track and manage outgoing payments</div>
+        </div><button class="btn-tally-primary" onclick="openModal('genericModal','Payment')"><i
+            class="bi bi-plus-lg"></i> New Payment</button>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Payment Register</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Ref No.</th>
+              <th>Date</th>
+              <th>Mode</th>
+              <th>Party</th>
+              <th>Bank</th>
+              <th>Cheque/Ref No.</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>PAY-891</td>
+              <td>11-03-2026</td>
+              <td><span class="badge-tally badge-info">NEFT</span></td>
+              <td>Supplier ABC</td>
+              <td>HDFC</td>
+              <td class="text-mono">HDFC2024031122</td>
+              <td class="amount-negative">₹45,000</td>
+              <td><span class="badge-tally badge-success">Cleared</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-receipt"></i></button></td>
+            </tr>
+            <tr>
+              <td>CHQ-042</td>
+              <td>09-03-2026</td>
+              <td><span class="badge-tally badge-accent">Cheque</span></td>
+              <td>Raw Materials Co.</td>
+              <td>HDFC</td>
+              <td class="text-mono">CHQ#000421</td>
+              <td class="amount-negative">₹1,80,000</td>
+              <td><span class="badge-tally badge-warning">Pending</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-receipt"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page" id="page-bank-recon2">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Bank Reconciliation</div>
+          <div class="page-subtitle">Banking & Payments module reconciliation</div>
+        </div>
+      </div>
+      <div class="tally-card">
+        <p style="color:var(--text-muted);">Same as Bank Reconciliation under Accounting. Click <a href="#"
+            onclick="showPage('bank-recon')" style="color:var(--primary)">here</a> to open it.</p>
+      </div>
+    </div>
+    <div class="page" id="page-reminders">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Payment Reminders</div>
+          <div class="page-subtitle">Schedule and send payment reminders</div>
+        </div><button class="btn-tally-primary"><i class="bi bi-bell-fill"></i> Send All Reminders</button>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Pending Reminders</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Party</th>
+              <th>Invoice</th>
+              <th>Amount</th>
+              <th>Overdue By</th>
+              <th>Reminder #</th>
+              <th>Last Sent</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ABC Industries</td>
+              <td>INV-3385</td>
+              <td class="amount-positive">₹2,50,000</td>
+              <td><span class="badge-tally badge-warning">29 days</span></td>
+              <td>1st</td>
+              <td>Not sent</td>
+              <td><button class="btn-tally-primary" style="font-size:11px;padding:5px 10px;"><i class="bi bi-send"></i>
+                  Send</button></td>
+            </tr>
+            <tr>
+              <td>Global Traders</td>
+              <td>INV-3210</td>
+              <td class="amount-positive">₹80,000</td>
+              <td><span class="badge-tally badge-danger">65 days</span></td>
+              <td>3rd</td>
+              <td>01-03-2026</td>
+              <td><button class="btn-tally-primary" style="font-size:11px;padding:5px 10px;"><i class="bi bi-send"></i>
+                  Send</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page" id="page-banking-integration">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Online Banking Integration</div>
+          <div class="page-subtitle">Connect and sync bank accounts automatically</div>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="tally-card" style="text-align:center;padding:30px 20px">
+            <div style="font-size:40px;margin-bottom:12px;">🏦</div>
+            <div class="card-label mb-1">HDFC Bank</div>
+            <div class="mb-3" style="font-size:12px;color:var(--text-muted)">Current Account •••• 4821</div><span
+              class="badge-tally badge-success">Connected</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="tally-card" style="text-align:center;padding:30px 20px">
+            <div style="font-size:40px;margin-bottom:12px;">🏛️</div>
+            <div class="card-label mb-1">ICICI Bank</div>
+            <div class="mb-3" style="font-size:12px;color:var(--text-muted)">Savings Account •••• 3210</div><span
+              class="badge-tally badge-success">Connected</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="tally-card" style="text-align:center;padding:30px 20px">
+            <div style="font-size:40px;margin-bottom:12px;">➕</div>
+            <div class="card-label mb-1">Add New Bank</div>
+            <div class="mb-3" style="font-size:12px;color:var(--text-muted)">Connect via Net Banking API</div><button
+              class="btn-tally-outline">Connect Bank</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-cashflow">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Cash Flow Statements</div>
+          <div class="page-subtitle">Operating, investing and financing activities</div>
+        </div><button class="btn-tally-outline"><i class="bi bi-download"></i> Export</button>
+      </div>
+      <div class="tally-card">
+        <div class="card-label mb-3">Cash Flow — FY 2024-25</div>
+        <div class="info-row"><span class="info-key" style="font-weight:700;color:var(--text-primary)">Operating
+            Activities</span><span></span></div>
+        <div class="info-row"><span class="info-key" style="padding-left:20px">Net Profit</span><span
+            class="info-val amount-positive">₹16,80,000</span></div>
+        <div class="info-row"><span class="info-key" style="padding-left:20px">Add: Depreciation</span><span
+            class="info-val amount-positive">₹1,20,000</span></div>
+        <div class="info-row"><span class="info-key" style="padding-left:20px">Less: Increase in Debtors</span><span
+            class="info-val amount-negative">-₹4,00,000</span></div>
+        <div class="info-row"><span class="info-key" style="padding-left:20px;font-weight:600">Net from
+            Operations</span><span class="info-val fw-800">₹14,00,000</span></div>
+        <div class="border-sep"></div>
+        <div class="info-row"><span class="info-key" style="font-weight:700;color:var(--text-primary)">Investing
+            Activities</span><span></span></div>
+        <div class="info-row"><span class="info-key" style="padding-left:20px">Purchase of Assets</span><span
+            class="info-val amount-negative">-₹2,50,000</span></div>
+        <div class="border-sep"></div>
+        <div class="info-row"><span class="info-key fw-800">NET CASH FLOW</span><span class="info-val fw-800"
+            style="color:var(--primary);font-size:18px;">₹11,50,000</span></div>
+      </div>
+    </div>
+
+    <div class="page" id="page-stock-reports">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Stock & Inventory Reports</div>
+          <div class="page-subtitle">Comprehensive stock analysis and reports</div>
+        </div><button class="btn-tally-outline"><i class="bi bi-download"></i> Export</button>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Stock Summary Report</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Category</th>
+              <th>Opening</th>
+              <th>In</th>
+              <th>Out</th>
+              <th>Closing</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Steel Pipe 2"</td>
+              <td>Pipes</td>
+              <td>500</td>
+              <td class="amount-positive">200</td>
+              <td class="amount-negative">358</td>
+              <td>342</td>
+              <td class="amount-positive">₹3,42,000</td>
+            </tr>
+            <tr>
+              <td>Copper Wire 1.5mm</td>
+              <td>Electrical</td>
+              <td>200</td>
+              <td class="amount-positive">50</td>
+              <td class="amount-negative">232</td>
+              <td>18</td>
+              <td class="amount-positive">₹36,000</td>
+            </tr>
+            <tr>
+              <td>Laptop Dell XPS 15</td>
+              <td>Electronics</td>
+              <td>50</td>
+              <td class="amount-positive">10</td>
+              <td class="amount-negative">26</td>
+              <td>34</td>
+              <td class="amount-positive">₹34,00,000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page" id="page-sales-purchase">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Sales & Purchase Summary</div>
+          <div class="page-subtitle">Month-wise sales and purchase analysis</div>
+        </div>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--primary)">
+            <div class="stat-label">Total Sales (MTD)</div>
+            <div class="stat-value">₹48,20,000</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--danger)">
+            <div class="stat-label">Total Purchases (MTD)</div>
+            <div class="stat-value">₹31,40,000</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent)">
+            <div class="stat-label">Gross Margin</div>
+            <div class="stat-value">34.8%</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card" style="--card-accent:var(--accent2)">
+            <div class="stat-label">Return on Sales</div>
+            <div class="stat-value">₹16,80,000</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-consolidation">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Consolidation of Accounts</div>
+          <div class="page-subtitle">Consolidated financial view across all branches</div>
+        </div>
+      </div>
+      <div class="tally-card">
+        <div class="card-label mb-3">Consolidated Balance — All Branches</div>
+        <div class="info-row"><span class="info-key">Mumbai HQ Revenue</span><span
+            class="info-val amount-positive">₹24,10,000</span></div>
+        <div class="info-row"><span class="info-key">Delhi Branch Revenue</span><span
+            class="info-val amount-positive">₹12,50,000</span></div>
+        <div class="info-row"><span class="info-key">Bangalore Branch Revenue</span><span
+            class="info-val amount-positive">₹8,20,000</span></div>
+        <div class="info-row"><span class="info-key">Chennai Branch Revenue</span><span
+            class="info-val amount-positive">₹3,40,000</span></div>
+        <div class="border-sep"></div>
+        <div class="info-row"><span class="info-key fw-800">CONSOLIDATED TOTAL</span><span class="info-val fw-800"
+            style="color:var(--primary);font-size:18px;">₹48,20,000</span></div>
+      </div>
+    </div>
+
+    <div class="page" id="page-branch-tracking">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Stock & Sales Tracking per Branch</div>
+          <div class="page-subtitle">Branch-level stock and performance tracking</div>
+        </div>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Branch Performance Matrix</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Branch</th>
+              <th>Opening Stock</th>
+              <th>Received</th>
+              <th>Sold</th>
+              <th>Closing Stock</th>
+              <th>Revenue</th>
+              <th>Target</th>
+              <th>Achieved</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mumbai HQ</td>
+              <td>₹20L</td>
+              <td class="amount-positive">₹15L</td>
+              <td class="amount-negative">₹16.6L</td>
+              <td>₹18.4L</td>
+              <td class="amount-positive">₹24.1L</td>
+              <td>₹22L</td>
+              <td><span class="badge-tally badge-success">110%</span></td>
+            </tr>
+            <tr>
+              <td>Delhi Branch</td>
+              <td>₹10L</td>
+              <td class="amount-positive">₹6L</td>
+              <td class="amount-negative">₹7.8L</td>
+              <td>₹8.2L</td>
+              <td class="amount-positive">₹12.5L</td>
+              <td>₹14L</td>
+              <td><span class="badge-tally badge-warning">89%</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page" id="page-encryption">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Data Encryption & Backup</div>
+          <div class="page-subtitle">Manage security settings and data backups</div>
+        </div><button class="btn-tally-primary"><i class="bi bi-cloud-upload"></i> Backup Now</button>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="tally-card">
+            <div class="card-label mb-3">Last Backup</div>
+            <div style="font-size:13px;color:var(--text-muted)">11-03-2026 at 02:00 AM (Auto)</div>
+            <div class="mt-3"><span class="badge-tally badge-success"><i class="bi bi-shield-check me-1"></i>AES-256
+                Encrypted</span></div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="tally-card">
+            <div class="card-label mb-3">Backup Schedule</div>
+            <div class="info-row"><span class="info-key">Daily Auto Backup</span><span class="info-val"><span
+                  class="badge-tally badge-success">ON</span></span></div>
+            <div class="info-row"><span class="info-key">Cloud Backup</span><span class="info-val"><span
+                  class="badge-tally badge-success">ON</span></span></div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="tally-card">
+            <div class="card-label mb-3">Security</div>
+            <div class="info-row"><span class="info-key">2FA</span><span class="info-val"><span
+                  class="badge-tally badge-success">Enabled</span></span></div>
+            <div class="info-row"><span class="info-key">SSL</span><span class="info-val"><span
+                  class="badge-tally badge-success">Active</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-automation">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Voucher Automation</div>
+          <div class="page-subtitle">Set up recurring and auto-generated vouchers</div>
+        </div><button class="btn-tally-primary" onclick="openModal('genericModal','Automation Rule')"><i
+            class="bi bi-plus-lg"></i> New Rule</button>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Automation Rules</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Rule Name</th>
+              <th>Type</th>
+              <th>Frequency</th>
+              <th>Next Run</th>
+              <th>Last Run</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Monthly Rent</td>
+              <td><span class="badge-tally badge-danger">Payment</span></td>
+              <td>Monthly</td>
+              <td class="text-mono">01-04-2026</td>
+              <td class="text-mono">01-03-2026</td>
+              <td><span class="badge-tally badge-success">Active</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+            <tr>
+              <td>Depreciation Entry</td>
+              <td><span class="badge-tally badge-accent">Journal</span></td>
+              <td>Monthly</td>
+              <td class="text-mono">01-04-2026</td>
+              <td class="text-mono">01-03-2026</td>
+              <td><span class="badge-tally badge-success">Active</span></td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
+                  class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page" id="page-budget">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Budgeting & Cost Centers</div>
+          <div class="page-subtitle">Plan and track departmental budgets</div>
+        </div><button class="btn-tally-primary" onclick="openModal('genericModal','Budget')"><i
+            class="bi bi-plus-lg"></i> New Budget</button>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Budget vs Actual — FY 2024-25</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Cost Center</th>
+              <th>Annual Budget</th>
+              <th>Spent (YTD)</th>
+              <th>Remaining</th>
+              <th>% Used</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Marketing</td>
+              <td>₹5,00,000</td>
+              <td class="amount-negative">₹3,20,000</td>
+              <td class="amount-positive">₹1,80,000</td>
+              <td>
+                <div class="progress-tally" style="width:120px;display:inline-block">
+                  <div class="progress-bar-tally" style="width:64%"></div>
+                </div> 64%
+              </td>
+              <td><span class="badge-tally badge-success">On Track</span></td>
+            </tr>
+            <tr>
+              <td>Operations</td>
+              <td>₹8,00,000</td>
+              <td class="amount-negative">₹7,80,000</td>
+              <td class="amount-positive">₹20,000</td>
+              <td>
+                <div class="progress-tally" style="width:120px;display:inline-block">
+                  <div class="progress-bar-tally" style="width:97.5%;background:var(--danger)"></div>
+                </div> 97.5%
+              </td>
+              <td><span class="badge-tally badge-danger">Critical</span></td>
+            </tr>
+            <tr>
+              <td>IT</td>
+              <td>₹3,00,000</td>
+              <td class="amount-negative">₹1,40,000</td>
+              <td class="amount-positive">₹1,60,000</td>
+              <td>
+                <div class="progress-tally" style="width:120px;display:inline-block">
+                  <div class="progress-bar-tally" style="width:46%"></div>
+                </div> 46%
+              </td>
+              <td><span class="badge-tally badge-success">Good</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page" id="page-multi-curr-tx">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Multi-currency Transactions</div>
+          <div class="page-subtitle">Record and track foreign currency transactions with gain/loss</div>
+        </div><button class="btn-tally-primary" onclick="openModal('genericModal','Forex Transaction')"><i
+            class="bi bi-plus-lg"></i> New Forex Txn</button>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Foreign Currency Transactions</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Ref No.</th>
+              <th>Date</th>
+              <th>Party</th>
+              <th>Currency</th>
+              <th>Foreign Amt</th>
+              <th>Exchange Rate</th>
+              <th>INR Amount</th>
+              <th>Forex Gain/Loss</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>FX-001</td>
+              <td>11-03-2026</td>
+              <td>Export Client USA</td>
+              <td class="text-mono">USD</td>
+              <td>$10,000</td>
+              <td class="text-mono">83.24</td>
+              <td class="amount-positive">₹8,32,400</td>
+              <td class="amount-positive">+₹2,100</td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button></td>
+            </tr>
+            <tr>
+              <td>FX-002</td>
+              <td>08-03-2026</td>
+              <td>UK Supplier</td>
+              <td class="text-mono">GBP</td>
+              <td>£5,000</td>
+              <td class="text-mono">105.61</td>
+              <td class="amount-negative">₹5,28,050</td>
+              <td class="amount-negative">-₹1,200</td>
+              <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page" id="page-custom-reports">
+      <div class="page-title-row">
+        <div>
+          <div class="page-title">Custom Reports</div>
+          <div class="page-subtitle">Create and manage custom report templates</div>
+        </div><button class="btn-tally-primary" onclick="openModal('genericModal','Report Template')"><i
+            class="bi bi-plus-lg"></i> New Report</button>
+      </div>
+      <div class="data-table-wrapper">
+        <div class="table-toolbar">
+          <div class="table-title">Saved Report Templates</div>
+        </div>
+        <table class="tally-table">
+          <thead>
+            <tr>
+              <th>Report Name</th>
+              <th>Module</th>
+              <th>Format</th>
+              <th>Last Generated</th>
+              <th>Schedule</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Monthly Sales Summary</td>
+              <td>Sales</td>
+              <td><span class="badge-tally badge-info">Excel</span></td>
+              <td>01-03-2026</td>
+              <td>Monthly</td>
+              <td><button class="btn-tally-primary" style="font-size:11px;padding:5px 10px;"><i
+                    class="bi bi-play-fill"></i> Run</button> <button class="btn-tally-edit"><i
+                    class="bi bi-pencil"></i></button></td>
+            </tr>
+            <tr>
+              <td>GST Compliance Report</td>
+              <td>GST</td>
+              <td><span class="badge-tally badge-danger">PDF</span></td>
+              <td>11-03-2026</td>
+              <td>Quarterly</td>
+              <td><button class="btn-tally-primary" style="font-size:11px;padding:5px 10px;"><i
+                    class="bi bi-play-fill"></i> Run</button> <button class="btn-tally-edit"><i
+                    class="bi bi-pencil"></i></button></td>
+            </tr>
+            <tr>
+              <td>Employee Cost Analysis</td>
+              <td>Payroll</td>
+              <td><span class="badge-tally badge-info">Excel</span></td>
+              <td>28-02-2026</td>
+              <td>Monthly</td>
+              <td><button class="btn-tally-primary" style="font-size:11px;padding:5px 10px;"><i
+                    class="bi bi-play-fill"></i> Run</button> <button class="btn-tally-edit"><i
+                    class="bi bi-pencil"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ===================== MODALS ===================== -->
+
+  <!-- Ledger Modal -->
+  <div class="tally-modal-overlay" id="ledgerModal">
+    <div class="tally-modal">
+      <div class="modal-header">
+        <div class="modal-title" id="ledgerModalTitle">Create New Ledger</div>
+        <div class="modal-close" onclick="closeModal('ledgerModal')"><i class="bi bi-x-lg"></i></div>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-8">
+            <div class="form-group"><label class="form-label">Ledger Name *</label><input type="text"
+                class="form-control-tally" placeholder="e.g. HDFC Bank Account" id="ledgerName"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Ledger Code</label><input type="text"
+                class="form-control-tally" placeholder="e.g. 001"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Under Group *</label><select class="form-control-tally">
+                <option>Cash-in-Hand</option>
+                <option>Bank Accounts</option>
+                <option>Sundry Debtors</option>
+                <option>Sundry Creditors</option>
+                <option>Sales Accounts</option>
+                <option>Purchase Accounts</option>
+                <option>Duties & Taxes</option>
+                <option>Fixed Assets</option>
+                <option>Investments</option>
+              </select></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Account Type *</label><select class="form-control-tally">
+                <option>Asset</option>
+                <option>Liability</option>
+                <option>Revenue</option>
+                <option>Expense</option>
+              </select></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Opening Balance</label><input type="number"
+                class="form-control-tally" placeholder="0.00"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Balance Type</label><select class="form-control-tally">
+                <option>Debit (Dr)</option>
+                <option>Credit (Cr)</option>
+              </select></div>
+          </div>
+          <div class="col-12">
+            <div class="form-group"><label class="form-label">Description / Notes</label><textarea
+                class="form-control-tally" rows="2" placeholder="Optional description..."></textarea></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Currency</label><select class="form-control-tally">
+                <option>INR — Indian Rupee</option>
+                <option>USD — US Dollar</option>
+                <option>EUR — Euro</option>
+              </select></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Status</label><select class="form-control-tally">
+                <option>Active</option>
+                <option>Inactive</option>
+              </select></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-tally-outline" onclick="closeModal('ledgerModal')">Cancel</button>
+        <button class="btn-tally-primary" onclick="saveLedger()"><i class="bi bi-check-lg"></i> Save Ledger</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Voucher Modal -->
+  <div class="tally-modal-overlay" id="voucherModal">
+    <div class="tally-modal">
+      <div class="modal-header">
+        <div class="modal-title">Create Voucher</div>
+        <div class="modal-close" onclick="closeModal('voucherModal')"><i class="bi bi-x-lg"></i></div>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Voucher Type *</label><select class="form-control-tally">
+                <option>Payment</option>
+                <option>Receipt</option>
+                <option>Journal</option>
+                <option>Contra</option>
+              </select></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Voucher Date *</label><input type="date"
+                class="form-control-tally"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Party / Account *</label><input type="text"
+                class="form-control-tally" placeholder="Select or type party name"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Amount *</label><input type="number"
+                class="form-control-tally" placeholder="0.00"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Payment Mode</label><select class="form-control-tally">
+                <option>Cash</option>
+                <option>Bank Transfer</option>
+                <option>Cheque</option>
+                <option>UPI</option>
+                <option>NEFT/RTGS</option>
+              </select></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Reference No.</label><input type="text"
+                class="form-control-tally" placeholder="Cheque / UTR / Ref No."></div>
+          </div>
+          <div class="col-12">
+            <div class="form-group"><label class="form-label">Narration</label><textarea class="form-control-tally"
+                rows="2" placeholder="Brief description of this voucher..."></textarea></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-tally-outline" onclick="closeModal('voucherModal')">Cancel</button>
+        <button class="btn-tally-outline" onclick="showToast('Saved as Draft','info')"><i
+            class="bi bi-file-earmark"></i> Save Draft</button>
+        <button class="btn-tally-primary"
+          onclick="closeModal('voucherModal');showToast('Voucher created successfully!','success')"><i
+            class="bi bi-check-lg"></i> Post Voucher</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stock Item Modal -->
+  <div class="tally-modal-overlay" id="stockModal">
+    <div class="tally-modal">
+      <div class="modal-header">
+        <div class="modal-title">Add Stock Item</div>
+        <div class="modal-close" onclick="closeModal('stockModal')"><i class="bi bi-x-lg"></i></div>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-8">
+            <div class="form-group"><label class="form-label">Item Name *</label><input type="text"
+                class="form-control-tally" placeholder="e.g. Steel Pipe 2 inch"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Item Code</label><input type="text"
+                class="form-control-tally" placeholder="ITM-001"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Category *</label><select class="form-control-tally">
+                <option>Electrical</option>
+                <option>Pipes & Fittings</option>
+                <option>Building Materials</option>
+                <option>Electronics</option>
+              </select></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Unit of Measure *</label><select
+                class="form-control-tally">
+                <option>Pcs</option>
+                <option>Kg</option>
+                <option>Litre</option>
+                <option>Roll</option>
+                <option>Bag</option>
+                <option>Box</option>
+              </select></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Opening Qty</label><input type="number"
+                class="form-control-tally" placeholder="0"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Purchase Rate</label><input type="number"
+                class="form-control-tally" placeholder="0.00"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Selling Rate</label><input type="number"
+                class="form-control-tally" placeholder="0.00"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Valuation Method</label><select
+                class="form-control-tally">
+                <option>FIFO</option>
+                <option>LIFO</option>
+                <option>Average Cost</option>
+              </select></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Reorder Level</label><input type="number"
+                class="form-control-tally" placeholder="Minimum stock level"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">GST Rate (%)</label><select class="form-control-tally">
+                <option>0%</option>
+                <option>5%</option>
+                <option>12%</option>
+                <option>18%</option>
+                <option>28%</option>
+              </select></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">HSN / SAC Code</label><input type="text"
+                class="form-control-tally" placeholder="8-digit HSN code"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-tally-outline" onclick="closeModal('stockModal')">Cancel</button>
+        <button class="btn-tally-primary" onclick="closeModal('stockModal');showToast('Stock item added!','success')"><i
+            class="bi bi-check-lg"></i> Save Item</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Employee Modal -->
+  <div class="tally-modal-overlay" id="employeeModal">
+    <div class="tally-modal">
+      <div class="modal-header">
+        <div class="modal-title">Add Employee</div>
+        <div class="modal-close" onclick="closeModal('employeeModal')"><i class="bi bi-x-lg"></i></div>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">First Name *</label><input type="text"
+                class="form-control-tally" placeholder="First Name"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Last Name *</label><input type="text"
+                class="form-control-tally" placeholder="Last Name"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Employee ID</label><input type="text"
+                class="form-control-tally" placeholder="EMP-005"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Joining Date</label><input type="date"
+                class="form-control-tally"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Department *</label><select class="form-control-tally">
+                <option>Accounts</option>
+                <option>HR</option>
+                <option>Sales</option>
+                <option>IT</option>
+                <option>Operations</option>
+              </select></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Designation *</label><input type="text"
+                class="form-control-tally" placeholder="e.g. Senior Manager"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Basic Salary *</label><input type="number"
+                class="form-control-tally" placeholder="0.00"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">HRA</label><input type="number" class="form-control-tally"
+                placeholder="0.00"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Allowances</label><input type="number"
+                class="form-control-tally" placeholder="0.00"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">PAN Number</label><input type="text"
+                class="form-control-tally" placeholder="ABCDE1234F"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Aadhar Number</label><input type="text"
+                class="form-control-tally" placeholder="XXXX XXXX XXXX"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">PF Applicable</label><select class="form-control-tally">
+                <option>Yes</option>
+                <option>No</option>
+              </select></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">ESI Applicable</label><select class="form-control-tally">
+                <option>Yes (if salary ≤21000)</option>
+                <option>No</option>
+              </select></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-tally-outline" onclick="closeModal('employeeModal')">Cancel</button>
+        <button class="btn-tally-primary"
+          onclick="closeModal('employeeModal');showToast('Employee added successfully!','success')"><i
+            class="bi bi-check-lg"></i> Save Employee</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GST Entry Modal -->
+  <div class="tally-modal-overlay" id="gstModal">
+    <div class="tally-modal">
+      <div class="modal-header">
+        <div class="modal-title">Add GST Entry</div>
+        <div class="modal-close" onclick="closeModal('gstModal')"><i class="bi bi-x-lg"></i></div>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Invoice Number *</label><input type="text"
+                class="form-control-tally" placeholder="INV-XXXX"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Invoice Date *</label><input type="date"
+                class="form-control-tally"></div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group"><label class="form-label">Party Name *</label><input type="text"
+                class="form-control-tally" placeholder="Customer / Supplier name"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Type</label><select class="form-control-tally">
+                <option>B2B</option>
+                <option>B2C</option>
+                <option>Export</option>
+                <option>Import</option>
+              </select></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Party GSTIN</label><input type="text"
+                class="form-control-tally" placeholder="15-char GSTIN" maxlength="15"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Place of Supply</label><select class="form-control-tally">
+                <option>Maharashtra (27)</option>
+                <option>Delhi (07)</option>
+                <option>Karnataka (29)</option>
+                <option>Tamil Nadu (33)</option>
+              </select></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Taxable Amount *</label><input type="number"
+                class="form-control-tally" placeholder="0.00"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">GST Rate</label><select class="form-control-tally">
+                <option>0%</option>
+                <option>5%</option>
+                <option>12%</option>
+                <option>18%</option>
+                <option>28%</option>
+              </select></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Transaction Type</label><select
+                class="form-control-tally">
+                <option>Inter-state (IGST)</option>
+                <option>Intra-state (CGST+SGST)</option>
+              </select></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-tally-outline" onclick="closeModal('gstModal')">Cancel</button>
+        <button class="btn-tally-primary" onclick="closeModal('gstModal');showToast('GST entry saved!','success')"><i
+            class="bi bi-check-lg"></i> Save Entry</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Modal -->
+  <div class="tally-modal-overlay" id="userModal">
+    <div class="tally-modal">
+      <div class="modal-header">
+        <div class="modal-title">Add System User</div>
+        <div class="modal-close" onclick="closeModal('userModal')"><i class="bi bi-x-lg"></i></div>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Full Name *</label><input type="text"
+                class="form-control-tally" placeholder="User full name"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Email *</label><input type="email"
+                class="form-control-tally" placeholder="user@company.com"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Role *</label><select class="form-control-tally">
+                <option>Super Admin</option>
+                <option>Accountant</option>
+                <option>HR Manager</option>
+                <option>Inventory Manager</option>
+                <option>Read Only</option>
+              </select></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Password *</label><input type="password"
+                class="form-control-tally" placeholder="Min 8 characters"></div>
+          </div>
+          <div class="col-12">
+            <div class="form-group"><label class="form-label">Module Access</label>
+              <div class="row g-2 mt-1">
+                <div class="col-6"><label
+                    style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text-secondary)"><input
+                      type="checkbox" checked> Accounting</label></div>
+                <div class="col-6"><label
+                    style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text-secondary)"><input
+                      type="checkbox"> Inventory</label></div>
+                <div class="col-6"><label
+                    style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text-secondary)"><input
+                      type="checkbox" checked> GST & Tax</label></div>
+                <div class="col-6"><label
+                    style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text-secondary)"><input
+                      type="checkbox"> Payroll</label></div>
+                <div class="col-6"><label
+                    style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text-secondary)"><input
+                      type="checkbox"> Reports</label></div>
+                <div class="col-6"><label
+                    style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text-secondary)"><input
+                      type="checkbox"> Security</label></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-tally-outline" onclick="closeModal('userModal')">Cancel</button>
+        <button class="btn-tally-primary"
+          onclick="closeModal('userModal');showToast('User created and invite sent!','success')"><i
+            class="bi bi-check-lg"></i> Create User</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Party Modal -->
+  <div class="tally-modal-overlay" id="partyModal">
+    <div class="tally-modal">
+      <div class="modal-header">
+        <div class="modal-title">Add Party</div>
+        <div class="modal-close" onclick="closeModal('partyModal')"><i class="bi bi-x-lg"></i></div>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-8">
+            <div class="form-group"><label class="form-label">Party Name *</label><input type="text"
+                class="form-control-tally" placeholder="Company or individual name"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Party Type</label><select class="form-control-tally">
+                <option>Customer</option>
+                <option>Supplier</option>
+                <option>Both</option>
+              </select></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">GSTIN</label><input type="text" class="form-control-tally"
+                placeholder="15-char GSTIN" maxlength="15"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">PAN Number</label><input type="text"
+                class="form-control-tally" placeholder="ABCDE1234F"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-control-tally"
+                placeholder="+91 XXXXX XXXXX"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Email</label><input type="email"
+                class="form-control-tally" placeholder="party@email.com"></div>
+          </div>
+          <div class="col-12">
+            <div class="form-group"><label class="form-label">Address</label><textarea class="form-control-tally"
+                rows="2"></textarea></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Credit Limit (₹)</label><input type="number"
+                class="form-control-tally" placeholder="0"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Credit Period (Days)</label><input type="number"
+                class="form-control-tally" placeholder="30"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-tally-outline" onclick="closeModal('partyModal')">Cancel</button>
+        <button class="btn-tally-primary" onclick="closeModal('partyModal');showToast('Party added!','success')"><i
+            class="bi bi-check-lg"></i> Save Party</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Branch Modal -->
+  <div class="tally-modal-overlay" id="branchModal">
+    <div class="tally-modal">
+      <div class="modal-header">
+        <div class="modal-title">Add Branch</div>
+        <div class="modal-close" onclick="closeModal('branchModal')"><i class="bi bi-x-lg"></i></div>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-8">
+            <div class="form-group"><label class="form-label">Branch Name *</label><input type="text"
+                class="form-control-tally" placeholder="e.g. Pune Branch"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Branch Code</label><input type="text"
+                class="form-control-tally" placeholder="BR-PUN"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">City / Location *</label><input type="text"
+                class="form-control-tally" placeholder="City, State"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Branch Manager</label><select class="form-control-tally">
+                <option>-- Select Manager --</option>
+                <option>Rajesh Kumar</option>
+                <option>Priya Sharma</option>
+              </select></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">GSTIN</label><input type="text" class="form-control-tally"
+                placeholder="Branch GSTIN"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Phone</label><input type="text" class="form-control-tally"
+                placeholder="Branch contact number"></div>
+          </div>
+          <div class="col-12">
+            <div class="form-group"><label class="form-label">Full Address</label><textarea class="form-control-tally"
+                rows="2"></textarea></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-tally-outline" onclick="closeModal('branchModal')">Cancel</button>
+        <button class="btn-tally-primary" onclick="closeModal('branchModal');showToast('Branch created!','success')"><i
+            class="bi bi-check-lg"></i> Save Branch</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bank Modal -->
+  <div class="tally-modal-overlay" id="bankModal">
+    <div class="tally-modal">
+      <div class="modal-header">
+        <div class="modal-title">Add Bank Account</div>
+        <div class="modal-close" onclick="closeModal('bankModal')"><i class="bi bi-x-lg"></i></div>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-8">
+            <div class="form-group"><label class="form-label">Account Name *</label><input type="text"
+                class="form-control-tally" placeholder="e.g. SBI Current Account"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Account Type</label><select class="form-control-tally">
+                <option>Current</option>
+                <option>Savings</option>
+                <option>OD / CC</option>
+              </select></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Bank Name *</label><input type="text"
+                class="form-control-tally" placeholder="e.g. State Bank of India"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Account Number *</label><input type="text"
+                class="form-control-tally" placeholder="XXXXXXXXXX"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">IFSC Code</label><input type="text"
+                class="form-control-tally" placeholder="SBIN0001234"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Opening Balance</label><input type="number"
+                class="form-control-tally" placeholder="0.00"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-tally-outline" onclick="closeModal('bankModal')">Cancel</button>
+        <button class="btn-tally-primary"
+          onclick="closeModal('bankModal');showToast('Bank account added!','success')"><i class="bi bi-check-lg"></i>
+          Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Currency Modal -->
+  <div class="tally-modal-overlay" id="currencyModal">
+    <div class="tally-modal">
+      <div class="modal-header">
+        <div class="modal-title">Add Currency</div>
+        <div class="modal-close" onclick="closeModal('currencyModal')"><i class="bi bi-x-lg"></i></div>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-8">
+            <div class="form-group"><label class="form-label">Currency Name *</label><input type="text"
+                class="form-control-tally" placeholder="e.g. Japanese Yen"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Currency Code</label><input type="text"
+                class="form-control-tally" placeholder="JPY" maxlength="3"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Symbol</label><input type="text"
+                class="form-control-tally" placeholder="¥" maxlength="3"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Buy Rate (vs INR)</label><input type="number"
+                class="form-control-tally" placeholder="0.000" step="0.001"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group"><label class="form-label">Sell Rate (vs INR)</label><input type="number"
+                class="form-control-tally" placeholder="0.000" step="0.001"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-tally-outline" onclick="closeModal('currencyModal')">Cancel</button>
+        <button class="btn-tally-primary"
+          onclick="closeModal('currencyModal');showToast('Currency added!','success')"><i class="bi bi-check-lg"></i>
+          Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Generic Modal -->
+  <div class="tally-modal-overlay" id="genericModal">
+    <div class="tally-modal">
+      <div class="modal-header">
+        <div class="modal-title" id="genericModalTitle">Add New Entry</div>
+        <div class="modal-close" onclick="closeModal('genericModal')"><i class="bi bi-x-lg"></i></div>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <div class="form-group"><label class="form-label">Name *</label><input type="text"
+                class="form-control-tally" placeholder="Enter name"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Code / Reference</label><input type="text"
+                class="form-control-tally" placeholder="Reference code"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Category</label><select class="form-control-tally">
+                <option>Type A</option>
+                <option>Type B</option>
+                <option>Type C</option>
+              </select></div>
+          </div>
+          <div class="col-12">
+            <div class="form-group"><label class="form-label">Description</label><textarea class="form-control-tally"
+                rows="3" placeholder="Enter description..."></textarea></div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-control-tally">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group"><label class="form-label">Status</label><select class="form-control-tally">
+                <option>Active</option>
+                <option>Inactive</option>
+              </select></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-tally-outline" onclick="closeModal('genericModal')">Cancel</button>
+        <button class="btn-tally-primary"
+          onclick="closeModal('genericModal');showToast('Entry saved successfully!','success')"><i
+            class="bi bi-check-lg"></i> Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirm Modal -->
+  <div class="tally-modal-overlay" id="deleteModal">
+    <div class="delete-confirm" style="margin:auto;">
+      <div class="del-icon">🗑️</div>
+      <h5 style="font-family:var(--font-display);color:var(--text-primary);margin-bottom:8px;">Delete Entry?</h5>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">This action cannot be undone. The record
+        will be permanently removed.</p>
+      <div class="d-flex justify-content-center gap-3">
+        <button class="btn-tally-outline" onclick="closeModal('deleteModal')">Cancel</button>
+        <button class="btn-tally-danger" style="padding:8px 20px;font-size:13px;" onclick="confirmDelete()"><i
+            class="bi bi-trash"></i> Yes, Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // ============================================================
+    // STATE
+    // ============================================================
+    let currentPage = 'dashboard';
+    let ledgerData = [];
+    let deleteTarget = null;
+
+    // ============================================================
+    // PAGE NAVIGATION
+    // ============================================================
+    const pageTitles = {
+      'dashboard': 'Dashboard',
+      'ledger': 'Ledger Management',
+      'voucher': 'Voucher Entry',
+      'payable': 'Accounts Payable & Receivable',
+      'bank-recon': 'Bank Reconciliation',
+      'bank-recon2': 'Bank Reconciliation',
+      'cash-bank': 'Cash & Bank Management',
+      'multicurrency': 'Multi-currency Support',
+      'stock-items': 'Stock Items & Categories',
+      'stock-groups': 'Stock Groups & Valuation',
+      'batch-tracking': 'Batch / Expiry / Serial',
+      'stock-movement': 'Stock In/Out & Transfer',
+      'godown': 'Godown / Warehouse',
+      'gst-calc': 'GST Calculation & Filing',
+      'vat-service': 'VAT / Service Tax',
+      'tax-reports': 'Tax Reports',
+      'tds-tcs': 'TDS / TCS Management',
+      'employees': 'Employee Management',
+      'payroll-calc': 'Payroll Calculation',
+      'payslip': 'Payslip Generation',
+      'deductions': 'PF / ESI / TDS',
+      'payments': 'Cheque / Online Payments',
+      'reminders': 'Payment Reminders',
+      'banking-integration': 'Banking Integration',
+      'trial-balance': 'Trial Balance / BS / P&L',
+      'cashflow': 'Cash Flow Statements',
+      'stock-reports': 'Stock & Inventory Reports',
+      'sales-purchase': 'Sales & Purchase Summary',
+      'branches': 'Branch Accounting',
+      'consolidation': 'Consolidation of Accounts',
+      'branch-tracking': 'Stock & Sales per Branch',
+      'user-access': 'User Access Control',
+      'encryption': 'Data Encryption & Backup',
+      'audit': 'Audit Trails & Logs',
+      'automation': 'Voucher Automation',
+      'budget': 'Budgeting & Cost Centers',
+      'multi-curr-tx': 'Multi-currency Transactions',
+      'custom-reports': 'Custom Reports',
+    };
+
+    function showPage(pageId) {
+      // Hide all pages
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      // Show target
+      const target = document.getElementById('page-' + pageId);
+      if (target) {
+        target.classList.add('active');
+        currentPage = pageId;
+        document.getElementById('breadcrumbCurrent').textContent = pageTitles[pageId] || pageId;
+        // Update active nav links
+        document.querySelectorAll('.nav-link, .nav-sublink').forEach(l => l.classList.remove('active'));
+      }
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleNav(navId) {
+      const item = document.getElementById(navId);
+      if (!item) return;
+      const isOpen = item.classList.contains('open');
+      // Close all others
+      document.querySelectorAll('.nav-item.open').forEach(i => {
+        if (i.id !== navId) i.classList.remove('open');
+      });
+      item.classList.toggle('open', !isOpen);
+    }
+
+    // ============================================================
+    // MODAL MANAGEMENT
+    // ============================================================
+    function openModal(modalId, title) {
+      const overlay = document.getElementById(modalId);
+      if (overlay) {
+        overlay.classList.add('open');
+        if (title) {
+          const titleEl = document.getElementById(modalId + 'Title');
+          if (titleEl) titleEl.textContent = 'Add ' + title;
+        }
+      }
+    }
+
+    function closeModal(modalId) {
+      const overlay = document.getElementById(modalId);
+      if (overlay) overlay.classList.remove('open');
+    }
+
+    // Close on overlay click
+    document.querySelectorAll('.tally-modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', function (e) {
+        if (e.target === this) closeModal(this.id);
+      });
+    });
+
+    // ============================================================
+    // LEDGER CRUD
+    // ============================================================
+    function saveLedger() {
+      const name = document.getElementById('ledgerName').value.trim();
+      if (!name) { showToast('Ledger name is required!', 'error'); return; }
+      const ledger = {
+        id: Date.now(),
+        name: name,
+        date: new Date().toLocaleDateString('en-IN')
+      };
+      ledgerData.push(ledger);
+      closeModal('ledgerModal');
+      showToast('Ledger "' + name + '" created!', 'success');
+      document.getElementById('ledgerName').value = '';
+    }
+
+    function editLedger(id) {
+      document.getElementById('ledgerModalTitle').textContent = 'Edit Ledger';
+      openModal('ledgerModal');
+    }
+
+    function deleteLedger(id) {
+      deleteTarget = { type: 'ledger', id: id };
+      openModal('deleteModal');
+    }
+
+    function confirmDelete() {
+      closeModal('deleteModal');
+      showToast('Record deleted successfully', 'info');
+      deleteTarget = null;
+    }
+
+    // ============================================================
+    // VOUCHER TYPE SELECTION
+    // ============================================================
+    function selectVoucherType(btn, type) {
+      document.querySelectorAll('.voucher-type-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    // ============================================================
+    // TAB SWITCHING
+    // ============================================================
+    function switchTab(btn, contentId) {
+      // Find sibling tabs
+      const tabs = btn.closest('.tally-tabs');
+      if (tabs) tabs.querySelectorAll('.tally-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Find sibling content divs — we look for the next div after tabs
+      const page = btn.closest('.page');
+      const allTabContents = page.querySelectorAll('[id^="tab-"],[id^="rpt-"]');
+      allTabContents.forEach(c => c.style.display = 'none');
+      const target = document.getElementById(contentId);
+      if (target) target.style.display = 'block';
+    }
+
+    // ============================================================
+    // TOAST NOTIFICATIONS
+    // ============================================================
+    function showToast(message, type = 'success') {
+      const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `tally-toast ${type}`;
+      toast.innerHTML = `<span style="font-size:16px">${icons[type]}</span><span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
+        toast.style.transition = '0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // ============================================================
+    // MODULE SEARCH
+    // ============================================================
+    document.getElementById('moduleSearch').addEventListener('input', function () {
+      const q = this.value.toLowerCase();
+      document.querySelectorAll('.nav-sublink').forEach(link => {
+        const text = link.textContent.toLowerCase();
+        const item = link.closest('.nav-item');
+        if (q && text.includes(q)) {
+          link.style.display = 'flex';
+          if (item) item.classList.add('open');
+          link.style.background = 'rgba(0,200,150,0.1)';
+          link.style.color = 'var(--primary)';
+        } else if (!q) {
+          link.style.display = '';
+          link.style.background = '';
+          link.style.color = '';
+        } else {
+          link.style.display = 'none';
+        }
+      });
+      if (!q) {
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('open'));
+      }
+    });
+
+    // ============================================================
+    // TABLE SEARCH
+    // ============================================================
+    document.querySelectorAll('.table-search').forEach(input => {
+      input.addEventListener('input', function () {
+        const q = this.value.toLowerCase();
+        const table = this.closest('.data-table-wrapper').querySelector('.tally-table');
+        if (!table) return;
+        table.querySelectorAll('tbody tr').forEach(row => {
+          row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+        });
+      });
+    });
+
+    // ============================================================
+    // FULLSCREEN
+    // ============================================================
+    document.querySelector('[title="Full Screen"]').addEventListener('click', function () {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+        this.querySelector('i').className = 'bi bi-fullscreen-exit';
+      } else {
+        document.exitFullscreen();
+        this.querySelector('i').className = 'bi bi-fullscreen';
+      }
+    });
+
+    // ============================================================
+    // KEYBOARD SHORTCUTS
+    // ============================================================
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.tally-modal-overlay.open').forEach(m => m.classList.remove('open'));
+      }
+      if (e.ctrlKey && e.key === 'l') { e.preventDefault(); showPage('ledger'); }
+      if (e.ctrlKey && e.key === 'v') { e.preventDefault(); showPage('voucher'); openModal('voucherModal'); }
+    });
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function () {
+      showToast('Welcome to TallyPro Enterprise! 🚀', 'info');
+
+      // Set today's date in date inputs
+      const today = new Date().toISOString().split('T')[0];
+      document.querySelectorAll('input[type=date]').forEach(input => { if (!input.value) input.value = today; });
+    });
+  </script>
+</body>
+
+</html>
