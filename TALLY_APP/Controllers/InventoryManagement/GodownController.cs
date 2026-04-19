@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.InventoryManagement
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/InventoryManagement/Godown")]
-    public class GodownController : ControllerBase
+    [Route("Godown")]
+    public class GodownController : Controller
     {
         private readonly IGodownService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.InventoryManagement
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/InventoryManagement/godown.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.InventoryManagement
          *
          * @return List of Godown objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<GodownResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<GodownResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.AccountingFinance
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/AccountingFinance/LedgerAccount")]
-    public class LedgerAccountController : ControllerBase
+    [Route("LedgerAccount")]
+    public class LedgerAccountController : Controller
     {
         private readonly ILedgerAccountService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.AccountingFinance
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/AccountingFinance/ledger.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.AccountingFinance
          *
          * @return List of LedgerAccount objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<LedgerAccountResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<LedgerAccountResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

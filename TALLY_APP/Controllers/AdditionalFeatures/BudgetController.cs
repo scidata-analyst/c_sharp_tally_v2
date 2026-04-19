@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.AdditionalFeatures
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/AdditionalFeatures/Budget")]
-    public class BudgetController : ControllerBase
+    [Route("Budget")]
+    public class BudgetController : Controller
     {
         private readonly IBudgetService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.AdditionalFeatures
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/AdditionalFeatures/budget.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.AdditionalFeatures
          *
          * @return List of Budget objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<BudgetResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<BudgetResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

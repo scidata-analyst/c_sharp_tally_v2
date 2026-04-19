@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.BankingPayments
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/BankingPayments/BankIntegration")]
-    public class BankIntegrationController : ControllerBase
+    [Route("BankIntegration")]
+    public class BankIntegrationController : Controller
     {
         private readonly IBankIntegrationService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.BankingPayments
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/BankingPayments/banking-integration.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.BankingPayments
          *
          * @return List of BankIntegration objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<BankIntegrationResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<BankIntegrationResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

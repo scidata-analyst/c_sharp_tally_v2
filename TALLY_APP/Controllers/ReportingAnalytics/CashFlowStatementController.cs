@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/ReportingAnalytics/CashFlowStatement")]
-    public class CashFlowStatementController : ControllerBase
+    [Route("CashFlowStatement")]
+    public class CashFlowStatementController : Controller
     {
         private readonly ICashFlowStatementService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/ReportingAnalytics/cashflow.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
          *
          * @return List of CashFlowStatement objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<CashFlowStatementResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<CashFlowStatementResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.AccountingFinance
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/AccountingFinance/BankReconciliation")]
-    public class BankReconciliationController : ControllerBase
+    [Route("BankReconciliation")]
+    public class BankReconciliationController : Controller
     {
         private readonly IBankReconciliationService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.AccountingFinance
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/AccountingFinance/bank-recon.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.AccountingFinance
          *
          * @return List of BankReconciliation objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<BankReconciliationResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<BankReconciliationResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

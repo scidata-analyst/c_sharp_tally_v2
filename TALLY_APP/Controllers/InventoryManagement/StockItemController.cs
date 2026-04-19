@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.InventoryManagement
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/InventoryManagement/StockItem")]
-    public class StockItemController : ControllerBase
+    [Route("StockItem")]
+    public class StockItemController : Controller
     {
         private readonly IStockItemService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.InventoryManagement
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/InventoryManagement/stock-items.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.InventoryManagement
          *
          * @return List of StockItem objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<StockItemResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<StockItemResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

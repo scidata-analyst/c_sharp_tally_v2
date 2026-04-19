@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.AdditionalFeatures
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/AdditionalFeatures/AutomationRule")]
-    public class AutomationRuleController : ControllerBase
+    [Route("AutomationRule")]
+    public class AutomationRuleController : Controller
     {
         private readonly IAutomationRuleService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.AdditionalFeatures
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/AdditionalFeatures/automation.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.AdditionalFeatures
          *
          * @return List of AutomationRule objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<AutomationRuleResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<AutomationRuleResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

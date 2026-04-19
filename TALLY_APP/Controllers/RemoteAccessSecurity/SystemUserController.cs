@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.RemoteAccessSecurity
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/RemoteAccessSecurity/SystemUser")]
-    public class SystemUserController : ControllerBase
+    [Route("SystemUser")]
+    public class SystemUserController : Controller
     {
         private readonly ISystemUserService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.RemoteAccessSecurity
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/RemoteAccessSecurity/user-access.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.RemoteAccessSecurity
          *
          * @return List of SystemUser objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<SystemUserResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<SystemUserResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

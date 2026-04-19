@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/ReportingAnalytics/SalesPurchaseSummary")]
-    public class SalesPurchaseSummaryController : ControllerBase
+    [Route("SalesPurchaseSummary")]
+    public class SalesPurchaseSummaryController : Controller
     {
         private readonly ISalesPurchaseSummaryService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/ReportingAnalytics/sales-purchase.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
          *
          * @return List of SalesPurchaseSummary objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<SalesPurchaseSummaryResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<SalesPurchaseSummaryResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

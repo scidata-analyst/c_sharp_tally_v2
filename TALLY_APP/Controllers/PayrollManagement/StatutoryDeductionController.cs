@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.PayrollManagement
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/PayrollManagement/StatutoryDeduction")]
-    public class StatutoryDeductionController : ControllerBase
+    [Route("StatutoryDeduction")]
+    public class StatutoryDeductionController : Controller
     {
         private readonly IStatutoryDeductionService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.PayrollManagement
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/PayrollManagement/deductions.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.PayrollManagement
          *
          * @return List of StatutoryDeduction objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<StatutoryDeductionResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<StatutoryDeductionResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

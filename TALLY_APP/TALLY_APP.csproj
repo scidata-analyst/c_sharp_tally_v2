@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\**" />
-    <Compile Remove="Services\**" />
-    <Compile Remove="Repositories\**" />
+    <Compile Remove="Controllers\*/**" />
+    <Compile Remove="Services\*/**" />
+    <Compile Remove="Repositories\*/**" />
     <Compile Remove="DTOs\**" />
     <Compile Remove="Interfaces\**" />
   </ItemGroup>

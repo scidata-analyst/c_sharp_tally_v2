@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.BankingPayments
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/BankingPayments/PaymentReminder")]
-    public class PaymentReminderController : ControllerBase
+    [Route("PaymentReminder")]
+    public class PaymentReminderController : Controller
     {
         private readonly IPaymentReminderService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.BankingPayments
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/BankingPayments/reminders.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.BankingPayments
          *
          * @return List of PaymentReminder objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<PaymentReminderResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<PaymentReminderResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

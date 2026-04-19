@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.AccountingFinance
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/AccountingFinance/PartyDirectory")]
-    public class PartyDirectoryController : ControllerBase
+    [Route("PartyDirectory")]
+    public class PartyDirectoryController : Controller
     {
         private readonly IPartyDirectoryService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.AccountingFinance
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/AccountingFinance/payable.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.AccountingFinance
          *
          * @return List of PartyDirectory objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<PartyDirectoryResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<PartyDirectoryResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

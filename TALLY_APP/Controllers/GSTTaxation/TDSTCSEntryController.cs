@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.GSTTaxation
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/GSTTaxation/TDSTCSEntry")]
-    public class TDSTCSEntryController : ControllerBase
+    [Route("TDSTCSEntry")]
+    public class TDSTCSEntryController : Controller
     {
         private readonly ITDSTCSEntryService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.GSTTaxation
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/GSTTaxation/tds-tcs.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.GSTTaxation
          *
          * @return List of TDSTCSEntry objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<TDSTCSEntryResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<TDSTCSEntryResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

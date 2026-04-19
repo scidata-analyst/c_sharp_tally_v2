@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.AdditionalFeatures
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/AdditionalFeatures/ForexTransaction")]
-    public class ForexTransactionController : ControllerBase
+    [Route("ForexTransaction")]
+    public class ForexTransactionController : Controller
     {
         private readonly IForexTransactionService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.AdditionalFeatures
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/AdditionalFeatures/multi-curr-tx.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.AdditionalFeatures
          *
          * @return List of ForexTransaction objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<ForexTransactionResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<ForexTransactionResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

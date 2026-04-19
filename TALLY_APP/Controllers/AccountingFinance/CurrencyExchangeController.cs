@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.AccountingFinance
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/AccountingFinance/CurrencyExchange")]
-    public class CurrencyExchangeController : ControllerBase
+    [Route("CurrencyExchange")]
+    public class CurrencyExchangeController : Controller
     {
         private readonly ICurrencyExchangeService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.AccountingFinance
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/AccountingFinance/multicurrency.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.AccountingFinance
          *
          * @return List of CurrencyExchange objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<CurrencyExchangeResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<CurrencyExchangeResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

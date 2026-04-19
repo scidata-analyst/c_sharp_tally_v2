@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.GSTTaxation
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/GSTTaxation/GSTEntry")]
-    public class GSTEntryController : ControllerBase
+    [Route("GSTEntry")]
+    public class GSTEntryController : Controller
     {
         private readonly IGSTEntryService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.GSTTaxation
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/GSTTaxation/gst-calc.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.GSTTaxation
          *
          * @return List of GSTEntry objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<GSTEntryResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<GSTEntryResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

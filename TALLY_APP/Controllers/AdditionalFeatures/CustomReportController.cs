@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.AdditionalFeatures
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/AdditionalFeatures/CustomReport")]
-    public class CustomReportController : ControllerBase
+    [Route("CustomReport")]
+    public class CustomReportController : Controller
     {
         private readonly ICustomReportService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.AdditionalFeatures
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/AdditionalFeatures/custom-reports.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.AdditionalFeatures
          *
          * @return List of CustomReport objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<CustomReportResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<CustomReportResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

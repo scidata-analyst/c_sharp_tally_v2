@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.RemoteAccessSecurity
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/RemoteAccessSecurity/AuditLog")]
-    public class AuditLogController : ControllerBase
+    [Route("AuditLog")]
+    public class AuditLogController : Controller
     {
         private readonly IAuditLogService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.RemoteAccessSecurity
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/RemoteAccessSecurity/audit.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.RemoteAccessSecurity
          *
          * @return List of AuditLog objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<AuditLogResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<AuditLogResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.InventoryManagement
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/InventoryManagement/BatchRegister")]
-    public class BatchRegisterController : ControllerBase
+    [Route("BatchRegister")]
+    public class BatchRegisterController : Controller
     {
         private readonly IBatchRegisterService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.InventoryManagement
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/InventoryManagement/batch-tracking.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.InventoryManagement
          *
          * @return List of BatchRegister objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<BatchRegisterResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<BatchRegisterResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

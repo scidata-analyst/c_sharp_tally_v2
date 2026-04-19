@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.RemoteAccessSecurity
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/RemoteAccessSecurity/SecuritySettings")]
-    public class SecuritySettingsController : ControllerBase
+    [Route("SecuritySettings")]
+    public class SecuritySettingsController : Controller
     {
         private readonly ISecuritySettingsService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.RemoteAccessSecurity
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/RemoteAccessSecurity/encryption.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.RemoteAccessSecurity
          *
          * @return List of SecuritySettings objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<SecuritySettingsResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<SecuritySettingsResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

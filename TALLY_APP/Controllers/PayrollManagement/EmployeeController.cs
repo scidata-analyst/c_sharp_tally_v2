@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.PayrollManagement
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/PayrollManagement/Employee")]
-    public class EmployeeController : ControllerBase
+    [Route("Employee")]
+    public class EmployeeController : Controller
     {
         private readonly IEmployeeService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.PayrollManagement
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/PayrollManagement/employees.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.PayrollManagement
          *
          * @return List of Employee objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<EmployeeResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<EmployeeResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

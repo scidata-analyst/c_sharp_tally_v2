@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.AccountingFinance
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/AccountingFinance/VoucherEntry")]
-    public class VoucherEntryController : ControllerBase
+    [Route("VoucherEntry")]
+    public class VoucherEntryController : Controller
     {
         private readonly IVoucherEntryService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.AccountingFinance
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/AccountingFinance/voucher.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.AccountingFinance
          *
          * @return List of VoucherEntry objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<VoucherEntryResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<VoucherEntryResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

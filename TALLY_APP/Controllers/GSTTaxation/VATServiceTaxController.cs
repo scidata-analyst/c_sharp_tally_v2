@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.GSTTaxation
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/GSTTaxation/VATServiceTax")]
-    public class VATServiceTaxController : ControllerBase
+    [Route("VATServiceTax")]
+    public class VATServiceTaxController : Controller
     {
         private readonly IVATServiceTaxService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.GSTTaxation
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/GSTTaxation/vat-service.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.GSTTaxation
          *
          * @return List of VATServiceTax objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<VATServiceTaxResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<VATServiceTaxResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

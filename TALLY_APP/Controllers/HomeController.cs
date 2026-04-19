@@ -8,7 +8,7 @@ public class HomeController : Controller
 {
     public IActionResult Index()
     {
-        return View();
+        return View("~/Views/Dashboard/index.cshtml");
     }
 
     public IActionResult Privacy()

@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/ReportingAnalytics/TrialBalance")]
-    public class TrialBalanceController : ControllerBase
+    [Route("TrialBalance")]
+    public class TrialBalanceController : Controller
     {
         private readonly ITrialBalanceService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/ReportingAnalytics/trial-balance.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
          *
          * @return List of TrialBalance objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<TrialBalanceResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<TrialBalanceResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

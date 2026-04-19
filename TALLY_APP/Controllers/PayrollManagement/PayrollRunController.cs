@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.PayrollManagement
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/PayrollManagement/PayrollRun")]
-    public class PayrollRunController : ControllerBase
+    [Route("PayrollRun")]
+    public class PayrollRunController : Controller
     {
         private readonly IPayrollRunService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.PayrollManagement
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/PayrollManagement/payroll-calc.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.PayrollManagement
          *
          * @return List of PayrollRun objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<PayrollRunResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<PayrollRunResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

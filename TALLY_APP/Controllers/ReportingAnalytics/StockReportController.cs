@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/ReportingAnalytics/StockReport")]
-    public class StockReportController : ControllerBase
+    [Route("StockReport")]
+    public class StockReportController : Controller
     {
         private readonly IStockReportService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/ReportingAnalytics/stock-reports.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
          *
          * @return List of StockReport objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<StockReportResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<StockReportResponse>>> ApiIndex()
         {
             return await _service.Index();
         }

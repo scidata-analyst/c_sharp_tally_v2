@@ -15,8 +15,8 @@ namespace TALLY_APP.Controllers.MultiLocationBranch
      * Follows RESTful API standards with Clean Architecture.
      */
     [ApiController]
-    [Route("api/MultiLocationBranch/Branch")]
-    public class BranchController : ControllerBase
+    [Route("Branch")]
+    public class BranchController : Controller
     {
         private readonly IBranchService _service;
 
@@ -29,6 +29,9 @@ namespace TALLY_APP.Controllers.MultiLocationBranch
         {
             _service = service;
         }
+
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/MultiLocationBranch/branches.cshtml");
 
         /**
          * Get all records
@@ -46,8 +49,8 @@ namespace TALLY_APP.Controllers.MultiLocationBranch
          *
          * @return List of Branch objects
          */
-        [HttpGet("index")]
-        public async Task<ActionResult<List<BranchResponse>>> Index()
+        [HttpGet("api/index")]
+        public async Task<ActionResult<List<BranchResponse>>> ApiIndex()
         {
             return await _service.Index();
         }
