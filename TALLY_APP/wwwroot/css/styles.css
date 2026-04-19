@@ -64,7 +64,7 @@ body {
   color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.6;
 }
 
@@ -218,7 +218,7 @@ body {
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
   text-decoration: none;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition);
@@ -280,7 +280,7 @@ body {
   border-radius: var(--radius-sm);
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 12px;
+  font-size: 14px;
   cursor: pointer;
   transition: all var(--transition);
   margin: 1px 0;
@@ -667,7 +667,7 @@ body {
 
 .tally-table tbody td {
   padding: 12px 16px;
-  font-size: 13px;
+  font-size: 15px;
   color: var(--text-secondary);
   vertical-align: middle;
 }
@@ -723,7 +723,7 @@ body {
   border: none;
   padding: 8px 16px;
   border-radius: var(--radius-sm);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   font-family: var(--font-body);
   cursor: pointer;
@@ -744,7 +744,7 @@ body {
   border: 1px solid var(--border);
   padding: 7px 14px;
   border-radius: var(--radius-sm);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   font-family: var(--font-body);
   cursor: pointer;
@@ -844,7 +844,7 @@ body {
 
 .modal-title {
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--text-primary);
 }
@@ -1085,7 +1085,7 @@ select.form-control-tally {
 
 .module-card h5 {
   font-family: var(--font-display);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 6px;
@@ -1381,7 +1381,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .hero-title {
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 800;
   color: var(--text-primary);
   line-height: 1.2;
@@ -1452,7 +1452,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .gst-card-info h6 {
   font-family: var(--font-display);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
   margin: 0 0 4px;
