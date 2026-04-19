@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.GSTTaxation;
-using TALLY_APP.Models.Entities.GSTTaxation;
+using TALLY_APP.Models.GSTTaxation;
 
 namespace TALLY_APP.Services.GSTTaxation
 {

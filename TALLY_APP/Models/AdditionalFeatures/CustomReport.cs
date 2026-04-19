@@ -1,7 +1,16 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using TALLY_APP.Models.AccountingFinance;
+using TALLY_APP.Models.InventoryManagement;
+using TALLY_APP.Models.GSTTaxation;
+using TALLY_APP.Models.PayrollManagement;
+using TALLY_APP.Models.BankingPayments;
+using TALLY_APP.Models.ReportingAnalytics;
+using TALLY_APP.Models.MultiLocationBranch;
+using TALLY_APP.Models.RemoteAccessSecurity;
+using TALLY_APP.Models.AdditionalFeatures;
 namespace TALLY_APP.Models.AdditionalFeatures
 {
 /**
@@ -64,17 +73,15 @@ namespace TALLY_APP.Models.AdditionalFeatures
      * Column: QueryConfig
      * Type: string
      */
-    [Column("QueryConfig")]
+    [Column("QueryConfig", TypeName = "longtext")]
     [Required]
-    [Column(TypeName = "varchar(max)")]
     public string QueryConfig { get; set; }
 
     /**
      * Column: LastGenerated
      * Type: DateTime
      */
-    [Column("LastGenerated")]
-    [Column(TypeName = "datetime")]
+    [Column("LastGenerated", TypeName = "datetime")]
     public DateTime LastGenerated { get; set; }
 
     /**
@@ -99,18 +106,22 @@ namespace TALLY_APP.Models.AdditionalFeatures
      * Column: CreatedAt
      * Type: DateTime
      */
-    [Column("CreatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("CreatedAt", TypeName = "datetime")]
     public DateTime CreatedAt { get; set; }
 
     /**
      * Column: UpdatedAt
      * Type: DateTime
      */
-    [Column("UpdatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("UpdatedAt", TypeName = "datetime")]
     public DateTime UpdatedAt { get; set; }
 
 
     }
 }
+
+
+
+
+
+

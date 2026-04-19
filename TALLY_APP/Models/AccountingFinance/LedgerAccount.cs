@@ -1,7 +1,16 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using TALLY_APP.Models.AccountingFinance;
+using TALLY_APP.Models.InventoryManagement;
+using TALLY_APP.Models.GSTTaxation;
+using TALLY_APP.Models.PayrollManagement;
+using TALLY_APP.Models.BankingPayments;
+using TALLY_APP.Models.ReportingAnalytics;
+using TALLY_APP.Models.MultiLocationBranch;
+using TALLY_APP.Models.RemoteAccessSecurity;
+using TALLY_APP.Models.AdditionalFeatures;
 namespace TALLY_APP.Models.AccountingFinance
 {
 /**
@@ -89,9 +98,8 @@ namespace TALLY_APP.Models.AccountingFinance
      * Column: Description
      * Type: string
      */
-    [Column("Description")]
+    [Column("Description", TypeName = "longtext")]
     [Required]
-    [Column(TypeName = "varchar(max)")]
     public string Description { get; set; }
 
     /**
@@ -116,25 +124,36 @@ namespace TALLY_APP.Models.AccountingFinance
      * Column: CreatedAt
      * Type: DateTime
      */
-    [Column("CreatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("CreatedAt", TypeName = "datetime")]
     public DateTime CreatedAt { get; set; }
 
     /**
      * Column: UpdatedAt
      * Type: DateTime
      */
-    [Column("UpdatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("UpdatedAt", TypeName = "datetime")]
     public DateTime UpdatedAt { get; set; }
 
+
+    /**
+     * Column: ParentGroupId
+     * Type: long? (Nullable for circular/root issues)
+     */
+    [Column("ParentGroupId")]
+    public long? ParentGroupId { get; set; }
 
     /**
      * Relationship: LedgerAccount
      * Foreign Key: ParentGroupId
      */
     [ForeignKey("ParentGroupId")]
-    public LedgerAccount ParentGroup { get; set; }
+    public virtual LedgerAccount? ParentGroup { get; set; }
 
     }
 }
+
+
+
+
+
+

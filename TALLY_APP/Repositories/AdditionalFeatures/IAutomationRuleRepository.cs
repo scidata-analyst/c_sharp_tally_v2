@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using TALLY_APP.Models.Entities.AdditionalFeatures;
+using TALLY_APP.Models.AdditionalFeatures;
 
 namespace TALLY_APP.Repositories.AdditionalFeatures
 {

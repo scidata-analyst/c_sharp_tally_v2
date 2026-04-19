@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using TALLY_APP.Models.Entities.RemoteAccessSecurity;
+using TALLY_APP.Models.RemoteAccessSecurity;
 
 namespace TALLY_APP.Repositories.RemoteAccessSecurity
 {

@@ -1,7 +1,16 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using TALLY_APP.Models.AccountingFinance;
+using TALLY_APP.Models.InventoryManagement;
+using TALLY_APP.Models.GSTTaxation;
+using TALLY_APP.Models.PayrollManagement;
+using TALLY_APP.Models.BankingPayments;
+using TALLY_APP.Models.ReportingAnalytics;
+using TALLY_APP.Models.MultiLocationBranch;
+using TALLY_APP.Models.RemoteAccessSecurity;
+using TALLY_APP.Models.AdditionalFeatures;
 namespace TALLY_APP.Models.BankingPayments
 {
 /**
@@ -82,8 +91,7 @@ namespace TALLY_APP.Models.BankingPayments
      * Column: LastSync
      * Type: DateTime
      */
-    [Column("LastSync")]
-    [Column(TypeName = "datetime")]
+    [Column("LastSync", TypeName = "datetime")]
     public DateTime LastSync { get; set; }
 
     /**
@@ -99,18 +107,19 @@ namespace TALLY_APP.Models.BankingPayments
      * Column: CreatedAt
      * Type: DateTime
      */
-    [Column("CreatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("CreatedAt", TypeName = "datetime")]
     public DateTime CreatedAt { get; set; }
 
     /**
      * Column: UpdatedAt
      * Type: DateTime
      */
-    [Column("UpdatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("UpdatedAt", TypeName = "datetime")]
     public DateTime UpdatedAt { get; set; }
 
 
     }
 }
+
+
+

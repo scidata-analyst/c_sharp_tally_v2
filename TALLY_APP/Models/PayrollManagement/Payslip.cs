@@ -1,7 +1,16 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using TALLY_APP.Models.AccountingFinance;
+using TALLY_APP.Models.InventoryManagement;
+using TALLY_APP.Models.GSTTaxation;
+using TALLY_APP.Models.PayrollManagement;
+using TALLY_APP.Models.BankingPayments;
+using TALLY_APP.Models.ReportingAnalytics;
+using TALLY_APP.Models.MultiLocationBranch;
+using TALLY_APP.Models.RemoteAccessSecurity;
+using TALLY_APP.Models.AdditionalFeatures;
 namespace TALLY_APP.Models.PayrollManagement
 {
 /**
@@ -35,10 +44,10 @@ namespace TALLY_APP.Models.PayrollManagement
 
     /**
      * Column: EmployeeId
-     * Type: long
+     * Type: long?
      */
     [Column("EmployeeId")]
-    public long EmployeeId { get; set; }
+    public long? EmployeeId { get; set; }
 
     /**
      * Column: Period
@@ -102,9 +111,8 @@ namespace TALLY_APP.Models.PayrollManagement
      * Column: PayslipData
      * Type: string
      */
-    [Column("PayslipData")]
+    [Column("PayslipData", TypeName = "longtext")]
     [Required]
-    [Column(TypeName = "varchar(max)")]
     public string PayslipData { get; set; }
 
     /**
@@ -120,8 +128,7 @@ namespace TALLY_APP.Models.PayrollManagement
      * Column: CreatedAt
      * Type: DateTime
      */
-    [Column("CreatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("CreatedAt", TypeName = "datetime")]
     public DateTime CreatedAt { get; set; }
 
 
@@ -130,7 +137,13 @@ namespace TALLY_APP.Models.PayrollManagement
      * Foreign Key: EmployeeId
      */
     [ForeignKey("EmployeeId")]
-    public Employee Employee { get; set; }
+    public virtual Employee? Employee { get; set; }
 
     }
 }
+
+
+
+
+
+

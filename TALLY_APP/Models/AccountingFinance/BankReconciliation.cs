@@ -1,7 +1,16 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using TALLY_APP.Models.AccountingFinance;
+using TALLY_APP.Models.InventoryManagement;
+using TALLY_APP.Models.GSTTaxation;
+using TALLY_APP.Models.PayrollManagement;
+using TALLY_APP.Models.BankingPayments;
+using TALLY_APP.Models.ReportingAnalytics;
+using TALLY_APP.Models.MultiLocationBranch;
+using TALLY_APP.Models.RemoteAccessSecurity;
+using TALLY_APP.Models.AdditionalFeatures;
 namespace TALLY_APP.Models.AccountingFinance
 {
 /**
@@ -35,17 +44,16 @@ namespace TALLY_APP.Models.AccountingFinance
 
     /**
      * Column: BankAccountId
-     * Type: long
+     * Type: long?
      */
     [Column("BankAccountId")]
-    public long BankAccountId { get; set; }
+    public long? BankAccountId { get; set; }
 
     /**
      * Column: StatementDate
      * Type: DateTime
      */
-    [Column("StatementDate")]
-    [Column(TypeName = "date")]
+    [Column("StatementDate", TypeName = "date")]
     public DateTime StatementDate { get; set; }
 
     /**
@@ -89,16 +97,14 @@ namespace TALLY_APP.Models.AccountingFinance
      * Column: ReconciledAt
      * Type: DateTime
      */
-    [Column("ReconciledAt")]
-    [Column(TypeName = "datetime")]
+    [Column("ReconciledAt", TypeName = "datetime")]
     public DateTime ReconciledAt { get; set; }
 
     /**
      * Column: CreatedAt
      * Type: DateTime
      */
-    [Column("CreatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("CreatedAt", TypeName = "datetime")]
     public DateTime CreatedAt { get; set; }
 
 
@@ -107,7 +113,10 @@ namespace TALLY_APP.Models.AccountingFinance
      * Foreign Key: BankAccountId
      */
     [ForeignKey("BankAccountId")]
-    public BankAccount BankAccount { get; set; }
+    public virtual BankAccount? BankAccount { get; set; }
 
     }
 }
+
+
+

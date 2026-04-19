@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BankingPayments.DTOs.Request;
 using BankingPayments.DTOs.Response;

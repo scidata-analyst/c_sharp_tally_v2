@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace TALLY_APP.DTOs.Response.PayrollManagement
 {

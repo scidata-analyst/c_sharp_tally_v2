@@ -1,7 +1,16 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using TALLY_APP.Models.AccountingFinance;
+using TALLY_APP.Models.InventoryManagement;
+using TALLY_APP.Models.GSTTaxation;
+using TALLY_APP.Models.PayrollManagement;
+using TALLY_APP.Models.BankingPayments;
+using TALLY_APP.Models.ReportingAnalytics;
+using TALLY_APP.Models.MultiLocationBranch;
+using TALLY_APP.Models.RemoteAccessSecurity;
+using TALLY_APP.Models.AdditionalFeatures;
 namespace TALLY_APP.Models.GSTTaxation
 {
 /**
@@ -55,8 +64,7 @@ namespace TALLY_APP.Models.GSTTaxation
      * Column: DueDate
      * Type: DateTime
      */
-    [Column("DueDate")]
-    [Column(TypeName = "date")]
+    [Column("DueDate", TypeName = "date")]
     public DateTime DueDate { get; set; }
 
     /**
@@ -107,18 +115,19 @@ namespace TALLY_APP.Models.GSTTaxation
      * Column: FiledDate
      * Type: DateTime
      */
-    [Column("FiledDate")]
-    [Column(TypeName = "datetime")]
+    [Column("FiledDate", TypeName = "datetime")]
     public DateTime FiledDate { get; set; }
 
     /**
      * Column: CreatedAt
      * Type: DateTime
      */
-    [Column("CreatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("CreatedAt", TypeName = "datetime")]
     public DateTime CreatedAt { get; set; }
 
 
     }
 }
+
+
+

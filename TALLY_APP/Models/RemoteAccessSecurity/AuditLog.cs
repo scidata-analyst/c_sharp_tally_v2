@@ -1,7 +1,16 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using TALLY_APP.Models.AccountingFinance;
+using TALLY_APP.Models.InventoryManagement;
+using TALLY_APP.Models.GSTTaxation;
+using TALLY_APP.Models.PayrollManagement;
+using TALLY_APP.Models.BankingPayments;
+using TALLY_APP.Models.ReportingAnalytics;
+using TALLY_APP.Models.MultiLocationBranch;
+using TALLY_APP.Models.RemoteAccessSecurity;
+using TALLY_APP.Models.AdditionalFeatures;
 namespace TALLY_APP.Models.RemoteAccessSecurity
 {
 /**
@@ -37,16 +46,15 @@ namespace TALLY_APP.Models.RemoteAccessSecurity
      * Column: Timestamp
      * Type: DateTime
      */
-    [Column("Timestamp")]
-    [Column(TypeName = "datetime")]
+    [Column("Timestamp", TypeName = "datetime")]
     public DateTime Timestamp { get; set; }
 
     /**
      * Column: UserId
-     * Type: long
+     * Type: long?
      */
     [Column("UserId")]
-    public long UserId { get; set; }
+    public long? UserId { get; set; }
 
     /**
      * Column: UserName
@@ -106,8 +114,7 @@ namespace TALLY_APP.Models.RemoteAccessSecurity
      * Column: CreatedAt
      * Type: DateTime
      */
-    [Column("CreatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("CreatedAt", TypeName = "datetime")]
     public DateTime CreatedAt { get; set; }
 
 
@@ -116,7 +123,10 @@ namespace TALLY_APP.Models.RemoteAccessSecurity
      * Foreign Key: UserId
      */
     [ForeignKey("UserId")]
-    public SystemUser User { get; set; }
+    public virtual SystemUser? User { get; set; }
 
     }
 }
+
+
+

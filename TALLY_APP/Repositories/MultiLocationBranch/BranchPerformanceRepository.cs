@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Data;
-using TALLY_APP.Models.Entities.MultiLocationBranch;
+using TALLY_APP.Models.MultiLocationBranch;
 
 namespace TALLY_APP.Repositories.MultiLocationBranch
 {

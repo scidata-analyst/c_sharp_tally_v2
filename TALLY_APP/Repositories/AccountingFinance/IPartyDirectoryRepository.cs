@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using TALLY_APP.Models.Entities.AccountingFinance;
+using TALLY_APP.Models.AccountingFinance;
 
 namespace TALLY_APP.Repositories.AccountingFinance
 {

@@ -1,7 +1,16 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using TALLY_APP.Models.AccountingFinance;
+using TALLY_APP.Models.InventoryManagement;
+using TALLY_APP.Models.GSTTaxation;
+using TALLY_APP.Models.PayrollManagement;
+using TALLY_APP.Models.BankingPayments;
+using TALLY_APP.Models.ReportingAnalytics;
+using TALLY_APP.Models.MultiLocationBranch;
+using TALLY_APP.Models.RemoteAccessSecurity;
+using TALLY_APP.Models.AdditionalFeatures;
 namespace TALLY_APP.Models.InventoryManagement
 {
 /**
@@ -46,8 +55,7 @@ namespace TALLY_APP.Models.InventoryManagement
      * Column: MovementDate
      * Type: DateTime
      */
-    [Column("MovementDate")]
-    [Column(TypeName = "date")]
+    [Column("MovementDate", TypeName = "date")]
     public DateTime MovementDate { get; set; }
 
     /**
@@ -61,24 +69,24 @@ namespace TALLY_APP.Models.InventoryManagement
 
     /**
      * Column: ItemId
-     * Type: long
+     * Type: long?
      */
     [Column("ItemId")]
-    public long ItemId { get; set; }
+    public long? ItemId { get; set; }
 
     /**
      * Column: FromGodownId
-     * Type: long
+     * Type: long?
      */
     [Column("FromGodownId")]
-    public long FromGodownId { get; set; }
+    public long? FromGodownId { get; set; }
 
     /**
      * Column: ToGodownId
-     * Type: long
+     * Type: long?
      */
     [Column("ToGodownId")]
-    public long ToGodownId { get; set; }
+    public long? ToGodownId { get; set; }
 
     /**
      * Column: Quantity
@@ -100,8 +108,7 @@ namespace TALLY_APP.Models.InventoryManagement
      * Column: CreatedAt
      * Type: DateTime
      */
-    [Column("CreatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("CreatedAt", TypeName = "datetime")]
     public DateTime CreatedAt { get; set; }
 
 
@@ -110,21 +117,24 @@ namespace TALLY_APP.Models.InventoryManagement
      * Foreign Key: ItemId
      */
     [ForeignKey("ItemId")]
-    public StockItem StockItem { get; set; }
+    public virtual StockItem? StockItem { get; set; }
 
     /**
      * Relationship: Godown
      * Foreign Key: FromGodownId
      */
     [ForeignKey("FromGodownId")]
-    public Godown FromGodown { get; set; }
+    public virtual Godown? FromGodown { get; set; }
 
     /**
      * Relationship: Godown
      * Foreign Key: ToGodownId
      */
     [ForeignKey("ToGodownId")]
-    public Godown ToGodown { get; set; }
+    public virtual Godown? ToGodown { get; set; }
 
     }
 }
+
+
+

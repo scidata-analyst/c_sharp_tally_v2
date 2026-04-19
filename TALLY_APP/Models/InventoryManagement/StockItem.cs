@@ -1,7 +1,16 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using TALLY_APP.Models.AccountingFinance;
+using TALLY_APP.Models.InventoryManagement;
+using TALLY_APP.Models.GSTTaxation;
+using TALLY_APP.Models.PayrollManagement;
+using TALLY_APP.Models.BankingPayments;
+using TALLY_APP.Models.ReportingAnalytics;
+using TALLY_APP.Models.MultiLocationBranch;
+using TALLY_APP.Models.RemoteAccessSecurity;
+using TALLY_APP.Models.AdditionalFeatures;
 namespace TALLY_APP.Models.InventoryManagement
 {
 /**
@@ -53,10 +62,10 @@ namespace TALLY_APP.Models.InventoryManagement
 
     /**
      * Column: StockGroupId
-     * Type: long
+     * Type: long?
      */
     [Column("StockGroupId")]
-    public long StockGroupId { get; set; }
+    public long? StockGroupId { get; set; }
 
     /**
      * Column: Category
@@ -142,16 +151,14 @@ namespace TALLY_APP.Models.InventoryManagement
      * Column: CreatedAt
      * Type: DateTime
      */
-    [Column("CreatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("CreatedAt", TypeName = "datetime")]
     public DateTime CreatedAt { get; set; }
 
     /**
      * Column: UpdatedAt
      * Type: DateTime
      */
-    [Column("UpdatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("UpdatedAt", TypeName = "datetime")]
     public DateTime UpdatedAt { get; set; }
 
 
@@ -160,7 +167,10 @@ namespace TALLY_APP.Models.InventoryManagement
      * Foreign Key: StockGroupId
      */
     [ForeignKey("StockGroupId")]
-    public StockGroup StockGroup { get; set; }
+    public virtual StockGroup? StockGroup { get; set; }
 
     }
 }
+
+
+

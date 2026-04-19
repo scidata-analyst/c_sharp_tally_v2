@@ -1,7 +1,16 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using TALLY_APP.Models.AccountingFinance;
+using TALLY_APP.Models.InventoryManagement;
+using TALLY_APP.Models.GSTTaxation;
+using TALLY_APP.Models.PayrollManagement;
+using TALLY_APP.Models.BankingPayments;
+using TALLY_APP.Models.ReportingAnalytics;
+using TALLY_APP.Models.MultiLocationBranch;
+using TALLY_APP.Models.RemoteAccessSecurity;
+using TALLY_APP.Models.AdditionalFeatures;
 namespace TALLY_APP.Models.InventoryManagement
 {
 /**
@@ -44,25 +53,23 @@ namespace TALLY_APP.Models.InventoryManagement
 
     /**
      * Column: ItemId
-     * Type: long
+     * Type: long?
      */
     [Column("ItemId")]
-    public long ItemId { get; set; }
+    public long? ItemId { get; set; }
 
     /**
      * Column: ManufacturingDate
      * Type: DateTime
      */
-    [Column("ManufacturingDate")]
-    [Column(TypeName = "date")]
+    [Column("ManufacturingDate", TypeName = "date")]
     public DateTime ManufacturingDate { get; set; }
 
     /**
      * Column: ExpiryDate
      * Type: DateTime
      */
-    [Column("ExpiryDate")]
-    [Column(TypeName = "date")]
+    [Column("ExpiryDate", TypeName = "date")]
     public DateTime ExpiryDate { get; set; }
 
     /**
@@ -94,16 +101,14 @@ namespace TALLY_APP.Models.InventoryManagement
      * Column: CreatedAt
      * Type: DateTime
      */
-    [Column("CreatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("CreatedAt", TypeName = "datetime")]
     public DateTime CreatedAt { get; set; }
 
     /**
      * Column: UpdatedAt
      * Type: DateTime
      */
-    [Column("UpdatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("UpdatedAt", TypeName = "datetime")]
     public DateTime UpdatedAt { get; set; }
 
 
@@ -112,7 +117,10 @@ namespace TALLY_APP.Models.InventoryManagement
      * Foreign Key: ItemId
      */
     [ForeignKey("ItemId")]
-    public StockItem StockItem { get; set; }
+    public virtual StockItem? StockItem { get; set; }
 
     }
 }
+
+
+

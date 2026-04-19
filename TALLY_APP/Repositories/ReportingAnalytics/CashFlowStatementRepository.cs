@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Data;
-using TALLY_APP.Models.Entities.ReportingAnalytics;
+using TALLY_APP.Models.ReportingAnalytics;
 
 namespace TALLY_APP.Repositories.ReportingAnalytics
 {

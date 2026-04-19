@@ -1,7 +1,16 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using TALLY_APP.Models.AccountingFinance;
+using TALLY_APP.Models.InventoryManagement;
+using TALLY_APP.Models.GSTTaxation;
+using TALLY_APP.Models.PayrollManagement;
+using TALLY_APP.Models.BankingPayments;
+using TALLY_APP.Models.ReportingAnalytics;
+using TALLY_APP.Models.MultiLocationBranch;
+using TALLY_APP.Models.RemoteAccessSecurity;
+using TALLY_APP.Models.AdditionalFeatures;
 namespace TALLY_APP.Models.GSTTaxation
 {
 /**
@@ -46,16 +55,15 @@ namespace TALLY_APP.Models.GSTTaxation
      * Column: InvoiceDate
      * Type: DateTime
      */
-    [Column("InvoiceDate")]
-    [Column(TypeName = "date")]
+    [Column("InvoiceDate", TypeName = "date")]
     public DateTime InvoiceDate { get; set; }
 
     /**
      * Column: PartyId
-     * Type: long
+     * Type: long?
      */
     [Column("PartyId")]
-    public long PartyId { get; set; }
+    public long? PartyId { get; set; }
 
     /**
      * Column: PartyName
@@ -148,16 +156,14 @@ namespace TALLY_APP.Models.GSTTaxation
      * Column: CreatedAt
      * Type: DateTime
      */
-    [Column("CreatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("CreatedAt", TypeName = "datetime")]
     public DateTime CreatedAt { get; set; }
 
     /**
      * Column: UpdatedAt
      * Type: DateTime
      */
-    [Column("UpdatedAt")]
-    [Column(TypeName = "datetime")]
+    [Column("UpdatedAt", TypeName = "datetime")]
     public DateTime UpdatedAt { get; set; }
 
 
@@ -166,7 +172,10 @@ namespace TALLY_APP.Models.GSTTaxation
      * Foreign Key: PartyId
      */
     [ForeignKey("PartyId")]
-    public PartyDirectory Party { get; set; }
+    public virtual PartyDirectory? Party { get; set; }
 
     }
 }
+
+
+

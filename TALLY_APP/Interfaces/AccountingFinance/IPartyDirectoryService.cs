@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccountingFinance.DTOs.Request;
 using AccountingFinance.DTOs.Response;

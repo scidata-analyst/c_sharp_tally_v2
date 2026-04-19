@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using TALLY_APP.Models.Entities.Dashboard;
+using TALLY_APP.Models.Dashboard;
 
 namespace TALLY_APP.Repositories.Dashboard
 {

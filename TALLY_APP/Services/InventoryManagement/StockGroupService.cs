@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.InventoryManagement;
-using TALLY_APP.Models.Entities.InventoryManagement;
+using TALLY_APP.Models.InventoryManagement;
 
 namespace TALLY_APP.Services.InventoryManagement
 {

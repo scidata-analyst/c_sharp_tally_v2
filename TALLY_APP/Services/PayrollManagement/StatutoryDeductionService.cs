@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.PayrollManagement;
-using TALLY_APP.Models.Entities.PayrollManagement;
+using TALLY_APP.Models.PayrollManagement;
 
 namespace TALLY_APP.Services.PayrollManagement
 {

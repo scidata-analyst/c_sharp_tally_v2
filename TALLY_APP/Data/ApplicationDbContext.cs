@@ -1,5 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TALLY_APP.Models;
+using Microsoft.EntityFrameworkCore;
+using TALLY_APP.Models.Dashboard;
+using TALLY_APP.Models.AccountingFinance;
+using TALLY_APP.Models.InventoryManagement;
+using TALLY_APP.Models.GSTTaxation;
+using TALLY_APP.Models.PayrollManagement;
+using TALLY_APP.Models.BankingPayments;
+using TALLY_APP.Models.ReportingAnalytics;
+using TALLY_APP.Models.MultiLocationBranch;
+using TALLY_APP.Models.RemoteAccessSecurity;
+using TALLY_APP.Models.AdditionalFeatures;
 
 namespace TALLY_APP.Data
 {
@@ -192,7 +201,133 @@ namespace TALLY_APP.Data
             // AUTO GENERATED CONFIG SECTION
             // ==============================
 
-            // Relationships and constraints can be extended here
+            // Configure DeleteBehavior.NoAction to avoid "foreign key not null" and multiple cascade path issues
+
+            modelBuilder.Entity<LedgerAccount>()
+                .HasOne(e => e.ParentGroup)
+                .WithMany()
+                .HasForeignKey(e => e.ParentGroupId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<VoucherEntry>()
+                .HasOne(e => e.Party)
+                .WithMany()
+                .HasForeignKey(e => e.PartyId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<VoucherEntry>()
+                .HasOne(e => e.BankAccount)
+                .WithMany()
+                .HasForeignKey(e => e.BankAccountId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<BankReconciliation>()
+                .HasOne(e => e.BankAccount)
+                .WithMany()
+                .HasForeignKey(e => e.BankAccountId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<StockItem>()
+                .HasOne(e => e.StockGroup)
+                .WithMany()
+                .HasForeignKey(e => e.StockGroupId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<BatchRegister>()
+                .HasOne(e => e.StockItem)
+                .WithMany()
+                .HasForeignKey(e => e.ItemId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<StockMovement>()
+                .HasOne(e => e.StockItem)
+                .WithMany()
+                .HasForeignKey(e => e.ItemId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<StockMovement>()
+                .HasOne(e => e.FromGodown)
+                .WithMany()
+                .HasForeignKey(e => e.FromGodownId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<StockMovement>()
+                .HasOne(e => e.ToGodown)
+                .WithMany()
+                .HasForeignKey(e => e.ToGodownId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<GSTEntry>()
+                .HasOne(e => e.Party)
+                .WithMany()
+                .HasForeignKey(e => e.PartyId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<TDSTCSEntry>()
+                .HasOne(e => e.Party)
+                .WithMany()
+                .HasForeignKey(e => e.PartyId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<PayrollRun>()
+                .HasOne(e => e.Employee)
+                .WithMany()
+                .HasForeignKey(e => e.EmployeeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Payslip>()
+                .HasOne(e => e.Employee)
+                .WithMany()
+                .HasForeignKey(e => e.EmployeeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<StatutoryDeduction>()
+                .HasOne(e => e.Employee)
+                .WithMany()
+                .HasForeignKey(e => e.EmployeeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<PaymentEntry>()
+                .HasOne(e => e.Party)
+                .WithMany()
+                .HasForeignKey(e => e.PartyId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<PaymentEntry>()
+                .HasOne(e => e.BankAccountRelation)
+                .WithMany()
+                .HasForeignKey(e => e.BankAccountId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<PaymentReminder>()
+                .HasOne(e => e.Party)
+                .WithMany()
+                .HasForeignKey(e => e.PartyId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<BranchConsolidation>()
+                .HasOne(e => e.Branch)
+                .WithMany()
+                .HasForeignKey(e => e.BranchId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<AuditLog>()
+                .HasOne(e => e.User)
+                .WithMany()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ForexTransaction>()
+                .HasOne(e => e.Party)
+                .WithMany()
+                .HasForeignKey(e => e.PartyId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ForexTransaction>()
+                .HasOne(e => e.CurrencyRelation)
+                .WithMany()
+                .HasForeignKey(e => e.CurrencyId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
