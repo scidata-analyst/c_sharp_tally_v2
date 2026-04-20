@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TALLY_APP")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+10f154fd59625aa48efac937dd14e5e5bf3ce4c0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1505b7108dbd059d01076aa487e0fa2899000e16")]
 [assembly: System.Reflection.AssemblyProductAttribute("TALLY_APP")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TALLY_APP")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
