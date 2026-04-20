@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.RemoteAccessSecurity
      * @class SystemUserRepository
      * @description Handles database operations for SystemUser using EF Core.
      */
-    public class SystemUserRepository : ISystemUserRepository
+    public class SystemUserRepository
     {
         private readonly AppDbContext _context;
 

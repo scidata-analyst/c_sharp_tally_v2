@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.InventoryManagement
      * @class BatchRegisterRepository
      * @description Handles database operations for BatchRegister using EF Core.
      */
-    public class BatchRegisterRepository : IBatchRegisterRepository
+    public class BatchRegisterRepository
     {
         private readonly AppDbContext _context;
 

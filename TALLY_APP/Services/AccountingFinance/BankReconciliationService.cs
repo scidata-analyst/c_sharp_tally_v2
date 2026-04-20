@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.AccountingFinance
      */
     public class BankReconciliationService
     {
-        private readonly IBankReconciliationRepository _repository;
+        private readonly BankReconciliationRepository _repository;
 
         /**
          * @constructor
-         * @param {IBankReconciliationRepository} repository
+         * @param {BankReconciliationRepository} repository
          */
-        public BankReconciliationService(IBankReconciliationRepository repository)
+        public BankReconciliationService(BankReconciliationRepository repository)
         {
             _repository = repository;
         }

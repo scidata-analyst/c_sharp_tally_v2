@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.ReportingAnalytics
      * @class BalanceSheetRepository
      * @description Handles database operations for BalanceSheet using EF Core.
      */
-    public class BalanceSheetRepository : IBalanceSheetRepository
+    public class BalanceSheetRepository
     {
         private readonly AppDbContext _context;
 

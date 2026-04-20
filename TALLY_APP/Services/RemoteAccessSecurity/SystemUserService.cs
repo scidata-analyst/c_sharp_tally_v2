@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.RemoteAccessSecurity
      */
     public class SystemUserService
     {
-        private readonly ISystemUserRepository _repository;
+        private readonly SystemUserRepository _repository;
 
         /**
          * @constructor
-         * @param {ISystemUserRepository} repository
+         * @param {SystemUserRepository} repository
          */
-        public SystemUserService(ISystemUserRepository repository)
+        public SystemUserService(SystemUserRepository repository)
         {
             _repository = repository;
         }

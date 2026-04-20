@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.GSTTaxation
      */
     public class VATServiceTaxService
     {
-        private readonly IVATServiceTaxRepository _repository;
+        private readonly VATServiceTaxRepository _repository;
 
         /**
          * @constructor
-         * @param {IVATServiceTaxRepository} repository
+         * @param {VATServiceTaxRepository} repository
          */
-        public VATServiceTaxService(IVATServiceTaxRepository repository)
+        public VATServiceTaxService(VATServiceTaxRepository repository)
         {
             _repository = repository;
         }

@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.AdditionalFeatures
      */
     public class CustomReportService
     {
-        private readonly ICustomReportRepository _repository;
+        private readonly CustomReportRepository _repository;
 
         /**
          * @constructor
-         * @param {ICustomReportRepository} repository
+         * @param {CustomReportRepository} repository
          */
-        public CustomReportService(ICustomReportRepository repository)
+        public CustomReportService(CustomReportRepository repository)
         {
             _repository = repository;
         }

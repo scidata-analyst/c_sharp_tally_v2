@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.AdditionalFeatures
      * @class ForexTransactionRepository
      * @description Handles database operations for ForexTransaction using EF Core.
      */
-    public class ForexTransactionRepository : IForexTransactionRepository
+    public class ForexTransactionRepository
     {
         private readonly AppDbContext _context;
 

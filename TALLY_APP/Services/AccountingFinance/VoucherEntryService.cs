@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.AccountingFinance
      */
     public class VoucherEntryService
     {
-        private readonly IVoucherEntryRepository _repository;
+        private readonly VoucherEntryRepository _repository;
 
         /**
          * @constructor
-         * @param {IVoucherEntryRepository} repository
+         * @param {VoucherEntryRepository} repository
          */
-        public VoucherEntryService(IVoucherEntryRepository repository)
+        public VoucherEntryService(VoucherEntryRepository repository)
         {
             _repository = repository;
         }

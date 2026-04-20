@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.ReportingAnalytics
      * @class CashFlowStatementRepository
      * @description Handles database operations for CashFlowStatement using EF Core.
      */
-    public class CashFlowStatementRepository : ICashFlowStatementRepository
+    public class CashFlowStatementRepository
     {
         private readonly AppDbContext _context;
 

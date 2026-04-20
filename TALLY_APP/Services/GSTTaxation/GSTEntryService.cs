@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.GSTTaxation
      */
     public class GSTEntryService
     {
-        private readonly IGSTEntryRepository _repository;
+        private readonly GSTEntryRepository _repository;
 
         /**
          * @constructor
-         * @param {IGSTEntryRepository} repository
+         * @param {GSTEntryRepository} repository
          */
-        public GSTEntryService(IGSTEntryRepository repository)
+        public GSTEntryService(GSTEntryRepository repository)
         {
             _repository = repository;
         }

@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.AdditionalFeatures
      * @class CustomReportRepository
      * @description Handles database operations for CustomReport using EF Core.
      */
-    public class CustomReportRepository : ICustomReportRepository
+    public class CustomReportRepository
     {
         private readonly AppDbContext _context;
 

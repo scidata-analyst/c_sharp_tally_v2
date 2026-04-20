@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.InventoryManagement
      */
     public class StockMovementService
     {
-        private readonly IStockMovementRepository _repository;
+        private readonly StockMovementRepository _repository;
 
         /**
          * @constructor
-         * @param {IStockMovementRepository} repository
+         * @param {StockMovementRepository} repository
          */
-        public StockMovementService(IStockMovementRepository repository)
+        public StockMovementService(StockMovementRepository repository)
         {
             _repository = repository;
         }

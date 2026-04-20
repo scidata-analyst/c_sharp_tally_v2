@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.ReportingAnalytics
      */
     public class SalesPurchaseSummaryService
     {
-        private readonly ISalesPurchaseSummaryRepository _repository;
+        private readonly SalesPurchaseSummaryRepository _repository;
 
         /**
          * @constructor
-         * @param {ISalesPurchaseSummaryRepository} repository
+         * @param {SalesPurchaseSummaryRepository} repository
          */
-        public SalesPurchaseSummaryService(ISalesPurchaseSummaryRepository repository)
+        public SalesPurchaseSummaryService(SalesPurchaseSummaryRepository repository)
         {
             _repository = repository;
         }

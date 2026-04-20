@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.ReportingAnalytics
      */
     public class ProfitLossService
     {
-        private readonly IProfitLossRepository _repository;
+        private readonly ProfitLossRepository _repository;
 
         /**
          * @constructor
-         * @param {IProfitLossRepository} repository
+         * @param {ProfitLossRepository} repository
          */
-        public ProfitLossService(IProfitLossRepository repository)
+        public ProfitLossService(ProfitLossRepository repository)
         {
             _repository = repository;
         }

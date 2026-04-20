@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.GSTTaxation
      * @class VATServiceTaxRepository
      * @description Handles database operations for VATServiceTax using EF Core.
      */
-    public class VATServiceTaxRepository : IVATServiceTaxRepository
+    public class VATServiceTaxRepository
     {
         private readonly AppDbContext _context;
 

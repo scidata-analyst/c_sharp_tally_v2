@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.ReportingAnalytics
      */
     public class StockReportService
     {
-        private readonly IStockReportRepository _repository;
+        private readonly StockReportRepository _repository;
 
         /**
          * @constructor
-         * @param {IStockReportRepository} repository
+         * @param {StockReportRepository} repository
          */
-        public StockReportService(IStockReportRepository repository)
+        public StockReportService(StockReportRepository repository)
         {
             _repository = repository;
         }

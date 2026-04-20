@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.RemoteAccessSecurity
      * @class SecuritySettingsRepository
      * @description Handles database operations for SecuritySettings using EF Core.
      */
-    public class SecuritySettingsRepository : ISecuritySettingsRepository
+    public class SecuritySettingsRepository
     {
         private readonly AppDbContext _context;
 

@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.RemoteAccessSecurity
      * @class AuditLogRepository
      * @description Handles database operations for AuditLog using EF Core.
      */
-    public class AuditLogRepository : IAuditLogRepository
+    public class AuditLogRepository
     {
         private readonly AppDbContext _context;
 

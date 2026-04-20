@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.BankingPayments
      * @class PaymentEntryRepository
      * @description Handles database operations for PaymentEntry using EF Core.
      */
-    public class PaymentEntryRepository : IPaymentEntryRepository
+    public class PaymentEntryRepository
     {
         private readonly AppDbContext _context;
 

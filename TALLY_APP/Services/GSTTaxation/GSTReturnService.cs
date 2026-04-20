@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.GSTTaxation
      */
     public class GSTReturnService
     {
-        private readonly IGSTReturnRepository _repository;
+        private readonly GSTReturnRepository _repository;
 
         /**
          * @constructor
-         * @param {IGSTReturnRepository} repository
+         * @param {GSTReturnRepository} repository
          */
-        public GSTReturnService(IGSTReturnRepository repository)
+        public GSTReturnService(GSTReturnRepository repository)
         {
             _repository = repository;
         }

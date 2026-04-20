@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.InventoryManagement
      */
     public class GodownService
     {
-        private readonly IGodownRepository _repository;
+        private readonly GodownRepository _repository;
 
         /**
          * @constructor
-         * @param {IGodownRepository} repository
+         * @param {GodownRepository} repository
          */
-        public GodownService(IGodownRepository repository)
+        public GodownService(GodownRepository repository)
         {
             _repository = repository;
         }

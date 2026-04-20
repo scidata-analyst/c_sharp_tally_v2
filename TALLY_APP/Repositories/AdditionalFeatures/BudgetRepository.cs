@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.AdditionalFeatures
      * @class BudgetRepository
      * @description Handles database operations for Budget using EF Core.
      */
-    public class BudgetRepository : IBudgetRepository
+    public class BudgetRepository
     {
         private readonly AppDbContext _context;
 

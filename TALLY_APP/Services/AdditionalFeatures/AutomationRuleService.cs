@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.AdditionalFeatures
      */
     public class AutomationRuleService
     {
-        private readonly IAutomationRuleRepository _repository;
+        private readonly AutomationRuleRepository _repository;
 
         /**
          * @constructor
-         * @param {IAutomationRuleRepository} repository
+         * @param {AutomationRuleRepository} repository
          */
-        public AutomationRuleService(IAutomationRuleRepository repository)
+        public AutomationRuleService(AutomationRuleRepository repository)
         {
             _repository = repository;
         }

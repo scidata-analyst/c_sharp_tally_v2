@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.MultiLocationBranch
      */
     public class BranchConsolidationService
     {
-        private readonly IBranchConsolidationRepository _repository;
+        private readonly BranchConsolidationRepository _repository;
 
         /**
          * @constructor
-         * @param {IBranchConsolidationRepository} repository
+         * @param {BranchConsolidationRepository} repository
          */
-        public BranchConsolidationService(IBranchConsolidationRepository repository)
+        public BranchConsolidationService(BranchConsolidationRepository repository)
         {
             _repository = repository;
         }

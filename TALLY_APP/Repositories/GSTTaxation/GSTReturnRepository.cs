@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.GSTTaxation
      * @class GSTReturnRepository
      * @description Handles database operations for GSTReturn using EF Core.
      */
-    public class GSTReturnRepository : IGSTReturnRepository
+    public class GSTReturnRepository
     {
         private readonly AppDbContext _context;
 

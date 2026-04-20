@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.ReportingAnalytics
      * @class StockReportRepository
      * @description Handles database operations for StockReport using EF Core.
      */
-    public class StockReportRepository : IStockReportRepository
+    public class StockReportRepository
     {
         private readonly AppDbContext _context;
 

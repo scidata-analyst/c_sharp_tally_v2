@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.MultiLocationBranch
      * @class BranchRepository
      * @description Handles database operations for Branch using EF Core.
      */
-    public class BranchRepository : IBranchRepository
+    public class BranchRepository
     {
         private readonly AppDbContext _context;
 

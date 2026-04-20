@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.AdditionalFeatures
      */
     public class BudgetService
     {
-        private readonly IBudgetRepository _repository;
+        private readonly BudgetRepository _repository;
 
         /**
          * @constructor
-         * @param {IBudgetRepository} repository
+         * @param {BudgetRepository} repository
          */
-        public BudgetService(IBudgetRepository repository)
+        public BudgetService(BudgetRepository repository)
         {
             _repository = repository;
         }

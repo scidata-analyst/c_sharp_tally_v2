@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.PayrollManagement
      * @class StatutoryDeductionRepository
      * @description Handles database operations for StatutoryDeduction using EF Core.
      */
-    public class StatutoryDeductionRepository : IStatutoryDeductionRepository
+    public class StatutoryDeductionRepository
     {
         private readonly AppDbContext _context;
 

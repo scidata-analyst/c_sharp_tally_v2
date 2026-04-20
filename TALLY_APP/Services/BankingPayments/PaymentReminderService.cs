@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.BankingPayments
      */
     public class PaymentReminderService
     {
-        private readonly IPaymentReminderRepository _repository;
+        private readonly PaymentReminderRepository _repository;
 
         /**
          * @constructor
-         * @param {IPaymentReminderRepository} repository
+         * @param {PaymentReminderRepository} repository
          */
-        public PaymentReminderService(IPaymentReminderRepository repository)
+        public PaymentReminderService(PaymentReminderRepository repository)
         {
             _repository = repository;
         }

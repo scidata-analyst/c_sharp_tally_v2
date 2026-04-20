@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.AdditionalFeatures
      * @class AutomationRuleRepository
      * @description Handles database operations for AutomationRule using EF Core.
      */
-    public class AutomationRuleRepository : IAutomationRuleRepository
+    public class AutomationRuleRepository
     {
         private readonly AppDbContext _context;
 

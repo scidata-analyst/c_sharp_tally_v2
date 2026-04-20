@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.AdditionalFeatures
      */
     public class ForexTransactionService
     {
-        private readonly IForexTransactionRepository _repository;
+        private readonly ForexTransactionRepository _repository;
 
         /**
          * @constructor
-         * @param {IForexTransactionRepository} repository
+         * @param {ForexTransactionRepository} repository
          */
-        public ForexTransactionService(IForexTransactionRepository repository)
+        public ForexTransactionService(ForexTransactionRepository repository)
         {
             _repository = repository;
         }

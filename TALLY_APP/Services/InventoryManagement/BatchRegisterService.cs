@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.InventoryManagement
      */
     public class BatchRegisterService
     {
-        private readonly IBatchRegisterRepository _repository;
+        private readonly BatchRegisterRepository _repository;
 
         /**
          * @constructor
-         * @param {IBatchRegisterRepository} repository
+         * @param {BatchRegisterRepository} repository
          */
-        public BatchRegisterService(IBatchRegisterRepository repository)
+        public BatchRegisterService(BatchRegisterRepository repository)
         {
             _repository = repository;
         }

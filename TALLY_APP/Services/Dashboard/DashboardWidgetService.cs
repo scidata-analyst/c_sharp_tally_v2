@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.Dashboard
      */
     public class DashboardWidgetService
     {
-        private readonly IDashboardWidgetRepository _repository;
+        private readonly DashboardWidgetRepository _repository;
 
         /**
          * @constructor
-         * @param {IDashboardWidgetRepository} repository
+         * @param {DashboardWidgetRepository} repository
          */
-        public DashboardWidgetService(IDashboardWidgetRepository repository)
+        public DashboardWidgetService(DashboardWidgetRepository repository)
         {
             _repository = repository;
         }

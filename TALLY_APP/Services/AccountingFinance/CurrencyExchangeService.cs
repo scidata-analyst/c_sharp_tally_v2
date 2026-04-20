@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.AccountingFinance
      */
     public class CurrencyExchangeService
     {
-        private readonly ICurrencyExchangeRepository _repository;
+        private readonly CurrencyExchangeRepository _repository;
 
         /**
          * @constructor
-         * @param {ICurrencyExchangeRepository} repository
+         * @param {CurrencyExchangeRepository} repository
          */
-        public CurrencyExchangeService(ICurrencyExchangeRepository repository)
+        public CurrencyExchangeService(CurrencyExchangeRepository repository)
         {
             _repository = repository;
         }

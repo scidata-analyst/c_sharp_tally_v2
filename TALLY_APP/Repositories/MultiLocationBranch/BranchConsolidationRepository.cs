@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.MultiLocationBranch
      * @class BranchConsolidationRepository
      * @description Handles database operations for BranchConsolidation using EF Core.
      */
-    public class BranchConsolidationRepository : IBranchConsolidationRepository
+    public class BranchConsolidationRepository
     {
         private readonly AppDbContext _context;
 

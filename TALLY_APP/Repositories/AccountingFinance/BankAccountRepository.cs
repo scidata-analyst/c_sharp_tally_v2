@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.AccountingFinance
      * @class BankAccountRepository
      * @description Handles database operations for BankAccount using EF Core.
      */
-    public class BankAccountRepository : IBankAccountRepository
+    public class BankAccountRepository
     {
         private readonly AppDbContext _context;
 

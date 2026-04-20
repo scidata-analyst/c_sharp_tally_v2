@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.MultiLocationBranch
      */
     public class BranchService
     {
-        private readonly IBranchRepository _repository;
+        private readonly BranchRepository _repository;
 
         /**
          * @constructor
-         * @param {IBranchRepository} repository
+         * @param {BranchRepository} repository
          */
-        public BranchService(IBranchRepository repository)
+        public BranchService(BranchRepository repository)
         {
             _repository = repository;
         }

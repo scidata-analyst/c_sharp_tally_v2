@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.InventoryManagement
      * @class GodownRepository
      * @description Handles database operations for Godown using EF Core.
      */
-    public class GodownRepository : IGodownRepository
+    public class GodownRepository
     {
         private readonly AppDbContext _context;
 

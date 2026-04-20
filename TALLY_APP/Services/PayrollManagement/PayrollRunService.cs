@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.PayrollManagement
      */
     public class PayrollRunService
     {
-        private readonly IPayrollRunRepository _repository;
+        private readonly PayrollRunRepository _repository;
 
         /**
          * @constructor
-         * @param {IPayrollRunRepository} repository
+         * @param {PayrollRunRepository} repository
          */
-        public PayrollRunService(IPayrollRunRepository repository)
+        public PayrollRunService(PayrollRunRepository repository)
         {
             _repository = repository;
         }

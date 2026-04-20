@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.RemoteAccessSecurity
      */
     public class AuditLogService
     {
-        private readonly IAuditLogRepository _repository;
+        private readonly AuditLogRepository _repository;
 
         /**
          * @constructor
-         * @param {IAuditLogRepository} repository
+         * @param {AuditLogRepository} repository
          */
-        public AuditLogService(IAuditLogRepository repository)
+        public AuditLogService(AuditLogRepository repository)
         {
             _repository = repository;
         }

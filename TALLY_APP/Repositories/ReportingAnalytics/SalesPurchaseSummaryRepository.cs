@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.ReportingAnalytics
      * @class SalesPurchaseSummaryRepository
      * @description Handles database operations for SalesPurchaseSummary using EF Core.
      */
-    public class SalesPurchaseSummaryRepository : ISalesPurchaseSummaryRepository
+    public class SalesPurchaseSummaryRepository
     {
         private readonly AppDbContext _context;
 

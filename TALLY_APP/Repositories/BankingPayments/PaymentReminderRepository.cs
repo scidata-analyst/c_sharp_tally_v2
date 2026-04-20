@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.BankingPayments
      * @class PaymentReminderRepository
      * @description Handles database operations for PaymentReminder using EF Core.
      */
-    public class PaymentReminderRepository : IPaymentReminderRepository
+    public class PaymentReminderRepository
     {
         private readonly AppDbContext _context;
 

@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.ReportingAnalytics
      * @class TrialBalanceRepository
      * @description Handles database operations for TrialBalance using EF Core.
      */
-    public class TrialBalanceRepository : ITrialBalanceRepository
+    public class TrialBalanceRepository
     {
         private readonly AppDbContext _context;
 

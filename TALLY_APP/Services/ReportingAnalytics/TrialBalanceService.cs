@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.ReportingAnalytics
      */
     public class TrialBalanceService
     {
-        private readonly ITrialBalanceRepository _repository;
+        private readonly TrialBalanceRepository _repository;
 
         /**
          * @constructor
-         * @param {ITrialBalanceRepository} repository
+         * @param {TrialBalanceRepository} repository
          */
-        public TrialBalanceService(ITrialBalanceRepository repository)
+        public TrialBalanceService(TrialBalanceRepository repository)
         {
             _repository = repository;
         }

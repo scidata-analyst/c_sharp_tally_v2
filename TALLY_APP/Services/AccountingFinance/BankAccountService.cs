@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.AccountingFinance
      */
     public class BankAccountService
     {
-        private readonly IBankAccountRepository _repository;
+        private readonly BankAccountRepository _repository;
 
         /**
          * @constructor
-         * @param {IBankAccountRepository} repository
+         * @param {BankAccountRepository} repository
          */
-        public BankAccountService(IBankAccountRepository repository)
+        public BankAccountService(BankAccountRepository repository)
         {
             _repository = repository;
         }

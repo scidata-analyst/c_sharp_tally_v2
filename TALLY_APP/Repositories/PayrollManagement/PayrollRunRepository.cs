@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.PayrollManagement
      * @class PayrollRunRepository
      * @description Handles database operations for PayrollRun using EF Core.
      */
-    public class PayrollRunRepository : IPayrollRunRepository
+    public class PayrollRunRepository
     {
         private readonly AppDbContext _context;
 

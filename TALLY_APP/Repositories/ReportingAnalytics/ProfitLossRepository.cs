@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.ReportingAnalytics
      * @class ProfitLossRepository
      * @description Handles database operations for ProfitLoss using EF Core.
      */
-    public class ProfitLossRepository : IProfitLossRepository
+    public class ProfitLossRepository
     {
         private readonly AppDbContext _context;
 

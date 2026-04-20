@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.RemoteAccessSecurity
      */
     public class SecuritySettingsService
     {
-        private readonly ISecuritySettingsRepository _repository;
+        private readonly SecuritySettingsRepository _repository;
 
         /**
          * @constructor
-         * @param {ISecuritySettingsRepository} repository
+         * @param {SecuritySettingsRepository} repository
          */
-        public SecuritySettingsService(ISecuritySettingsRepository repository)
+        public SecuritySettingsService(SecuritySettingsRepository repository)
         {
             _repository = repository;
         }

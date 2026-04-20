@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.ReportingAnalytics
      */
     public class BalanceSheetService
     {
-        private readonly IBalanceSheetRepository _repository;
+        private readonly BalanceSheetRepository _repository;
 
         /**
          * @constructor
-         * @param {IBalanceSheetRepository} repository
+         * @param {BalanceSheetRepository} repository
          */
-        public BalanceSheetService(IBalanceSheetRepository repository)
+        public BalanceSheetService(BalanceSheetRepository repository)
         {
             _repository = repository;
         }

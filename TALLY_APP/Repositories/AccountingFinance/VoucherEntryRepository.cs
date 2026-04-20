@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.AccountingFinance
      * @class VoucherEntryRepository
      * @description Handles database operations for VoucherEntry using EF Core.
      */
-    public class VoucherEntryRepository : IVoucherEntryRepository
+    public class VoucherEntryRepository
     {
         private readonly AppDbContext _context;
 

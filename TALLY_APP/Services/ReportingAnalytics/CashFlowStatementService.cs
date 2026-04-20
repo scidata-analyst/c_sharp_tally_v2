@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.ReportingAnalytics
      */
     public class CashFlowStatementService
     {
-        private readonly ICashFlowStatementRepository _repository;
+        private readonly CashFlowStatementRepository _repository;
 
         /**
          * @constructor
-         * @param {ICashFlowStatementRepository} repository
+         * @param {CashFlowStatementRepository} repository
          */
-        public CashFlowStatementService(ICashFlowStatementRepository repository)
+        public CashFlowStatementService(CashFlowStatementRepository repository)
         {
             _repository = repository;
         }

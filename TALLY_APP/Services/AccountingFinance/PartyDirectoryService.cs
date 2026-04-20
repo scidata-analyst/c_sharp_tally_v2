@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.AccountingFinance
      */
     public class PartyDirectoryService
     {
-        private readonly IPartyDirectoryRepository _repository;
+        private readonly PartyDirectoryRepository _repository;
 
         /**
          * @constructor
-         * @param {IPartyDirectoryRepository} repository
+         * @param {PartyDirectoryRepository} repository
          */
-        public PartyDirectoryService(IPartyDirectoryRepository repository)
+        public PartyDirectoryService(PartyDirectoryRepository repository)
         {
             _repository = repository;
         }

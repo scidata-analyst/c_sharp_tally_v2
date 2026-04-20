@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.AccountingFinance
      * @class PartyDirectoryRepository
      * @description Handles database operations for PartyDirectory using EF Core.
      */
-    public class PartyDirectoryRepository : IPartyDirectoryRepository
+    public class PartyDirectoryRepository
     {
         private readonly AppDbContext _context;
 

@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.PayrollManagement
      */
     public class StatutoryDeductionService
     {
-        private readonly IStatutoryDeductionRepository _repository;
+        private readonly StatutoryDeductionRepository _repository;
 
         /**
          * @constructor
-         * @param {IStatutoryDeductionRepository} repository
+         * @param {StatutoryDeductionRepository} repository
          */
-        public StatutoryDeductionService(IStatutoryDeductionRepository repository)
+        public StatutoryDeductionService(StatutoryDeductionRepository repository)
         {
             _repository = repository;
         }

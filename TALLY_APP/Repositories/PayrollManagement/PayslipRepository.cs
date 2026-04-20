@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.PayrollManagement
      * @class PayslipRepository
      * @description Handles database operations for Payslip using EF Core.
      */
-    public class PayslipRepository : IPayslipRepository
+    public class PayslipRepository
     {
         private readonly AppDbContext _context;
 

@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.GSTTaxation
      * @class TDSTCSEntryRepository
      * @description Handles database operations for TDSTCSEntry using EF Core.
      */
-    public class TDSTCSEntryRepository : ITDSTCSEntryRepository
+    public class TDSTCSEntryRepository
     {
         private readonly AppDbContext _context;
 

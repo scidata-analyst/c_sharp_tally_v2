@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.InventoryManagement
      */
     public class StockGroupService
     {
-        private readonly IStockGroupRepository _repository;
+        private readonly StockGroupRepository _repository;
 
         /**
          * @constructor
-         * @param {IStockGroupRepository} repository
+         * @param {StockGroupRepository} repository
          */
-        public StockGroupService(IStockGroupRepository repository)
+        public StockGroupService(StockGroupRepository repository)
         {
             _repository = repository;
         }

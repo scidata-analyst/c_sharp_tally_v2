@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.AccountingFinance
      * @class CurrencyExchangeRepository
      * @description Handles database operations for CurrencyExchange using EF Core.
      */
-    public class CurrencyExchangeRepository : ICurrencyExchangeRepository
+    public class CurrencyExchangeRepository
     {
         private readonly AppDbContext _context;
 

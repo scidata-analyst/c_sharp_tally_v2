@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.AccountingFinance
      * @class BankReconciliationRepository
      * @description Handles database operations for BankReconciliation using EF Core.
      */
-    public class BankReconciliationRepository : IBankReconciliationRepository
+    public class BankReconciliationRepository
     {
         private readonly AppDbContext _context;
 

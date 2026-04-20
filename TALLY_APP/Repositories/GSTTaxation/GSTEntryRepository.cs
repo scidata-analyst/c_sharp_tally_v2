@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.GSTTaxation
      * @class GSTEntryRepository
      * @description Handles database operations for GSTEntry using EF Core.
      */
-    public class GSTEntryRepository : IGSTEntryRepository
+    public class GSTEntryRepository
     {
         private readonly AppDbContext _context;
 

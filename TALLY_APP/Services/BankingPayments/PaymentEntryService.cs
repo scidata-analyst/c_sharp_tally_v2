@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.BankingPayments
      */
     public class PaymentEntryService
     {
-        private readonly IPaymentEntryRepository _repository;
+        private readonly PaymentEntryRepository _repository;
 
         /**
          * @constructor
-         * @param {IPaymentEntryRepository} repository
+         * @param {PaymentEntryRepository} repository
          */
-        public PaymentEntryService(IPaymentEntryRepository repository)
+        public PaymentEntryService(PaymentEntryRepository repository)
         {
             _repository = repository;
         }

@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.InventoryManagement
      * @class StockGroupRepository
      * @description Handles database operations for StockGroup using EF Core.
      */
-    public class StockGroupRepository : IStockGroupRepository
+    public class StockGroupRepository
     {
         private readonly AppDbContext _context;
 

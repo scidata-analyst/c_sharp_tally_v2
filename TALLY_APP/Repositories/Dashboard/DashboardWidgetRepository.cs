@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.Dashboard
      * @class DashboardWidgetRepository
      * @description Handles database operations for DashboardWidget using EF Core.
      */
-    public class DashboardWidgetRepository : IDashboardWidgetRepository
+    public class DashboardWidgetRepository
     {
         private readonly AppDbContext _context;
 

@@ -10,7 +10,7 @@ namespace TALLY_APP.Repositories.AccountingFinance
      * @class LedgerAccountRepository
      * @description Handles database operations for LedgerAccount using EF Core.
      */
-    public class LedgerAccountRepository : ILedgerAccountRepository
+    public class LedgerAccountRepository
     {
         private readonly AppDbContext _context;
 

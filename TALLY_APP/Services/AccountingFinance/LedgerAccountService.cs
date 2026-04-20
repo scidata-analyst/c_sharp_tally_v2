@@ -11,13 +11,13 @@ namespace TALLY_APP.Services.AccountingFinance
      */
     public class LedgerAccountService
     {
-        private readonly ILedgerAccountRepository _repository;
+        private readonly LedgerAccountRepository _repository;
 
         /**
          * @constructor
-         * @param {ILedgerAccountRepository} repository
+         * @param {LedgerAccountRepository} repository
          */
-        public LedgerAccountService(ILedgerAccountRepository repository)
+        public LedgerAccountService(LedgerAccountRepository repository)
         {
             _repository = repository;
         }
