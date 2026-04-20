@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.BankingPayments
      */
     public class BankIntegrationRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public BankIntegrationRepository(AppDbContext context)
+        public BankIntegrationRepository(ApplicationDbContext context)
         {
             _context = context;
         }

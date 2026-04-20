@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.RemoteAccessSecurity
      */
     public class AuditLogRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public AuditLogRepository(AppDbContext context)
+        public AuditLogRepository(ApplicationDbContext context)
         {
             _context = context;
         }

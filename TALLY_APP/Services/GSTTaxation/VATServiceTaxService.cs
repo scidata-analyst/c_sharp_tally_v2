@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.GSTTaxation;
+
+using Mapster;
+using TALLY_APP.Interfaces.GSTTaxation;
+using TALLY_APP.DTOs.Request.GSTTaxation;
+using TALLY_APP.DTOs.Response.GSTTaxation;
+
 using TALLY_APP.Models.GSTTaxation;
 
 namespace TALLY_APP.Services.GSTTaxation
@@ -9,7 +15,7 @@ namespace TALLY_APP.Services.GSTTaxation
      * @class VATServiceTaxService
      * @description Business logic layer for VATServiceTax module.
      */
-    public class VATServiceTaxService
+    public class VATServiceTaxService : IVATServiceTaxService
     {
         private readonly VATServiceTaxRepository _repository;
 
@@ -26,29 +32,41 @@ namespace TALLY_APP.Services.GSTTaxation
          * @method All
          * @returns {Task<List<VATServiceTax>>}
          */
-        public async Task<List<VATServiceTax>> All()
+        
+
+        public async Task<List<VATServiceTaxResponse>> All()
         {
-            return await _repository.GetAllAsync();
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<VATServiceTaxResponse>>();
         }
+
+        public async Task<List<VATServiceTaxResponse>> Index()
+        {
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<VATServiceTaxResponse>>();
+        }
+
 
         /**
          * @method View
          * @param {long} id
          * @returns {Task<VATServiceTax>}
          */
-        public async Task<VATServiceTax> View(long id)
+        public async Task<VATServiceTaxResponse> View(long id)
         {
-            return await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
+            return entity.Adapt<VATServiceTaxResponse>();
         }
 
         /**
          * @method Create
          * @param {VATServiceTax} entity
          */
-        public async Task<VATServiceTax> Create(VATServiceTax entity)
+        public async Task<VATServiceTaxResponse> Create(VATServiceTaxRequest request)
         {
+            var entity = request.Adapt<VATServiceTax>();
             await _repository.AddAsync(entity);
-            return entity;
+            return entity.Adapt<VATServiceTaxResponse>();
         }
 
         /**
@@ -56,20 +74,25 @@ namespace TALLY_APP.Services.GSTTaxation
          * @param {long} id
          * @param {VATServiceTax} entity
          */
-        public async Task<VATServiceTax> Update(long id, VATServiceTax entity)
+        public async Task<VATServiceTaxResponse> Update(long id, VATServiceTaxRequest request)
         {
+            var entity = request.Adapt<VATServiceTax>();
             entity.Id = id;
             await _repository.UpdateAsync(entity);
-            return entity;
+            return entity.Adapt<VATServiceTaxResponse>();
         }
 
         /**
          * @method Delete
          * @param {long} id
          */
-        public async Task Delete(long id)
+        public async Task<bool> Delete(long id)
         {
             await _repository.DeleteAsync(id);
+            return true;
         }
     }
 }
+
+
+

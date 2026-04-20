@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GSTTaxation.Services;
-using GSTTaxation.DTOs.Request;
-using GSTTaxation.DTOs.Response;
+using TALLY_APP.Interfaces.GSTTaxation;
+using TALLY_APP.DTOs.Request.GSTTaxation;
+using TALLY_APP.DTOs.Response.GSTTaxation;
 
 namespace TALLY_APP.Controllers.GSTTaxation
 {
@@ -106,3 +106,4 @@ namespace TALLY_APP.Controllers.GSTTaxation
         }
     }
 }
+

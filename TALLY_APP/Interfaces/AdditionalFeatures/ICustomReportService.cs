@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AdditionalFeatures.DTOs.Request;
-using AdditionalFeatures.DTOs.Response;
+using TALLY_APP.DTOs.Request.AdditionalFeatures;
+using TALLY_APP.DTOs.Response.AdditionalFeatures;
 
 namespace TALLY_APP.Interfaces.AdditionalFeatures
 {

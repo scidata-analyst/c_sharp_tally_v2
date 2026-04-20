@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using PayrollManagement.DTOs.Request;
-using PayrollManagement.DTOs.Response;
+using TALLY_APP.DTOs.Request.PayrollManagement;
+using TALLY_APP.DTOs.Response.PayrollManagement;
 
 namespace TALLY_APP.Interfaces.PayrollManagement
 {

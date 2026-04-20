@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.AdditionalFeatures
      */
     public class CustomReportRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public CustomReportRepository(AppDbContext context)
+        public CustomReportRepository(ApplicationDbContext context)
         {
             _context = context;
         }

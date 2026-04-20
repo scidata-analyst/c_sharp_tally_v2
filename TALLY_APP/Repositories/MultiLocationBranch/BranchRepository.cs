@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.MultiLocationBranch
      */
     public class BranchRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public BranchRepository(AppDbContext context)
+        public BranchRepository(ApplicationDbContext context)
         {
             _context = context;
         }

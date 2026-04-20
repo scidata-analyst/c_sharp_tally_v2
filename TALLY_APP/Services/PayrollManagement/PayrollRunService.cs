@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.PayrollManagement;
+
+using Mapster;
+using TALLY_APP.Interfaces.PayrollManagement;
+using TALLY_APP.DTOs.Request.PayrollManagement;
+using TALLY_APP.DTOs.Response.PayrollManagement;
+
 using TALLY_APP.Models.PayrollManagement;
 
 namespace TALLY_APP.Services.PayrollManagement
@@ -9,7 +15,7 @@ namespace TALLY_APP.Services.PayrollManagement
      * @class PayrollRunService
      * @description Business logic layer for PayrollRun module.
      */
-    public class PayrollRunService
+    public class PayrollRunService : IPayrollRunService
     {
         private readonly PayrollRunRepository _repository;
 
@@ -26,29 +32,41 @@ namespace TALLY_APP.Services.PayrollManagement
          * @method All
          * @returns {Task<List<PayrollRun>>}
          */
-        public async Task<List<PayrollRun>> All()
+        
+
+        public async Task<List<PayrollRunResponse>> All()
         {
-            return await _repository.GetAllAsync();
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<PayrollRunResponse>>();
         }
+
+        public async Task<List<PayrollRunResponse>> Index()
+        {
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<PayrollRunResponse>>();
+        }
+
 
         /**
          * @method View
          * @param {long} id
          * @returns {Task<PayrollRun>}
          */
-        public async Task<PayrollRun> View(long id)
+        public async Task<PayrollRunResponse> View(long id)
         {
-            return await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
+            return entity.Adapt<PayrollRunResponse>();
         }
 
         /**
          * @method Create
          * @param {PayrollRun} entity
          */
-        public async Task<PayrollRun> Create(PayrollRun entity)
+        public async Task<PayrollRunResponse> Create(PayrollRunRequest request)
         {
+            var entity = request.Adapt<PayrollRun>();
             await _repository.AddAsync(entity);
-            return entity;
+            return entity.Adapt<PayrollRunResponse>();
         }
 
         /**
@@ -56,20 +74,25 @@ namespace TALLY_APP.Services.PayrollManagement
          * @param {long} id
          * @param {PayrollRun} entity
          */
-        public async Task<PayrollRun> Update(long id, PayrollRun entity)
+        public async Task<PayrollRunResponse> Update(long id, PayrollRunRequest request)
         {
+            var entity = request.Adapt<PayrollRun>();
             entity.Id = id;
             await _repository.UpdateAsync(entity);
-            return entity;
+            return entity.Adapt<PayrollRunResponse>();
         }
 
         /**
          * @method Delete
          * @param {long} id
          */
-        public async Task Delete(long id)
+        public async Task<bool> Delete(long id)
         {
             await _repository.DeleteAsync(id);
+            return true;
         }
     }
 }
+
+
+

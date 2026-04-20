@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.InventoryManagement;
+
+using Mapster;
+using TALLY_APP.Interfaces.InventoryManagement;
+using TALLY_APP.DTOs.Request.InventoryManagement;
+using TALLY_APP.DTOs.Response.InventoryManagement;
+
 using TALLY_APP.Models.InventoryManagement;
 
 namespace TALLY_APP.Services.InventoryManagement
@@ -9,7 +15,7 @@ namespace TALLY_APP.Services.InventoryManagement
      * @class GodownService
      * @description Business logic layer for Godown module.
      */
-    public class GodownService
+    public class GodownService : IGodownService
     {
         private readonly GodownRepository _repository;
 
@@ -26,29 +32,41 @@ namespace TALLY_APP.Services.InventoryManagement
          * @method All
          * @returns {Task<List<Godown>>}
          */
-        public async Task<List<Godown>> All()
+        
+
+        public async Task<List<GodownResponse>> All()
         {
-            return await _repository.GetAllAsync();
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<GodownResponse>>();
         }
+
+        public async Task<List<GodownResponse>> Index()
+        {
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<GodownResponse>>();
+        }
+
 
         /**
          * @method View
          * @param {long} id
          * @returns {Task<Godown>}
          */
-        public async Task<Godown> View(long id)
+        public async Task<GodownResponse> View(long id)
         {
-            return await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
+            return entity.Adapt<GodownResponse>();
         }
 
         /**
          * @method Create
          * @param {Godown} entity
          */
-        public async Task<Godown> Create(Godown entity)
+        public async Task<GodownResponse> Create(GodownRequest request)
         {
+            var entity = request.Adapt<Godown>();
             await _repository.AddAsync(entity);
-            return entity;
+            return entity.Adapt<GodownResponse>();
         }
 
         /**
@@ -56,20 +74,25 @@ namespace TALLY_APP.Services.InventoryManagement
          * @param {long} id
          * @param {Godown} entity
          */
-        public async Task<Godown> Update(long id, Godown entity)
+        public async Task<GodownResponse> Update(long id, GodownRequest request)
         {
+            var entity = request.Adapt<Godown>();
             entity.Id = id;
             await _repository.UpdateAsync(entity);
-            return entity;
+            return entity.Adapt<GodownResponse>();
         }
 
         /**
          * @method Delete
          * @param {long} id
          */
-        public async Task Delete(long id)
+        public async Task<bool> Delete(long id)
         {
             await _repository.DeleteAsync(id);
+            return true;
         }
     }
 }
+
+
+

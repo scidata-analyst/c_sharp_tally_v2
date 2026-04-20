@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.AccountingFinance;
+
+using Mapster;
+using TALLY_APP.Interfaces.AccountingFinance;
+using TALLY_APP.DTOs.Request.AccountingFinance;
+using TALLY_APP.DTOs.Response.AccountingFinance;
+
 using TALLY_APP.Models.AccountingFinance;
 
 namespace TALLY_APP.Services.AccountingFinance
@@ -9,7 +15,7 @@ namespace TALLY_APP.Services.AccountingFinance
      * @class BankReconciliationService
      * @description Business logic layer for BankReconciliation module.
      */
-    public class BankReconciliationService
+    public class BankReconciliationService : IBankReconciliationService
     {
         private readonly BankReconciliationRepository _repository;
 
@@ -26,29 +32,41 @@ namespace TALLY_APP.Services.AccountingFinance
          * @method All
          * @returns {Task<List<BankReconciliation>>}
          */
-        public async Task<List<BankReconciliation>> All()
+        
+
+        public async Task<List<BankReconciliationResponse>> All()
         {
-            return await _repository.GetAllAsync();
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<BankReconciliationResponse>>();
         }
+
+        public async Task<List<BankReconciliationResponse>> Index()
+        {
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<BankReconciliationResponse>>();
+        }
+
 
         /**
          * @method View
          * @param {long} id
          * @returns {Task<BankReconciliation>}
          */
-        public async Task<BankReconciliation> View(long id)
+        public async Task<BankReconciliationResponse> View(long id)
         {
-            return await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
+            return entity.Adapt<BankReconciliationResponse>();
         }
 
         /**
          * @method Create
          * @param {BankReconciliation} entity
          */
-        public async Task<BankReconciliation> Create(BankReconciliation entity)
+        public async Task<BankReconciliationResponse> Create(BankReconciliationRequest request)
         {
+            var entity = request.Adapt<BankReconciliation>();
             await _repository.AddAsync(entity);
-            return entity;
+            return entity.Adapt<BankReconciliationResponse>();
         }
 
         /**
@@ -56,20 +74,25 @@ namespace TALLY_APP.Services.AccountingFinance
          * @param {long} id
          * @param {BankReconciliation} entity
          */
-        public async Task<BankReconciliation> Update(long id, BankReconciliation entity)
+        public async Task<BankReconciliationResponse> Update(long id, BankReconciliationRequest request)
         {
+            var entity = request.Adapt<BankReconciliation>();
             entity.Id = id;
             await _repository.UpdateAsync(entity);
-            return entity;
+            return entity.Adapt<BankReconciliationResponse>();
         }
 
         /**
          * @method Delete
          * @param {long} id
          */
-        public async Task Delete(long id)
+        public async Task<bool> Delete(long id)
         {
             await _repository.DeleteAsync(id);
+            return true;
         }
     }
 }
+
+
+

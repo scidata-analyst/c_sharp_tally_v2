@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.Dashboard
      */
     public class DashboardWidgetRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public DashboardWidgetRepository(AppDbContext context)
+        public DashboardWidgetRepository(ApplicationDbContext context)
         {
             _context = context;
         }

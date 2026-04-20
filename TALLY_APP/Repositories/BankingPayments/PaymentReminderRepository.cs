@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.BankingPayments
      */
     public class PaymentReminderRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public PaymentReminderRepository(AppDbContext context)
+        public PaymentReminderRepository(ApplicationDbContext context)
         {
             _context = context;
         }

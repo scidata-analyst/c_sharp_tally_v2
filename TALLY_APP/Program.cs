@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using TALLY_APP.Data;
+using TALLY_APP.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddProjectServices();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");

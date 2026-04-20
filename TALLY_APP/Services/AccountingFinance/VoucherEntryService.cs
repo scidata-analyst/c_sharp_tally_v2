@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.AccountingFinance;
+
+using Mapster;
+using TALLY_APP.Interfaces.AccountingFinance;
+using TALLY_APP.DTOs.Request.AccountingFinance;
+using TALLY_APP.DTOs.Response.AccountingFinance;
+
 using TALLY_APP.Models.AccountingFinance;
 
 namespace TALLY_APP.Services.AccountingFinance
@@ -9,7 +15,7 @@ namespace TALLY_APP.Services.AccountingFinance
      * @class VoucherEntryService
      * @description Business logic layer for VoucherEntry module.
      */
-    public class VoucherEntryService
+    public class VoucherEntryService : IVoucherEntryService
     {
         private readonly VoucherEntryRepository _repository;
 
@@ -26,29 +32,41 @@ namespace TALLY_APP.Services.AccountingFinance
          * @method All
          * @returns {Task<List<VoucherEntry>>}
          */
-        public async Task<List<VoucherEntry>> All()
+        
+
+        public async Task<List<VoucherEntryResponse>> All()
         {
-            return await _repository.GetAllAsync();
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<VoucherEntryResponse>>();
         }
+
+        public async Task<List<VoucherEntryResponse>> Index()
+        {
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<VoucherEntryResponse>>();
+        }
+
 
         /**
          * @method View
          * @param {long} id
          * @returns {Task<VoucherEntry>}
          */
-        public async Task<VoucherEntry> View(long id)
+        public async Task<VoucherEntryResponse> View(long id)
         {
-            return await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
+            return entity.Adapt<VoucherEntryResponse>();
         }
 
         /**
          * @method Create
          * @param {VoucherEntry} entity
          */
-        public async Task<VoucherEntry> Create(VoucherEntry entity)
+        public async Task<VoucherEntryResponse> Create(VoucherEntryRequest request)
         {
+            var entity = request.Adapt<VoucherEntry>();
             await _repository.AddAsync(entity);
-            return entity;
+            return entity.Adapt<VoucherEntryResponse>();
         }
 
         /**
@@ -56,20 +74,25 @@ namespace TALLY_APP.Services.AccountingFinance
          * @param {long} id
          * @param {VoucherEntry} entity
          */
-        public async Task<VoucherEntry> Update(long id, VoucherEntry entity)
+        public async Task<VoucherEntryResponse> Update(long id, VoucherEntryRequest request)
         {
+            var entity = request.Adapt<VoucherEntry>();
             entity.Id = id;
             await _repository.UpdateAsync(entity);
-            return entity;
+            return entity.Adapt<VoucherEntryResponse>();
         }
 
         /**
          * @method Delete
          * @param {long} id
          */
-        public async Task Delete(long id)
+        public async Task<bool> Delete(long id)
         {
             await _repository.DeleteAsync(id);
+            return true;
         }
     }
 }
+
+
+

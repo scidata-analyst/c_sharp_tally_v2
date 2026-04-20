@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.AccountingFinance
      */
     public class LedgerAccountRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public LedgerAccountRepository(AppDbContext context)
+        public LedgerAccountRepository(ApplicationDbContext context)
         {
             _context = context;
         }

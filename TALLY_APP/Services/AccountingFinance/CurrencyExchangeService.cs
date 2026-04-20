@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.AccountingFinance;
+
+using Mapster;
+using TALLY_APP.Interfaces.AccountingFinance;
+using TALLY_APP.DTOs.Request.AccountingFinance;
+using TALLY_APP.DTOs.Response.AccountingFinance;
+
 using TALLY_APP.Models.AccountingFinance;
 
 namespace TALLY_APP.Services.AccountingFinance
@@ -9,7 +15,7 @@ namespace TALLY_APP.Services.AccountingFinance
      * @class CurrencyExchangeService
      * @description Business logic layer for CurrencyExchange module.
      */
-    public class CurrencyExchangeService
+    public class CurrencyExchangeService : ICurrencyExchangeService
     {
         private readonly CurrencyExchangeRepository _repository;
 
@@ -26,29 +32,41 @@ namespace TALLY_APP.Services.AccountingFinance
          * @method All
          * @returns {Task<List<CurrencyExchange>>}
          */
-        public async Task<List<CurrencyExchange>> All()
+        
+
+        public async Task<List<CurrencyExchangeResponse>> All()
         {
-            return await _repository.GetAllAsync();
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<CurrencyExchangeResponse>>();
         }
+
+        public async Task<List<CurrencyExchangeResponse>> Index()
+        {
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<CurrencyExchangeResponse>>();
+        }
+
 
         /**
          * @method View
          * @param {long} id
          * @returns {Task<CurrencyExchange>}
          */
-        public async Task<CurrencyExchange> View(long id)
+        public async Task<CurrencyExchangeResponse> View(long id)
         {
-            return await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
+            return entity.Adapt<CurrencyExchangeResponse>();
         }
 
         /**
          * @method Create
          * @param {CurrencyExchange} entity
          */
-        public async Task<CurrencyExchange> Create(CurrencyExchange entity)
+        public async Task<CurrencyExchangeResponse> Create(CurrencyExchangeRequest request)
         {
+            var entity = request.Adapt<CurrencyExchange>();
             await _repository.AddAsync(entity);
-            return entity;
+            return entity.Adapt<CurrencyExchangeResponse>();
         }
 
         /**
@@ -56,20 +74,25 @@ namespace TALLY_APP.Services.AccountingFinance
          * @param {long} id
          * @param {CurrencyExchange} entity
          */
-        public async Task<CurrencyExchange> Update(long id, CurrencyExchange entity)
+        public async Task<CurrencyExchangeResponse> Update(long id, CurrencyExchangeRequest request)
         {
+            var entity = request.Adapt<CurrencyExchange>();
             entity.Id = id;
             await _repository.UpdateAsync(entity);
-            return entity;
+            return entity.Adapt<CurrencyExchangeResponse>();
         }
 
         /**
          * @method Delete
          * @param {long} id
          */
-        public async Task Delete(long id)
+        public async Task<bool> Delete(long id)
         {
             await _repository.DeleteAsync(id);
+            return true;
         }
     }
 }
+
+
+

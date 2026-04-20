@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.AdditionalFeatures;
+
+using Mapster;
+using TALLY_APP.Interfaces.AdditionalFeatures;
+using TALLY_APP.DTOs.Request.AdditionalFeatures;
+using TALLY_APP.DTOs.Response.AdditionalFeatures;
+
 using TALLY_APP.Models.AdditionalFeatures;
 
 namespace TALLY_APP.Services.AdditionalFeatures
@@ -9,7 +15,7 @@ namespace TALLY_APP.Services.AdditionalFeatures
      * @class ForexTransactionService
      * @description Business logic layer for ForexTransaction module.
      */
-    public class ForexTransactionService
+    public class ForexTransactionService : IForexTransactionService
     {
         private readonly ForexTransactionRepository _repository;
 
@@ -26,29 +32,41 @@ namespace TALLY_APP.Services.AdditionalFeatures
          * @method All
          * @returns {Task<List<ForexTransaction>>}
          */
-        public async Task<List<ForexTransaction>> All()
+        
+
+        public async Task<List<ForexTransactionResponse>> All()
         {
-            return await _repository.GetAllAsync();
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<ForexTransactionResponse>>();
         }
+
+        public async Task<List<ForexTransactionResponse>> Index()
+        {
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<ForexTransactionResponse>>();
+        }
+
 
         /**
          * @method View
          * @param {long} id
          * @returns {Task<ForexTransaction>}
          */
-        public async Task<ForexTransaction> View(long id)
+        public async Task<ForexTransactionResponse> View(long id)
         {
-            return await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
+            return entity.Adapt<ForexTransactionResponse>();
         }
 
         /**
          * @method Create
          * @param {ForexTransaction} entity
          */
-        public async Task<ForexTransaction> Create(ForexTransaction entity)
+        public async Task<ForexTransactionResponse> Create(ForexTransactionRequest request)
         {
+            var entity = request.Adapt<ForexTransaction>();
             await _repository.AddAsync(entity);
-            return entity;
+            return entity.Adapt<ForexTransactionResponse>();
         }
 
         /**
@@ -56,20 +74,25 @@ namespace TALLY_APP.Services.AdditionalFeatures
          * @param {long} id
          * @param {ForexTransaction} entity
          */
-        public async Task<ForexTransaction> Update(long id, ForexTransaction entity)
+        public async Task<ForexTransactionResponse> Update(long id, ForexTransactionRequest request)
         {
+            var entity = request.Adapt<ForexTransaction>();
             entity.Id = id;
             await _repository.UpdateAsync(entity);
-            return entity;
+            return entity.Adapt<ForexTransactionResponse>();
         }
 
         /**
          * @method Delete
          * @param {long} id
          */
-        public async Task Delete(long id)
+        public async Task<bool> Delete(long id)
         {
             await _repository.DeleteAsync(id);
+            return true;
         }
     }
 }
+
+
+

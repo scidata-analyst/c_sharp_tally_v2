@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.GSTTaxation
      */
     public class GSTReturnRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public GSTReturnRepository(AppDbContext context)
+        public GSTReturnRepository(ApplicationDbContext context)
         {
             _context = context;
         }

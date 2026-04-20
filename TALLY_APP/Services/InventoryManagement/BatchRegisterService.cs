@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.InventoryManagement;
+
+using Mapster;
+using TALLY_APP.Interfaces.InventoryManagement;
+using TALLY_APP.DTOs.Request.InventoryManagement;
+using TALLY_APP.DTOs.Response.InventoryManagement;
+
 using TALLY_APP.Models.InventoryManagement;
 
 namespace TALLY_APP.Services.InventoryManagement
@@ -9,7 +15,7 @@ namespace TALLY_APP.Services.InventoryManagement
      * @class BatchRegisterService
      * @description Business logic layer for BatchRegister module.
      */
-    public class BatchRegisterService
+    public class BatchRegisterService : IBatchRegisterService
     {
         private readonly BatchRegisterRepository _repository;
 
@@ -26,29 +32,41 @@ namespace TALLY_APP.Services.InventoryManagement
          * @method All
          * @returns {Task<List<BatchRegister>>}
          */
-        public async Task<List<BatchRegister>> All()
+        
+
+        public async Task<List<BatchRegisterResponse>> All()
         {
-            return await _repository.GetAllAsync();
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<BatchRegisterResponse>>();
         }
+
+        public async Task<List<BatchRegisterResponse>> Index()
+        {
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<BatchRegisterResponse>>();
+        }
+
 
         /**
          * @method View
          * @param {long} id
          * @returns {Task<BatchRegister>}
          */
-        public async Task<BatchRegister> View(long id)
+        public async Task<BatchRegisterResponse> View(long id)
         {
-            return await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
+            return entity.Adapt<BatchRegisterResponse>();
         }
 
         /**
          * @method Create
          * @param {BatchRegister} entity
          */
-        public async Task<BatchRegister> Create(BatchRegister entity)
+        public async Task<BatchRegisterResponse> Create(BatchRegisterRequest request)
         {
+            var entity = request.Adapt<BatchRegister>();
             await _repository.AddAsync(entity);
-            return entity;
+            return entity.Adapt<BatchRegisterResponse>();
         }
 
         /**
@@ -56,20 +74,25 @@ namespace TALLY_APP.Services.InventoryManagement
          * @param {long} id
          * @param {BatchRegister} entity
          */
-        public async Task<BatchRegister> Update(long id, BatchRegister entity)
+        public async Task<BatchRegisterResponse> Update(long id, BatchRegisterRequest request)
         {
+            var entity = request.Adapt<BatchRegister>();
             entity.Id = id;
             await _repository.UpdateAsync(entity);
-            return entity;
+            return entity.Adapt<BatchRegisterResponse>();
         }
 
         /**
          * @method Delete
          * @param {long} id
          */
-        public async Task Delete(long id)
+        public async Task<bool> Delete(long id)
         {
             await _repository.DeleteAsync(id);
+            return true;
         }
     }
 }
+
+
+

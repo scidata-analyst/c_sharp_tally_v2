@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.BankingPayments;
+
+using Mapster;
+using TALLY_APP.Interfaces.BankingPayments;
+using TALLY_APP.DTOs.Request.BankingPayments;
+using TALLY_APP.DTOs.Response.BankingPayments;
+
 using TALLY_APP.Models.BankingPayments;
 
 namespace TALLY_APP.Services.BankingPayments
@@ -9,7 +15,7 @@ namespace TALLY_APP.Services.BankingPayments
      * @class PaymentReminderService
      * @description Business logic layer for PaymentReminder module.
      */
-    public class PaymentReminderService
+    public class PaymentReminderService : IPaymentReminderService
     {
         private readonly PaymentReminderRepository _repository;
 
@@ -26,29 +32,41 @@ namespace TALLY_APP.Services.BankingPayments
          * @method All
          * @returns {Task<List<PaymentReminder>>}
          */
-        public async Task<List<PaymentReminder>> All()
+        
+
+        public async Task<List<PaymentReminderResponse>> All()
         {
-            return await _repository.GetAllAsync();
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<PaymentReminderResponse>>();
         }
+
+        public async Task<List<PaymentReminderResponse>> Index()
+        {
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<PaymentReminderResponse>>();
+        }
+
 
         /**
          * @method View
          * @param {long} id
          * @returns {Task<PaymentReminder>}
          */
-        public async Task<PaymentReminder> View(long id)
+        public async Task<PaymentReminderResponse> View(long id)
         {
-            return await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
+            return entity.Adapt<PaymentReminderResponse>();
         }
 
         /**
          * @method Create
          * @param {PaymentReminder} entity
          */
-        public async Task<PaymentReminder> Create(PaymentReminder entity)
+        public async Task<PaymentReminderResponse> Create(PaymentReminderRequest request)
         {
+            var entity = request.Adapt<PaymentReminder>();
             await _repository.AddAsync(entity);
-            return entity;
+            return entity.Adapt<PaymentReminderResponse>();
         }
 
         /**
@@ -56,20 +74,25 @@ namespace TALLY_APP.Services.BankingPayments
          * @param {long} id
          * @param {PaymentReminder} entity
          */
-        public async Task<PaymentReminder> Update(long id, PaymentReminder entity)
+        public async Task<PaymentReminderResponse> Update(long id, PaymentReminderRequest request)
         {
+            var entity = request.Adapt<PaymentReminder>();
             entity.Id = id;
             await _repository.UpdateAsync(entity);
-            return entity;
+            return entity.Adapt<PaymentReminderResponse>();
         }
 
         /**
          * @method Delete
          * @param {long} id
          */
-        public async Task Delete(long id)
+        public async Task<bool> Delete(long id)
         {
             await _repository.DeleteAsync(id);
+            return true;
         }
     }
 }
+
+
+

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MultiLocationBranch.DTOs.Request;
-using MultiLocationBranch.DTOs.Response;
+using TALLY_APP.DTOs.Request.MultiLocationBranch;
+using TALLY_APP.DTOs.Response.MultiLocationBranch;
 
 namespace TALLY_APP.Interfaces.MultiLocationBranch
 {

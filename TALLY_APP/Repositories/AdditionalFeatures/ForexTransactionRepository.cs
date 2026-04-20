@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.AdditionalFeatures
      */
     public class ForexTransactionRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public ForexTransactionRepository(AppDbContext context)
+        public ForexTransactionRepository(ApplicationDbContext context)
         {
             _context = context;
         }

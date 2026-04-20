@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.PayrollManagement
      */
     public class PayrollRunRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public PayrollRunRepository(AppDbContext context)
+        public PayrollRunRepository(ApplicationDbContext context)
         {
             _context = context;
         }

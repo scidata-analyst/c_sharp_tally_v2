@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AccountingFinance.Services;
-using AccountingFinance.DTOs.Request;
-using AccountingFinance.DTOs.Response;
+using TALLY_APP.Interfaces.AccountingFinance;
+using TALLY_APP.DTOs.Request.AccountingFinance;
+using TALLY_APP.DTOs.Response.AccountingFinance;
 
 namespace TALLY_APP.Controllers.AccountingFinance
 {
@@ -106,3 +106,4 @@ namespace TALLY_APP.Controllers.AccountingFinance
         }
     }
 }
+

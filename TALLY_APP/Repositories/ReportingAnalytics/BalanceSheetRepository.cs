@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.ReportingAnalytics
      */
     public class BalanceSheetRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public BalanceSheetRepository(AppDbContext context)
+        public BalanceSheetRepository(ApplicationDbContext context)
         {
             _context = context;
         }

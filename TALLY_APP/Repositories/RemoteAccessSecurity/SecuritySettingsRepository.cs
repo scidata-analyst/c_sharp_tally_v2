@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.RemoteAccessSecurity
      */
     public class SecuritySettingsRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public SecuritySettingsRepository(AppDbContext context)
+        public SecuritySettingsRepository(ApplicationDbContext context)
         {
             _context = context;
         }

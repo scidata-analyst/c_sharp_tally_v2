@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GSTTaxation.DTOs.Request;
-using GSTTaxation.DTOs.Response;
+using TALLY_APP.DTOs.Request.GSTTaxation;
+using TALLY_APP.DTOs.Response.GSTTaxation;
 
 namespace TALLY_APP.Interfaces.GSTTaxation
 {

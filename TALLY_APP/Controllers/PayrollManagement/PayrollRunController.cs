@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using PayrollManagement.Services;
-using PayrollManagement.DTOs.Request;
-using PayrollManagement.DTOs.Response;
+using TALLY_APP.Interfaces.PayrollManagement;
+using TALLY_APP.DTOs.Request.PayrollManagement;
+using TALLY_APP.DTOs.Response.PayrollManagement;
 
 namespace TALLY_APP.Controllers.PayrollManagement
 {
@@ -106,3 +106,4 @@ namespace TALLY_APP.Controllers.PayrollManagement
         }
     }
 }
+

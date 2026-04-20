@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.InventoryManagement
      */
     public class GodownRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public GodownRepository(AppDbContext context)
+        public GodownRepository(ApplicationDbContext context)
         {
             _context = context;
         }

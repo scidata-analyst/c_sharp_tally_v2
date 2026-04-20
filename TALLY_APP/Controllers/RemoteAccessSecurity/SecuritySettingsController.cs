@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RemoteAccessSecurity.Services;
-using RemoteAccessSecurity.DTOs.Request;
-using RemoteAccessSecurity.DTOs.Response;
+using TALLY_APP.Interfaces.RemoteAccessSecurity;
+using TALLY_APP.DTOs.Request.RemoteAccessSecurity;
+using TALLY_APP.DTOs.Response.RemoteAccessSecurity;
 
 namespace TALLY_APP.Controllers.RemoteAccessSecurity
 {
@@ -106,3 +106,4 @@ namespace TALLY_APP.Controllers.RemoteAccessSecurity
         }
     }
 }
+

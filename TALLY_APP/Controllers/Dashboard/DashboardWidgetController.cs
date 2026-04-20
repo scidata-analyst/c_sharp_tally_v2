@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dashboard.Services;
-using Dashboard.DTOs.Request;
-using Dashboard.DTOs.Response;
+using TALLY_APP.Interfaces.Dashboard;
+using TALLY_APP.DTOs.Request.Dashboard;
+using TALLY_APP.DTOs.Response.Dashboard;
 
 namespace TALLY_APP.Controllers.Dashboard
 {
@@ -103,3 +103,4 @@ namespace TALLY_APP.Controllers.Dashboard
         }
     }
 }
+

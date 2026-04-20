@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using InventoryManagement.DTOs.Request;
-using InventoryManagement.DTOs.Response;
+using TALLY_APP.DTOs.Request.InventoryManagement;
+using TALLY_APP.DTOs.Response.InventoryManagement;
 
 namespace TALLY_APP.Interfaces.InventoryManagement
 {

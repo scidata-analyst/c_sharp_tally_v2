@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.InventoryManagement
      */
     public class StockGroupRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public StockGroupRepository(AppDbContext context)
+        public StockGroupRepository(ApplicationDbContext context)
         {
             _context = context;
         }

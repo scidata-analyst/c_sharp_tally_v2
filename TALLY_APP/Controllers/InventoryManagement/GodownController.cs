@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using InventoryManagement.Services;
-using InventoryManagement.DTOs.Request;
-using InventoryManagement.DTOs.Response;
+using TALLY_APP.Interfaces.InventoryManagement;
+using TALLY_APP.DTOs.Request.InventoryManagement;
+using TALLY_APP.DTOs.Response.InventoryManagement;
 
 namespace TALLY_APP.Controllers.InventoryManagement
 {
@@ -106,3 +106,4 @@ namespace TALLY_APP.Controllers.InventoryManagement
         }
     }
 }
+

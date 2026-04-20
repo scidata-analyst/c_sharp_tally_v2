@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.ReportingAnalytics
      */
     public class ProfitLossRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public ProfitLossRepository(AppDbContext context)
+        public ProfitLossRepository(ApplicationDbContext context)
         {
             _context = context;
         }

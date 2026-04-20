@@ -12,13 +12,13 @@ namespace TALLY_APP.Repositories.GSTTaxation
      */
     public class VATServiceTaxRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         /**
          * @constructor
-         * @param {AppDbContext} context - Database context instance
+         * @param {ApplicationDbContext} context - Database context instance
          */
-        public VATServiceTaxRepository(AppDbContext context)
+        public VATServiceTaxRepository(ApplicationDbContext context)
         {
             _context = context;
         }

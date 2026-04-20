@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BankingPayments.DTOs.Request;
-using BankingPayments.DTOs.Response;
+using TALLY_APP.DTOs.Request.BankingPayments;
+using TALLY_APP.DTOs.Response.BankingPayments;
 
 namespace TALLY_APP.Interfaces.BankingPayments
 {

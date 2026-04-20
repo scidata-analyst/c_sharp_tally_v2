@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.ReportingAnalytics;
+
+using Mapster;
+using TALLY_APP.Interfaces.ReportingAnalytics;
+using TALLY_APP.DTOs.Request.ReportingAnalytics;
+using TALLY_APP.DTOs.Response.ReportingAnalytics;
+
 using TALLY_APP.Models.ReportingAnalytics;
 
 namespace TALLY_APP.Services.ReportingAnalytics
@@ -9,7 +15,7 @@ namespace TALLY_APP.Services.ReportingAnalytics
      * @class SalesPurchaseSummaryService
      * @description Business logic layer for SalesPurchaseSummary module.
      */
-    public class SalesPurchaseSummaryService
+    public class SalesPurchaseSummaryService : ISalesPurchaseSummaryService
     {
         private readonly SalesPurchaseSummaryRepository _repository;
 
@@ -26,29 +32,41 @@ namespace TALLY_APP.Services.ReportingAnalytics
          * @method All
          * @returns {Task<List<SalesPurchaseSummary>>}
          */
-        public async Task<List<SalesPurchaseSummary>> All()
+        
+
+        public async Task<List<SalesPurchaseSummaryResponse>> All()
         {
-            return await _repository.GetAllAsync();
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<SalesPurchaseSummaryResponse>>();
         }
+
+        public async Task<List<SalesPurchaseSummaryResponse>> Index()
+        {
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<SalesPurchaseSummaryResponse>>();
+        }
+
 
         /**
          * @method View
          * @param {long} id
          * @returns {Task<SalesPurchaseSummary>}
          */
-        public async Task<SalesPurchaseSummary> View(long id)
+        public async Task<SalesPurchaseSummaryResponse> View(long id)
         {
-            return await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
+            return entity.Adapt<SalesPurchaseSummaryResponse>();
         }
 
         /**
          * @method Create
          * @param {SalesPurchaseSummary} entity
          */
-        public async Task<SalesPurchaseSummary> Create(SalesPurchaseSummary entity)
+        public async Task<SalesPurchaseSummaryResponse> Create(SalesPurchaseSummaryRequest request)
         {
+            var entity = request.Adapt<SalesPurchaseSummary>();
             await _repository.AddAsync(entity);
-            return entity;
+            return entity.Adapt<SalesPurchaseSummaryResponse>();
         }
 
         /**
@@ -56,20 +74,25 @@ namespace TALLY_APP.Services.ReportingAnalytics
          * @param {long} id
          * @param {SalesPurchaseSummary} entity
          */
-        public async Task<SalesPurchaseSummary> Update(long id, SalesPurchaseSummary entity)
+        public async Task<SalesPurchaseSummaryResponse> Update(long id, SalesPurchaseSummaryRequest request)
         {
+            var entity = request.Adapt<SalesPurchaseSummary>();
             entity.Id = id;
             await _repository.UpdateAsync(entity);
-            return entity;
+            return entity.Adapt<SalesPurchaseSummaryResponse>();
         }
 
         /**
          * @method Delete
          * @param {long} id
          */
-        public async Task Delete(long id)
+        public async Task<bool> Delete(long id)
         {
             await _repository.DeleteAsync(id);
+            return true;
         }
     }
 }
+
+
+

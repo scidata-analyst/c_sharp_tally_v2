@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BankingPayments.Services;
-using BankingPayments.DTOs.Request;
-using BankingPayments.DTOs.Response;
+using TALLY_APP.Interfaces.BankingPayments;
+using TALLY_APP.DTOs.Request.BankingPayments;
+using TALLY_APP.DTOs.Response.BankingPayments;
 
 namespace TALLY_APP.Controllers.BankingPayments
 {
@@ -106,3 +106,4 @@ namespace TALLY_APP.Controllers.BankingPayments
         }
     }
 }
+

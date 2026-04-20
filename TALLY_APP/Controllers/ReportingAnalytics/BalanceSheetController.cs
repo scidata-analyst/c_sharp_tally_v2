@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ReportingAnalytics.Services;
-using ReportingAnalytics.DTOs.Request;
-using ReportingAnalytics.DTOs.Response;
+using TALLY_APP.Interfaces.ReportingAnalytics;
+using TALLY_APP.DTOs.Request.ReportingAnalytics;
+using TALLY_APP.DTOs.Response.ReportingAnalytics;
 
 namespace TALLY_APP.Controllers.ReportingAnalytics
 {
@@ -103,3 +103,4 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
         }
     }
 }
+

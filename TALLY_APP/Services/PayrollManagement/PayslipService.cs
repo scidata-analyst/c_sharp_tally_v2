@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.PayrollManagement;
+
+using Mapster;
+using TALLY_APP.Interfaces.PayrollManagement;
+using TALLY_APP.DTOs.Request.PayrollManagement;
+using TALLY_APP.DTOs.Response.PayrollManagement;
+
 using TALLY_APP.Models.PayrollManagement;
 
 namespace TALLY_APP.Services.PayrollManagement
@@ -9,7 +15,7 @@ namespace TALLY_APP.Services.PayrollManagement
      * @class PayslipService
      * @description Business logic layer for Payslip module.
      */
-    public class PayslipService
+    public class PayslipService : IPayslipService
     {
         private readonly PayslipRepository _repository;
 
@@ -26,29 +32,41 @@ namespace TALLY_APP.Services.PayrollManagement
          * @method All
          * @returns {Task<List<Payslip>>}
          */
-        public async Task<List<Payslip>> All()
+        
+
+        public async Task<List<PayslipResponse>> All()
         {
-            return await _repository.GetAllAsync();
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<PayslipResponse>>();
         }
+
+        public async Task<List<PayslipResponse>> Index()
+        {
+            var entities = await _repository.GetAllAsync();
+            return entities.Adapt<List<PayslipResponse>>();
+        }
+
 
         /**
          * @method View
          * @param {long} id
          * @returns {Task<Payslip>}
          */
-        public async Task<Payslip> View(long id)
+        public async Task<PayslipResponse> View(long id)
         {
-            return await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
+            return entity.Adapt<PayslipResponse>();
         }
 
         /**
          * @method Create
          * @param {Payslip} entity
          */
-        public async Task<Payslip> Create(Payslip entity)
+        public async Task<PayslipResponse> Create(PayslipRequest request)
         {
+            var entity = request.Adapt<Payslip>();
             await _repository.AddAsync(entity);
-            return entity;
+            return entity.Adapt<PayslipResponse>();
         }
 
         /**
@@ -56,20 +74,25 @@ namespace TALLY_APP.Services.PayrollManagement
          * @param {long} id
          * @param {Payslip} entity
          */
-        public async Task<Payslip> Update(long id, Payslip entity)
+        public async Task<PayslipResponse> Update(long id, PayslipRequest request)
         {
+            var entity = request.Adapt<Payslip>();
             entity.Id = id;
             await _repository.UpdateAsync(entity);
-            return entity;
+            return entity.Adapt<PayslipResponse>();
         }
 
         /**
          * @method Delete
          * @param {long} id
          */
-        public async Task Delete(long id)
+        public async Task<bool> Delete(long id)
         {
             await _repository.DeleteAsync(id);
+            return true;
         }
     }
 }
+
+
+
