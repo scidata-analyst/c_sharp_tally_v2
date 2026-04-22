@@ -25,9 +25,15 @@ namespace TALLY_APP.Interfaces.AccountingFinance
         Task<List<LedgerAccountResponse>> All();
 
         /**
-         * Get paginated records
+         * Get paginated records with search, sort
+         * @param int page
+         * @param int pageSize
+         * @param string search
+         * @param string sortColumn
+         * @param string sortDirection
+         * @return PaginatedLedgerResponse
          */
-        Task<List<LedgerAccountResponse>> Index();
+        Task<PaginatedLedgerResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc");
 
         /**
          * Get single record by ID

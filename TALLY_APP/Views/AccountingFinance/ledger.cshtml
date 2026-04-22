@@ -345,86 +345,40 @@
                 <table class="tally-table">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Ledger Name</th>
-                            <th>Group</th>
-                            <th>Type</th>
-                            <th>Opening Bal</th>
-                            <th>Current Bal</th>
-                            <th>Status</th>
+                            <th onclick="sortBy('Id')" style="cursor:pointer;">#</th>
+                            <th onclick="sortBy('LedgerName')" style="cursor:pointer;">Ledger Name</th>
+                            <th onclick="sortBy('GroupName')" style="cursor:pointer;">Group</th>
+                            <th onclick="sortBy('AccountType')" style="cursor:pointer;">Type</th>
+                            <th onclick="sortBy('OpeningBalance')" style="cursor:pointer;">Opening Bal</th>
+                            <th onclick="sortBy('Status')" style="cursor:pointer;">Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="ledgerTableBody">
-                        <tr>
-                            <td>001</td>
-                            <td>Cash in Hand</td>
-                            <td>Cash-in-Hand</td>
-                            <td>Asset</td>
-                            <td class="amount-positive">₹1,20,000</td>
-                            <td class="amount-positive">₹45,200</td>
-                            <td><span class="badge-tally badge-success">Active</span></td>
-                            <td><button class="btn-tally-edit" onclick="editLedger(1)"><i
-                                        class="bi bi-pencil"></i></button> <button class="btn-tally-danger"
-                                    onclick="deleteLedger(1)"><i class="bi bi-trash"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>002</td>
-                            <td>HDFC Bank A/c</td>
-                            <td>Bank Accounts</td>
-                            <td>Asset</td>
-                            <td class="amount-positive">₹5,00,000</td>
-                            <td class="amount-positive">₹18,42,300</td>
-                            <td><span class="badge-tally badge-success">Active</span></td>
-                            <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
-                                    class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>003</td>
-                            <td>Sundry Debtors</td>
-                            <td>Sundry Debtors</td>
-                            <td>Asset</td>
-                            <td class="amount-positive">₹0</td>
-                            <td class="amount-positive">₹12,40,000</td>
-                            <td><span class="badge-tally badge-success">Active</span></td>
-                            <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
-                                    class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>004</td>
-                            <td>Purchase Account</td>
-                            <td>Purchase Accounts</td>
-                            <td>Expense</td>
-                            <td class="amount-neutral">₹0</td>
-                            <td class="amount-negative">₹31,40,000</td>
-                            <td><span class="badge-tally badge-success">Active</span></td>
-                            <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
-                                    class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>005</td>
-                            <td>Sales Account</td>
-                            <td>Sales Accounts</td>
-                            <td>Revenue</td>
-                            <td class="amount-neutral">₹0</td>
-                            <td class="amount-positive">₹48,20,000</td>
-                            <td><span class="badge-tally badge-success">Active</span></td>
-                            <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
-                                    class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>006</td>
-                            <td>Output GST 18%</td>
-                            <td>Duties & Taxes</td>
-                            <td>Liability</td>
-                            <td class="amount-neutral">₹0</td>
-                            <td class="amount-negative">₹2,10,000</td>
-                            <td><span class="badge-tally badge-warning">Review</span></td>
-                            <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
-                                    class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
-                        </tr>
+                        <!-- Data will be loaded via AJAX -->
                     </tbody>
                 </table>
+
+                <!-- Pagination Controls -->
+                <div class="pagination-wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:15px 10px;border-top:1px solid var(--border);margin-top:10px;">
+                    <div style="font-size:13px;color:var(--text-muted);">
+                        Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="totalRecords">0</span> records
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <label style="font-size:13px;color:var(--text-muted);">Rows per page:</label>
+                        <select id="pageSizeSelect" class="form-control-tally" style="width:70px;padding:4px 8px;" onchange="changePageSize()">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                        <div style="display:flex;gap:4px;">
+                            <button class="btn-tally-outline" id="prevBtn" style="padding:6px 12px;" onclick="prevPage()"><i class="bi bi-chevron-left"></i></button>
+                            <span id="pageNumbers" style="display:flex;gap:2px;"></span>
+                            <button class="btn-tally-outline" id="nextBtn" style="padding:6px 12px;" onclick="nextPage()"><i class="bi bi-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -442,66 +396,94 @@
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-md-8">
-                        <div class="form-group"><label class="form-label">Ledger Name *</label><input type="text"
-                                class="form-control-tally" placeholder="e.g. HDFC Bank Account" id="ledgerName"></div>
+                        <div class="form-group">
+                            <label class="form-label">Ledger Name *</label>
+                            <input type="text" class="form-control-tally" placeholder="e.g. HDFC Bank Account" id="LedgerName">
+                            <div class="field-error" id="error-LedgerName"></div>
+                        </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Ledger Code</label><input type="text"
-                                class="form-control-tally" placeholder="e.g. 001"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Under Group *</label><select
-                                class="form-control-tally">
-                                <option>Cash-in-Hand</option>
-                                <option>Bank Accounts</option>
-                                <option>Sundry Debtors</option>
-                                <option>Sundry Creditors</option>
-                                <option>Sales Accounts</option>
-                                <option>Purchase Accounts</option>
-                                <option>Duties & Taxes</option>
-                                <option>Fixed Assets</option>
-                                <option>Investments</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Account Type *</label><select
-                                class="form-control-tally">
-                                <option>Asset</option>
-                                <option>Liability</option>
-                                <option>Revenue</option>
-                                <option>Expense</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Opening Balance</label><input type="number"
-                                class="form-control-tally" placeholder="0.00"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Balance Type</label><select
-                                class="form-control-tally">
-                                <option>Debit (Dr)</option>
-                                <option>Credit (Cr)</option>
-                            </select></div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group"><label class="form-label">Description / Notes</label><textarea
-                                class="form-control-tally" rows="2" placeholder="Optional description..."></textarea>
+                        <div class="form-group">
+                            <label class="form-label">Ledger Code *</label>
+                            <input type="text" class="form-control-tally" placeholder="e.g. 001" id="LedgerCode">
+                            <div class="field-error" id="error-LedgerCode"></div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Currency</label><select
-                                class="form-control-tally">
-                                <option>INR — Indian Rupee</option>
-                                <option>USD — US Dollar</option>
-                                <option>EUR — Euro</option>
-                            </select></div>
+                        <div class="form-group">
+                            <label class="form-label">Under Group *</label>
+                            <select class="form-control-tally" id="GroupName">
+                                <option value="">-- Select Group --</option>
+                                <option value="Cash-in-Hand">Cash-in-Hand</option>
+                                <option value="Bank Accounts">Bank Accounts</option>
+                                <option value="Sundry Debtors">Sundry Debtors</option>
+                                <option value="Sundry Creditors">Sundry Creditors</option>
+                                <option value="Sales Accounts">Sales Accounts</option>
+                                <option value="Purchase Accounts">Purchase Accounts</option>
+                                <option value="Duties & Taxes">Duties & Taxes</option>
+                                <option value="Fixed Assets">Fixed Assets</option>
+                                <option value="Investments">Investments</option>
+                            </select>
+                            <div class="field-error" id="error-GroupName"></div>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Status</label><select
-                                class="form-control-tally">
-                                <option>Active</option>
-                                <option>Inactive</option>
-                            </select></div>
+                        <div class="form-group">
+                            <label class="form-label">Account Type *</label>
+                            <select class="form-control-tally" id="AccountType">
+                                <option value="">-- Select Type --</option>
+                                <option value="Asset">Asset</option>
+                                <option value="Liability">Liability</option>
+                                <option value="Revenue">Revenue</option>
+                                <option value="Expense">Expense</option>
+                            </select>
+                            <div class="field-error" id="error-AccountType"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Opening Balance</label>
+                            <input type="number" class="form-control-tally" placeholder="0.00" id="OpeningBalance" step="0.01">
+                            <div class="field-error" id="error-OpeningBalance"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Balance Type</label>
+                            <select class="form-control-tally" id="BalanceType">
+                                <option value="Dr">Debit (Dr)</option>
+                                <option value="Cr">Credit (Cr)</option>
+                            </select>
+                            <div class="field-error" id="error-BalanceType"></div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="form-label">Description / Notes</label>
+                            <textarea class="form-control-tally" rows="2" placeholder="Optional description..." id="Description"></textarea>
+                            <div class="field-error" id="error-Description"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Currency</label>
+                            <select class="form-control-tally" id="Currency">
+                                <option value="INR">INR — Indian Rupee</option>
+                                <option value="USD">USD — US Dollar</option>
+                                <option value="EUR">EUR — Euro</option>
+                            </select>
+                            <div class="field-error" id="error-Currency"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Status</label>
+                            <select class="form-control-tally" id="Status">
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                            <div class="field-error" id="error-Status"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1167,8 +1149,19 @@
         // STATE
         // ============================================================
         let currentPage = 'ledger';
-        let ledgerData = [];
+        let ledgerState = {
+            data: [],
+            page: 1,
+            pageSize: 10,
+            totalCount: 0,
+            totalPages: 0,
+            search: '',
+            sortColumn: 'Id',
+            sortDirection: 'asc',
+            editingId: null
+        };
         let deleteTarget = null;
+        let searchDebounceTimer = null;
 
         // ============================================================
         // PAGE NAVIGATION
@@ -1176,57 +1169,17 @@
         const pageTitles = {
             'dashboard': 'Dashboard',
             'ledger': 'Ledger Management',
-            'voucher': 'Voucher Entry',
-            'payable': 'Accounts Payable & Receivable',
-            'bank-recon': 'Bank Reconciliation',
-            'bank-recon2': 'Bank Reconciliation',
-            'cash-bank': 'Cash & Bank Management',
-            'multicurrency': 'Multi-currency Support',
-            'stock-items': 'Stock Items & Categories',
-            'stock-groups': 'Stock Groups & Valuation',
-            'batch-tracking': 'Batch / Expiry / Serial',
-            'stock-movement': 'Stock In/Out & Transfer',
-            'godown': 'Godown / Warehouse',
-            'gst-calc': 'GST Calculation & Filing',
-            'vat-service': 'VAT / Service Tax',
-            'tax-reports': 'Tax Reports',
-            'tds-tcs': 'TDS / TCS Management',
-            'employees': 'Employee Management',
-            'payroll-calc': 'Payroll Calculation',
-            'payslip': 'Payslip Generation',
-            'deductions': 'PF / ESI / TDS',
-            'payments': 'Cheque / Online Payments',
-            'reminders': 'Payment Reminders',
-            'banking-integration': 'Banking Integration',
-            'trial-balance': 'Trial Balance / BS / P&L',
-            'cashflow': 'Cash Flow Statements',
-            'stock-reports': 'Stock & Inventory Reports',
-            'sales-purchase': 'Sales & Purchase Summary',
-            'branches': 'Branch Accounting',
-            'consolidation': 'Consolidation of Accounts',
-            'branch-tracking': 'Stock & Sales per Branch',
-            'user-access': 'User Access Control',
-            'encryption': 'Data Encryption & Backup',
-            'audit': 'Audit Trails & Logs',
-            'automation': 'Voucher Automation',
-            'budget': 'Budgeting & Cost Centers',
-            'multi-curr-tx': 'Multi-currency Transactions',
-            'custom-reports': 'Custom Reports',
+            'voucher': 'Voucher Entry'
         };
 
         function showPage(pageId) {
-            // Hide all pages
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            // Show target
             const target = document.getElementById('page-' + pageId);
             if (target) {
                 target.classList.add('active');
                 currentPage = pageId;
                 document.getElementById('breadcrumbCurrent').textContent = pageTitles[pageId] || pageId;
-                // Update active nav links
-                document.querySelectorAll('.nav-link, .nav-sublink').forEach(l => l.classList.remove('active'));
             }
-            // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -1234,30 +1187,68 @@
             const item = document.getElementById(navId);
             if (!item) return;
             const isOpen = item.classList.contains('open');
-            // Close all others
-            document.querySelectorAll('.nav-item.open').forEach(i => {
-                if (i.id !== navId) i.classList.remove('open');
-            });
+            document.querySelectorAll('.nav-item.open').forEach(i => { if (i.id !== navId) i.classList.remove('open'); });
             item.classList.toggle('open', !isOpen);
         }
 
         // ============================================================
         // MODAL MANAGEMENT
         // ============================================================
-        function openModal(modalId, title) {
+        function openModal(modalId, ledger = null) {
             const overlay = document.getElementById(modalId);
             if (overlay) {
                 overlay.classList.add('open');
-                if (title) {
-                    const titleEl = document.getElementById(modalId + 'Title');
-                    if (titleEl) titleEl.textContent = 'Add ' + title;
+                if (ledger) {
+                    // Edit mode - populate form
+                    ledgerState.editingId = ledger.id;
+                    document.getElementById('ledgerModalTitle').textContent = 'Edit Ledger';
+                    populateForm(ledger);
+                } else {
+                    // Create mode - clear form
+                    ledgerState.editingId = null;
+                    document.getElementById('ledgerModalTitle').textContent = 'Create New Ledger';
+                    clearForm();
                 }
+                clearErrors();
             }
         }
 
         function closeModal(modalId) {
             const overlay = document.getElementById(modalId);
             if (overlay) overlay.classList.remove('open');
+        }
+
+        function populateForm(ledger) {
+            document.getElementById('LedgerName').value = ledger.ledgerName || '';
+            document.getElementById('LedgerCode').value = ledger.ledgerCode || '';
+            document.getElementById('GroupName').value = ledger.groupName || '';
+            document.getElementById('AccountType').value = ledger.accountType || '';
+            document.getElementById('OpeningBalance').value = ledger.openingBalance || '';
+            document.getElementById('BalanceType').value = ledger.balanceType || 'Dr';
+            document.getElementById('Description').value = ledger.description || '';
+            document.getElementById('Currency').value = ledger.currency || 'INR';
+            document.getElementById('Status').value = ledger.status || 'Active';
+        }
+
+        function clearForm() {
+            document.getElementById('LedgerName').value = '';
+            document.getElementById('LedgerCode').value = '';
+            document.getElementById('GroupName').value = '';
+            document.getElementById('AccountType').value = '';
+            document.getElementById('OpeningBalance').value = '';
+            document.getElementById('BalanceType').value = 'Dr';
+            document.getElementById('Description').value = '';
+            document.getElementById('Currency').value = 'INR';
+            document.getElementById('Status').value = 'Active';
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
+        }
+
+        function showFieldError(fieldId, message) {
+            const errorEl = document.getElementById('error-' + fieldId);
+            if (errorEl) errorEl.textContent = message;
         }
 
         // Close on overlay click
@@ -1268,61 +1259,253 @@
         });
 
         // ============================================================
-        // LEDGER CRUD
+        // DATA LOADING
         // ============================================================
-        function saveLedger() {
-            const name = document.getElementById('ledgerName').value.trim();
-            if (!name) { showToast('Ledger name is required!', 'error'); return; }
-            const ledger = {
-                id: Date.now(),
-                name: name,
-                date: new Date().toLocaleDateString('en-IN')
+        async function loadLedgers() {
+            const params = new URLSearchParams({
+                page: ledgerState.page,
+                pageSize: ledgerState.pageSize,
+                search: ledgerState.search,
+                sortColumn: ledgerState.sortColumn,
+                sortDirection: ledgerState.sortDirection
+            });
+
+            try {
+                const response = await fetch(`/LedgerAccount/api/index?${params}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const result = await response.json();
+
+                ledgerState.data = result.data || [];
+                ledgerState.totalCount = result.totalCount || 0;
+                ledgerState.totalPages = result.totalPages || 0;
+                ledgerState.page = result.page || 1;
+                ledgerState.hasPreviousPage = result.hasPreviousPage || false;
+                ledgerState.hasNextPage = result.hasNextPage || false;
+
+                renderTable();
+                renderPagination();
+            } catch (error) {
+                console.error('Error fetching ledgers:', error);
+                showToast('Failed to load ledgers', 'error');
+            }
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('ledgerTableBody');
+            tbody.innerHTML = '';
+
+            if (ledgerState.data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text-muted);">No records found</td></tr>`;
+                return;
+            }
+
+            const start = ((ledgerState.page - 1) * ledgerState.pageSize) + 1;
+            ledgerState.data.forEach((ledger, index) => {
+                const row = document.createElement('tr');
+                const serial = start + index;
+                row.innerHTML = `
+                    <td>${serial}</td>
+                    <td>${escapeHtml(ledger.ledgerName)}</td>
+                    <td>${escapeHtml(ledger.groupName)}</td>
+                    <td>${escapeHtml(ledger.accountType)}</td>
+                    <td class="amount-positive">₹${formatNumber(ledger.openingBalance)}</td>
+                    <td><span class="badge-tally ${ledger.status === 'Active' ? 'badge-success' : 'badge-warning'}">${escapeHtml(ledger.status)}</span></td>
+                    <td>
+                        <button class="btn-tally-edit" onclick="editLedgerById(${ledger.id})"><i class="bi bi-pencil"></i></button>
+                        <button class="btn-tally-danger" onclick="deleteLedger(${ledger.id})"><i class="bi bi-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            document.getElementById('showingStart').textContent = ledgerState.totalCount > 0 ? start : 0;
+            document.getElementById('showingEnd').textContent = Math.min(start + ledgerState.pageSize - 1, ledgerState.totalCount);
+            document.getElementById('totalRecords').textContent = ledgerState.totalCount;
+        }
+
+        function renderPagination() {
+            const pageNumbersEl = document.getElementById('pageNumbers');
+            pageNumbersEl.innerHTML = '';
+
+            // Generate page number buttons (up to 5)
+            const maxButtons = 5;
+            let startPage = Math.max(1, ledgerState.page - Math.floor(maxButtons / 2));
+            let endPage = Math.min(ledgerState.totalPages, startPage + maxButtons - 1);
+            if (endPage - startPage < maxButtons - 1) {
+                startPage = Math.max(1, endPage - maxButtons + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const btn = document.createElement('button');
+                btn.className = `btn-tally-outline ${i === ledgerState.page ? 'active' : ''}`;
+                btn.style.cssText = 'padding:6px 10px;min-width:36px;';
+                btn.textContent = i;
+                btn.onclick = () => goToPage(i);
+                pageNumbersEl.appendChild(btn);
+            }
+
+            document.getElementById('prevBtn').disabled = !ledgerState.hasPreviousPage;
+            document.getElementById('nextBtn').disabled = !ledgerState.hasNextPage;
+            document.getElementById('pageSizeSelect').value = ledgerState.pageSize;
+        }
+
+        function goToPage(page) {
+            if (page < 1 || page > ledgerState.totalPages) return;
+            ledgerState.page = page;
+            loadLedgers();
+        }
+
+        function prevPage() {
+            if (ledgerState.hasPreviousPage) goToPage(ledgerState.page - 1);
+        }
+
+        function nextPage() {
+            if (ledgerState.hasNextPage) goToPage(ledgerState.page + 1);
+        }
+
+        function changePageSize() {
+            const select = document.getElementById('pageSizeSelect');
+            ledgerState.pageSize = parseInt(select.value);
+            ledgerState.page = 1; // Reset to first page
+            loadLedgers();
+        }
+
+        function sortBy(column) {
+            if (ledgerState.sortColumn === column) {
+                ledgerState.sortDirection = ledgerState.sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                ledgerState.sortColumn = column;
+                ledgerState.sortDirection = 'asc';
+            }
+            ledgerState.page = 1;
+            loadLedgers();
+        }
+
+        // ============================================================
+        // CRUD OPERATIONS
+        // ============================================================
+        async function saveLedger() {
+            clearErrors();
+
+            const formData = {
+                ledgerName: document.getElementById('LedgerName').value.trim(),
+                ledgerCode: document.getElementById('LedgerCode').value.trim(),
+                groupName: document.getElementById('GroupName').value,
+                accountType: document.getElementById('AccountType').value,
+                openingBalance: parseFloat(document.getElementById('OpeningBalance').value) || 0,
+                balanceType: document.getElementById('BalanceType').value,
+                description: document.getElementById('Description').value.trim(),
+                currency: document.getElementById('Currency').value,
+                status: document.getElementById('Status').value
             };
-            ledgerData.push(ledger);
-            closeModal('ledgerModal');
-            showToast('Ledger "' + name + '" created!', 'success');
-            document.getElementById('ledgerName').value = '';
+
+            // Client-side validation
+            let hasError = false;
+            if (!formData.ledgerName) { showFieldError('LedgerName', 'Ledger Name is required'); hasError = true; }
+            if (!formData.ledgerCode) { showFieldError('LedgerCode', 'Ledger Code is required'); hasError = true; }
+            if (!formData.groupName) { showFieldError('GroupName', 'Group is required'); hasError = true; }
+            if (!formData.accountType) { showFieldError('AccountType', 'Account Type is required'); hasError = true; }
+            if (!formData.balanceType) { showFieldError('BalanceType', 'Balance Type is required'); hasError = true; }
+            if (!formData.currency) { showFieldError('Currency', 'Currency is required'); hasError = true; }
+            if (!formData.status) { showFieldError('Status', 'Status is required'); hasError = true; }
+
+            if (hasError) return;
+
+            try {
+                const url = ledgerState.editingId
+                    ? `/LedgerAccount/update/${ledgerState.editingId}`
+                    : `/LedgerAccount/create`;
+                const method = ledgerState.editingId ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    if (response.status === 400 && result.errors) {
+                        // Display server validation errors
+                        for (const [field, messages] of Object.entries(result.errors)) {
+                            messages.forEach(msg => showFieldError(field, msg));
+                        }
+                        return;
+                    }
+                    throw new Error(result.message || 'Save failed');
+                }
+
+                closeModal('ledgerModal');
+                showToast(ledgerState.editingId ? 'Ledger updated!' : 'Ledger created!', 'success');
+                loadLedgers();
+            } catch (error) {
+                console.error('Save error:', error);
+                showToast('Failed to save ledger: ' + error.message, 'error');
+            }
+        }
+
+        function editLedgerById(id) {
+            const ledger = ledgerState.data.find(l => l.id === id);
+            if (ledger) {
+                openModal('ledgerModal', ledger);
+            } else {
+                showToast('Ledger not found', 'error');
+            }
         }
 
         function editLedger(id) {
-            document.getElementById('ledgerModalTitle').textContent = 'Edit Ledger';
-            openModal('ledgerModal');
+            editLedgerById(id);
         }
 
-        function deleteLedger(id) {
-            deleteTarget = { type: 'ledger', id: id };
+        async function deleteLedger(id) {
+            deleteTarget = { id };
             openModal('deleteModal');
         }
 
-        function confirmDelete() {
-            closeModal('deleteModal');
-            showToast('Record deleted successfully', 'info');
-            deleteTarget = null;
+        async function confirmDelete() {
+            if (!deleteTarget) return;
+
+            try {
+                const response = await fetch(`/LedgerAccount/delete/${deleteTarget.id}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error('Delete failed');
+
+                closeModal('deleteModal');
+                showToast('Ledger deleted successfully', 'success');
+                loadLedgers();
+            } catch (error) {
+                showToast('Failed to delete ledger', 'error');
+            } finally {
+                deleteTarget = null;
+            }
         }
 
         // ============================================================
-        // VOUCHER TYPE SELECTION
+        // SEARCH
         // ============================================================
-        function selectVoucherType(btn, type) {
-            document.querySelectorAll('.voucher-type-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+        function handleSearch(e) {
+            clearTimeout(searchDebounceTimer);
+            const query = e.target.value.trim();
+            searchDebounceTimer = setTimeout(() => {
+                ledgerState.search = query;
+                ledgerState.page = 1;
+                loadLedgers();
+            }, 500);
         }
 
         // ============================================================
-        // TAB SWITCHING
+        // UTILITY
         // ============================================================
-        function switchTab(btn, contentId) {
-            // Find sibling tabs
-            const tabs = btn.closest('.tally-tabs');
-            if (tabs) tabs.querySelectorAll('.tally-tab').forEach(t => t.classList.remove('active'));
-            btn.classList.add('active');
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
-            // Find sibling content divs — we look for the next div after tabs
-            const page = btn.closest('.page');
-            const allTabContents = page.querySelectorAll('[id^="tab-"],[id^="rpt-"]');
-            allTabContents.forEach(c => c.style.display = 'none');
-            const target = document.getElementById(contentId);
-            if (target) target.style.display = 'block';
+        function formatNumber(num) {
+            if (num === null || num === undefined) return '0';
+            return parseFloat(num).toLocaleString('en-IN', { maximumFractionDigits: 2 });
         }
 
         // ============================================================
@@ -1371,23 +1554,14 @@
         });
 
         // ============================================================
-        // TABLE SEARCH
+        // TABLE SEARCH (delegates to server)
         // ============================================================
-        document.querySelectorAll('.table-search').forEach(input => {
-            input.addEventListener('input', function () {
-                const q = this.value.toLowerCase();
-                const table = this.closest('.data-table-wrapper').querySelector('.tally-table');
-                if (!table) return;
-                table.querySelectorAll('tbody tr').forEach(row => {
-                    row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
-                });
-            });
-        });
+        document.querySelector('.table-search').addEventListener('input', handleSearch);
 
         // ============================================================
         // FULLSCREEN
         // ============================================================
-        document.querySelector('[title="Full Screen"]').addEventListener('click', function () {
+        document.querySelector('[title="Full Screen"]')?.addEventListener('click', function () {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen();
                 this.querySelector('i').className = 'bi bi-fullscreen-exit';
@@ -1404,19 +1578,15 @@
             if (e.key === 'Escape') {
                 document.querySelectorAll('.tally-modal-overlay.open').forEach(m => m.classList.remove('open'));
             }
-            if (e.ctrlKey && e.key === 'l') { e.preventDefault(); window.location.href = 'ledger.html'; }
-            if (e.ctrlKey && e.key === 'v') { e.preventDefault(); window.location.href = 'voucher.html'; openModal('voucherModal'); }
+            if (e.ctrlKey && e.key === 'l') { e.preventDefault(); /* nav to ledger */ }
         });
 
         // ============================================================
-        // INIT
+        // INITIALIZATION
         // ============================================================
         document.addEventListener('DOMContentLoaded', function () {
-            showToast('Welcome to TallyPro Enterprise! 🚀', 'info');
-
-            // Set today's date in date inputs
-            const today = new Date().toISOString().split('T')[0];
-            document.querySelectorAll('input[type=date]').forEach(input => { if (!input.value) input.value = today; });
+            loadLedgers();
+            showToast('Ledger data loaded', 'info');
         });
     </script>
 </body>

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TALLY_APP.Interfaces.AccountingFinance;
 using TALLY_APP.DTOs.Request.AccountingFinance;
@@ -45,14 +46,26 @@ namespace TALLY_APP.Controllers.AccountingFinance
         }
 
         /**
-         * Get paginated list
+         * Get paginated list with server-side search, sort, pagination
          *
-         * @return List of LedgerAccount objects
+         * Query params:
+         * - page: page number (default 1)
+         * - pageSize: records per page (default 10)
+         * - search: global search term
+         * - sortColumn: column to sort by (default Id)
+         * - sortDirection: asc or desc (default asc)
+         *
+         * @return PaginatedLedgerResponse
          */
         [HttpGet("api/index")]
-        public async Task<ActionResult<List<LedgerAccountResponse>>> ApiIndex()
+        public async Task<ActionResult<PaginatedLedgerResponse>> ApiIndex(
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string search = "",
+            [FromQuery] string sortColumn = "Id",
+            [FromQuery] string sortDirection = "asc")
         {
-            return await _service.Index();
+            return await _service.Index(page, pageSize, search, sortColumn, sortDirection);
         }
 
         /**
@@ -64,7 +77,10 @@ namespace TALLY_APP.Controllers.AccountingFinance
         [HttpGet("view/{id}")]
         public async Task<ActionResult<LedgerAccountResponse>> View(long id)
         {
-            return await _service.View(id);
+            var result = await _service.View(id);
+            if (result == null)
+                return NotFound();
+            return result;
         }
 
         /**
@@ -76,7 +92,11 @@ namespace TALLY_APP.Controllers.AccountingFinance
         [HttpPost("create")]
         public async Task<ActionResult<LedgerAccountResponse>> Create([FromBody] LedgerAccountRequest request)
         {
-            return await _service.Create(request);
+            if (!ModelState.IsValid)
+                return BadRequest(new { errors = GetModelStateErrors() });
+
+            var result = await _service.Create(request);
+            return Ok(result);
         }
 
         /**
@@ -89,7 +109,11 @@ namespace TALLY_APP.Controllers.AccountingFinance
         [HttpPut("update/{id}")]
         public async Task<ActionResult<LedgerAccountResponse>> Update(long id, [FromBody] LedgerAccountRequest request)
         {
-            return await _service.Update(id, request);
+            if (!ModelState.IsValid)
+                return BadRequest(new { errors = GetModelStateErrors() });
+
+            var result = await _service.Update(id, request);
+            return Ok(result);
         }
 
         /**
@@ -103,6 +127,23 @@ namespace TALLY_APP.Controllers.AccountingFinance
         {
             await _service.Delete(id);
             return Ok(new { message = "Deleted successfully" });
+        }
+
+        /**
+         * Helper: Extract model state errors
+         */
+        private Dictionary<string, string[]> GetModelStateErrors()
+        {
+            var errors = new Dictionary<string, string[]>();
+            foreach (var key in ModelState.Keys)
+            {
+                var state = ModelState[key];
+                if (state.Errors.Count > 0)
+                {
+                    errors[key] = state.Errors.Select(e => e.ErrorMessage).ToArray();
+                }
+            }
+            return errors;
         }
     }
 }

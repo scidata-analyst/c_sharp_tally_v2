@@ -8,6 +8,8 @@ F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\bin\Debug\net10.0\TALLY_APP.runtime
 F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\bin\Debug\net10.0\TALLY_APP.dll
 F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\bin\Debug\net10.0\TALLY_APP.pdb
 F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\bin\Debug\net10.0\Humanizer.dll
+F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\bin\Debug\net10.0\Mapster.dll
+F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\bin\Debug\net10.0\Mapster.Core.dll
 F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\bin\Debug\net10.0\Microsoft.Bcl.AsyncInterfaces.dll
 F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\bin\Debug\net10.0\Microsoft.Build.Locator.dll
 F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\bin\Debug\net10.0\Microsoft.CodeAnalysis.dll
@@ -112,6 +114,7 @@ F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\obj\Debug\net10.0\scopedcss\Views\S
 F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\obj\Debug\net10.0\scopedcss\bundle\TALLY_APP.styles.css
 F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\obj\Debug\net10.0\scopedcss\projectbundle\TALLY_APP.bundle.scp.css
 F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\obj\Debug\net10.0\compressed\vhnh6p4o9z-{0}-b9sayid5wm-b9sayid5wm.gz
+F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\obj\Debug\net10.0\compressed\8v21iaka4z-{0}-rjkaow77a2-rjkaow77a2.gz
 F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\obj\Debug\net10.0\compressed\xwny8rdf2y-{0}-61n19gt1b8-61n19gt1b8.gz
 F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\obj\Debug\net10.0\compressed\lufsgzn0go-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\obj\Debug\net10.0\compressed\6ifsk91x94-{0}-bqjiyaj88i-bqjiyaj88i.gz
@@ -186,6 +189,3 @@ F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\obj\Debug\net10.0\refint\TALLY_APP.
 F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\obj\Debug\net10.0\TALLY_APP.pdb
 F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\obj\Debug\net10.0\TALLY_APP.genruntimeconfig.cache
 F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\obj\Debug\net10.0\ref\TALLY_APP.dll
-F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\obj\Debug\net10.0\compressed\8v21iaka4z-{0}-w53zvme3n0-w53zvme3n0.gz
-F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\bin\Debug\net10.0\Mapster.dll
-F:\DASHBOARD_APP\GIT_VERSION\TALLY\TALLY_APP\bin\Debug\net10.0\Mapster.Core.dll

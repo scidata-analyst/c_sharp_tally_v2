@@ -64,7 +64,6 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          * Type: string
          * Description: Request property for LedgerAccount
          */
-        [Required]
         public string Description { get; set; }
         /**
          * Field: Currency

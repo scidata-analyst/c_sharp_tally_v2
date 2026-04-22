@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.AccountingFinance;
 
@@ -30,67 +31,106 @@ namespace TALLY_APP.Services.AccountingFinance
 
         /**
          * @method All
-         * @returns {Task<List<LedgerAccount>>}
+         * @returns {Task<List<LedgerAccountResponse>>}
          */
-        
-
         public async Task<List<LedgerAccountResponse>> All()
         {
-            var entities = await _repository.GetAllAsync();
+            var entities = await _repository.All();
             return entities.Adapt<List<LedgerAccountResponse>>();
         }
 
-        public async Task<List<LedgerAccountResponse>> Index()
+        /**
+         * @method Index
+         * @param int page
+         * @param int pageSize
+         * @param string search
+         * @param string sortColumn
+         * @param string sortDirection
+         * @returns {Task<PaginatedLedgerResponse>}
+         */
+        public async Task<PaginatedLedgerResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc")
         {
-            var entities = await _repository.GetAllAsync();
-            return entities.Adapt<List<LedgerAccountResponse>>();
-        }
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+            if (pageSize > 100) pageSize = 100; // Max limit
 
+            var (items, totalCount) = await _repository.Index(page, pageSize, search, sortColumn, sortDirection);
+            var data = items.Adapt<List<LedgerAccountResponse>>();
+            int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            return new PaginatedLedgerResponse
+            {
+                Data = data,
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                HasPreviousPage = page > 1,
+                HasNextPage = page < totalPages
+            };
+        }
 
         /**
          * @method View
          * @param {long} id
-         * @returns {Task<LedgerAccount>}
+         * @returns {Task<LedgerAccountResponse>}
          */
         public async Task<LedgerAccountResponse> View(long id)
         {
-            var entity = await _repository.GetByIdAsync(id);
+            var entity = await _repository.View(id);
             return entity.Adapt<LedgerAccountResponse>();
         }
 
         /**
          * @method Create
-         * @param {LedgerAccount} entity
+         * @param {LedgerAccountRequest} request
+         * @returns {Task<LedgerAccountResponse>}
          */
         public async Task<LedgerAccountResponse> Create(LedgerAccountRequest request)
         {
+            // Validate request
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
             var entity = request.Adapt<LedgerAccount>();
-            await _repository.AddAsync(entity);
+            entity.CreatedAt = DateTime.UtcNow;
+            entity.UpdatedAt = DateTime.UtcNow;
+
+            await _repository.Create(entity);
             return entity.Adapt<LedgerAccountResponse>();
         }
 
         /**
          * @method Update
          * @param {long} id
-         * @param {LedgerAccount} entity
+         * @param {LedgerAccountRequest} request
+         * @returns {Task<LedgerAccountResponse>}
          */
         public async Task<LedgerAccountResponse> Update(long id, LedgerAccountRequest request)
         {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
             var entity = request.Adapt<LedgerAccount>();
             entity.Id = id;
-            await _repository.UpdateAsync(entity);
+            entity.UpdatedAt = DateTime.UtcNow;
+
+            await _repository.Update(entity);
             return entity.Adapt<LedgerAccountResponse>();
         }
 
         /**
          * @method Delete
          * @param {long} id
+         * @returns {Task<bool>}
          */
         public async Task<bool> Delete(long id)
         {
-            await _repository.DeleteAsync(id);
+            await _repository.Delete(id);
             return true;
         }
+
+
     }
 }
 

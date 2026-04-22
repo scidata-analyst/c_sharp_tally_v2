@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace TALLY_APP.DTOs.Response.AccountingFinance
 {
@@ -83,5 +84,63 @@ namespace TALLY_APP.DTOs.Response.AccountingFinance
          */
         public DateTime UpdatedAt { get; set; }
 
+    }
+
+    /**
+     * Response DTO: PaginatedLedgerResponse
+     *
+     * Purpose:
+     * API response model for paginated ledger list
+     */
+    public class PaginatedLedgerResponse
+    {
+        /**
+         * Field: Data
+         * Type: List<LedgerAccountResponse>
+         * Description: List of ledger accounts
+         */
+        public List<LedgerAccountResponse> Data { get; set; }
+
+        /**
+         * Field: TotalCount
+         * Type: int
+         * Description: Total number of records
+         */
+        public int TotalCount { get; set; }
+
+        /**
+         * Field: Page
+         * Type: int
+         * Description: Current page number
+         */
+        public int Page { get; set; }
+
+        /**
+         * Field: PageSize
+         * Type: int
+         * Description: Number of records per page
+         */
+        public int PageSize { get; set; }
+
+        /**
+         * Field: TotalPages
+         * Type: int
+         * Description: Total number of pages
+         */
+        public int TotalPages { get; set; }
+
+        /**
+         * Field: HasPreviousPage
+         * Type: bool
+         * Description: Whether previous page exists
+         */
+        public bool HasPreviousPage { get; set; }
+
+        /**
+         * Field: HasNextPage
+         * Type: bool
+         * Description: Whether next page exists
+         */
+        public bool HasNextPage { get; set; }
     }
 }
