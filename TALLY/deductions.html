@@ -1068,65 +1068,7 @@
         let ledgerData = [];
         let deleteTarget = null;
 
-        // ============================================================
-        // PAGE NAVIGATION
-        // ============================================================
-        const pageTitles = {
-            'dashboard': 'Dashboard',
-            'ledger': 'Ledger Management',
-            'voucher': 'Voucher Entry',
-            'payable': 'Accounts Payable & Receivable',
-            'bank-recon': 'Bank Reconciliation',
-            'bank-recon2': 'Bank Reconciliation',
-            'cash-bank': 'Cash & Bank Management',
-            'multicurrency': 'Multi-currency Support',
-            'stock-items': 'Stock Items & Categories',
-            'stock-groups': 'Stock Groups & Valuation',
-            'batch-tracking': 'Batch / Expiry / Serial',
-            'stock-movement': 'Stock In/Out & Transfer',
-            'godown': 'Godown / Warehouse',
-            'gst-calc': 'GST Calculation & Filing',
-            'vat-service': 'VAT / Service Tax Compliance',
-            'tax-reports': 'Tax Reports (GSTR1 / GSTR2 / GSTR3B)',
-            'tds-tcs': 'TDS / TCS Management',
-            'employees': 'Employee Info & Salary Structure',
-            'payroll-calc': 'Payroll Calculation',
-            'payslip': 'Payslip Generation',
-            'deductions': 'PF / ESI / TDS Deductions',
-            'payments': 'Cheque / Online Payments',
-            'reminders': 'Payment Reminders',
-            'banking-integration': 'Banking Integration',
-            'trial-balance': 'Trial Balance / Balance Sheet / P&L',
-            'cashflow': 'Cash Flow Statements',
-            'stock-reports': 'Stock & Inventory Reports',
-            'sales-purchase': 'Sales & Purchase Summary',
-            'branches': 'Branch Accounting',
-            'consolidation': 'Consolidation of Accounts',
-            'branch-tracking': 'Stock & Sales per Branch',
-            'user-access': 'User Access Control',
-            'encryption': 'Data Encryption & Backup',
-            'audit': 'Audit Trails & Logs',
-            'automation': 'Voucher Automation',
-            'budget': 'Budgeting & Cost Centers',
-            'multi-curr-tx': 'Multi-currency Transactions',
-            'custom-reports': 'Custom Reports',
-        };
 
-        function showPage(pageId) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            // Show target
-            const target = document.getElementById('page-' + pageId);
-            if (target) {
-                target.classList.add('active');
-                currentPage = pageId;
-                document.getElementById('breadcrumbCurrent').textContent = pageTitles[pageId] || pageId;
-                // Update active nav links
-                document.querySelectorAll('.nav-link, .nav-sublink').forEach(l => l.classList.remove('active'));
-            }
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
 
         function toggleNav(navId) {
             const item = document.getElementById(navId);

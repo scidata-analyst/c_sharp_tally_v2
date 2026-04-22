@@ -1163,25 +1163,7 @@
         let deleteTarget = null;
         let searchDebounceTimer = null;
 
-        // ============================================================
-        // PAGE NAVIGATION
-        // ============================================================
-        const pageTitles = {
-            'dashboard': 'Dashboard',
-            'ledger': 'Ledger Management',
-            'voucher': 'Voucher Entry'
-        };
-
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            const target = document.getElementById('page-' + pageId);
-            if (target) {
-                target.classList.add('active');
-                currentPage = pageId;
-                document.getElementById('breadcrumbCurrent').textContent = pageTitles[pageId] || pageId;
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        
 
         function toggleNav(navId) {
             const item = document.getElementById(navId);
