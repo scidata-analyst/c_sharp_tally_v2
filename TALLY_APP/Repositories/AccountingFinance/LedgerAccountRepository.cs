@@ -91,9 +91,9 @@ namespace TALLY_APP.Repositories.AccountingFinance
         /**
          * @method View
          * @param {long} id - Record identifier
-         * @returns {Task<LedgerAccount>} Single ledger account entity
+         * @returns {Task<LedgerAccount?>} Single ledger account entity
          */
-        public async Task<LedgerAccount> View(long id)
+        public async Task<LedgerAccount?> View(long id)
         {
             return await _context.Set<LedgerAccount>().FindAsync(id);
         }

@@ -7,13 +7,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TallyPro — Enterprise Accounting Suite</title>
+    <title>TallyPro — Accounts Payable & Receivable</title>
     <partial name="_Styles" />
 </head>
 
 <body>
 
-        <partial name="_Sidebar" />
+    <partial name="_Sidebar" />
 
     <partial name="_Header" model='@("Accounts Payable & Receivable")' />
 
@@ -27,13 +27,17 @@
                     <div class="page-title">Accounts Payable & Receivable</div>
                     <div class="page-subtitle">Track outstanding payments and collections</div>
                 </div>
-                <button class="btn-tally-primary" onclick="openModal('partyModal')"><i class="bi bi-plus-lg"></i> Add
-                    Party</button>
+                <button class="btn-tally-primary" onclick="openModal('partyModal')">
+                    <i class="bi bi-plus-lg"></i> Add Party
+                </button>
             </div>
             <div class="tally-tabs">
                 <button class="tally-tab active" onclick="switchTab(this,'tab-receivable')">Receivable</button>
                 <button class="tally-tab" onclick="switchTab(this,'tab-payable')">Payable</button>
+                <button class="tally-tab" onclick="switchTab(this,'tab-parties')">Party Directory</button>
             </div>
+
+            <!-- Receivable Tab -->
             <div id="tab-receivable">
                 <div class="row g-3 mb-4">
                     <div class="col-md-4">
@@ -58,7 +62,9 @@
                 <div class="data-table-wrapper">
                     <div class="table-toolbar">
                         <div class="table-title">Outstanding Receivables</div>
-                        <div class="table-actions"><input class="table-search" placeholder="Search party..."></div>
+                        <div class="table-actions">
+                            <input class="table-search" placeholder="Search party...">
+                        </div>
                     </div>
                     <table class="tally-table">
                         <thead>
@@ -73,6 +79,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- Mock data for now, as focus is on Party Directory CRUD -->
                             <tr>
                                 <td>INV-3421</td>
                                 <td>Client XYZ Corp</td>
@@ -82,28 +89,12 @@
                                 <td><span class="badge-tally badge-success">Current</span></td>
                                 <td><button class="btn-tally-edit"><i class="bi bi-send"></i> Remind</button></td>
                             </tr>
-                            <tr>
-                                <td>INV-3385</td>
-                                <td>ABC Industries</td>
-                                <td class="text-mono">10-01-2026</td>
-                                <td class="text-mono">10-02-2026</td>
-                                <td class="amount-positive">₹2,50,000</td>
-                                <td><span class="badge-tally badge-warning">29 days</span></td>
-                                <td><button class="btn-tally-edit"><i class="bi bi-send"></i> Remind</button></td>
-                            </tr>
-                            <tr>
-                                <td>INV-3210</td>
-                                <td>Global Traders</td>
-                                <td class="text-mono">05-12-2025</td>
-                                <td class="text-mono">05-01-2026</td>
-                                <td class="amount-positive">₹80,000</td>
-                                <td><span class="badge-tally badge-danger">65 days</span></td>
-                                <td><button class="btn-tally-edit"><i class="bi bi-send"></i> Remind</button></td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+
+            <!-- Payable Tab -->
             <div id="tab-payable" style="display:none">
                 <div class="data-table-wrapper">
                     <div class="table-toolbar">
@@ -129,21 +120,74 @@
                                 <td class="text-mono">31-03-2026</td>
                                 <td class="amount-negative">₹45,000</td>
                                 <td><span class="badge-tally badge-success">Current</span></td>
-                                <td><button class="btn-tally-primary" style="font-size:11px;padding:5px 10px;"><i
-                                            class="bi bi-credit-card"></i> Pay</button></td>
-                            </tr>
-                            <tr>
-                                <td>PO-832</td>
-                                <td>Raw Materials Co.</td>
-                                <td class="text-mono">01-02-2026</td>
-                                <td class="text-mono">15-02-2026</td>
-                                <td class="amount-negative">₹1,80,000</td>
-                                <td><span class="badge-tally badge-danger">24 days</span></td>
-                                <td><button class="btn-tally-primary" style="font-size:11px;padding:5px 10px;"><i
-                                            class="bi bi-credit-card"></i> Pay</button></td>
+                                <td><button class="btn-tally-primary" style="font-size:11px;padding:5px 10px;"><i class="bi bi-credit-card"></i> Pay</button></td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Party Directory Tab -->
+            <div id="tab-parties" style="display:none">
+                <div class="data-table-wrapper">
+                    <div class="table-toolbar">
+                        <div class="table-title">Party Directory</div>
+                        <div class="table-actions">
+                            <input class="table-search" placeholder="Search parties..." oninput="handlePartySearch(event)">
+                            <button class="btn-tally-outline" onclick="loadParties()">
+                                <i class="bi bi-arrow-clockwise"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <table class="tally-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortBy('PartyName')" style="cursor:pointer;">
+                                    Party Name <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i>
+                                </th>
+                                <th onclick="sortBy('PartyType')" style="cursor:pointer;">
+                                    Type <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i>
+                                </th>
+                                <th onclick="sortBy('GSTIN')" style="cursor:pointer;">
+                                    GSTIN <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i>
+                                </th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th onclick="sortBy('Status')" style="cursor:pointer;">
+                                    Status <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i>
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="partyTableBody">
+                            <!-- Loaded via API -->
+                        </tbody>
+                    </table>
+
+                    <!-- Pagination Controls -->
+                    <div class="pagination-wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:15px 10px;border-top:1px solid var(--border);margin-top:10px;">
+                        <div style="font-size:13px;color:var(--text-muted);">
+                            Showing <span id="partyShowingStart">0</span> to <span id="partyShowingEnd">0</span> of <span id="partyTotalRecords">0</span> records
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <label style="font-size:13px;color:var(--text-muted);">Rows per page:</label>
+                            <select id="partyPageSizeSelect" class="form-control-tally" style="width:70px;padding:4px 8px;" onchange="changePartyPageSize()">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                            </select>
+                            <div style="display:flex;gap:4px;">
+                                <button class="btn-tally-outline" id="partyPrevBtn" style="padding:6px 12px;" onclick="prevPartyPage()">
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+                                <span id="partyPageNumbers" style="display:flex;gap:2px;"></span>
+                                <button class="btn-tally-outline" id="partyNextBtn" style="padding:6px 12px;" onclick="nextPartyPage()">
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -151,460 +195,6 @@
     </main>
 
     <!-- ===================== MODALS ===================== -->
-
-    <!-- Voucher Modal -->
-    <div class="tally-modal-overlay" id="voucherModal">
-        <div class="tally-modal">
-            <div class="modal-header">
-                <div class="modal-title">Create Voucher</div>
-                <div class="modal-close" onclick="closeModal('voucherModal')"><i class="bi bi-x-lg"></i></div>
-            </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Voucher Type *</label><select
-                                class="form-control-tally">
-                                <option>Payment</option>
-                                <option>Receipt</option>
-                                <option>Journal</option>
-                                <option>Contra</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Voucher Date *</label><input type="date"
-                                class="form-control-tally"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Party / Account *</label><input type="text"
-                                class="form-control-tally" placeholder="Select or type party name"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Amount *</label><input type="number"
-                                class="form-control-tally" placeholder="0.00"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Payment Mode</label><select
-                                class="form-control-tally">
-                                <option>Cash</option>
-                                <option>Bank Transfer</option>
-                                <option>Cheque</option>
-                                <option>UPI</option>
-                                <option>NEFT/RTGS</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Reference No.</label><input type="text"
-                                class="form-control-tally" placeholder="Cheque / UTR / Ref No."></div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group"><label class="form-label">Narration</label><textarea
-                                class="form-control-tally" rows="2"
-                                placeholder="Brief description of this voucher..."></textarea></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-tally-outline" onclick="closeModal('voucherModal')">Cancel</button>
-                <button class="btn-tally-outline" onclick="showToast('Saved as Draft','info')"><i
-                        class="bi bi-file-earmark"></i> Save Draft</button>
-                <button class="btn-tally-primary"
-                    onclick="closeModal('voucherModal');showToast('Voucher created successfully!','success')"><i
-                        class="bi bi-check-lg"></i> Post Voucher</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Ledger Modal -->
-    <div class="tally-modal-overlay" id="ledgerModal">
-        <div class="tally-modal">
-            <div class="modal-header">
-                <div class="modal-title" id="ledgerModalTitle">Create New Ledger</div>
-                <div class="modal-close" onclick="closeModal('ledgerModal')"><i class="bi bi-x-lg"></i></div>
-            </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-8">
-                        <div class="form-group"><label class="form-label">Ledger Name *</label><input type="text"
-                                class="form-control-tally" placeholder="e.g. HDFC Bank Account" id="ledgerName"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Ledger Code</label><input type="text"
-                                class="form-control-tally" placeholder="e.g. 001"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Under Group *</label><select
-                                class="form-control-tally">
-                                <option>Cash-in-Hand</option>
-                                <option>Bank Accounts</option>
-                                <option>Sundry Debtors</option>
-                                <option>Sundry Creditors</option>
-                                <option>Sales Accounts</option>
-                                <option>Purchase Accounts</option>
-                                <option>Duties & Taxes</option>
-                                <option>Fixed Assets</option>
-                                <option>Investments</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Account Type *</label><select
-                                class="form-control-tally">
-                                <option>Asset</option>
-                                <option>Liability</option>
-                                <option>Revenue</option>
-                                <option>Expense</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Opening Balance</label><input type="number"
-                                class="form-control-tally" placeholder="0.00"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Balance Type</label><select
-                                class="form-control-tally">
-                                <option>Debit (Dr)</option>
-                                <option>Credit (Cr)</option>
-                            </select></div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group"><label class="form-label">Description / Notes</label><textarea
-                                class="form-control-tally" rows="2" placeholder="Optional description..."></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Currency</label><select
-                                class="form-control-tally">
-                                <option>INR — Indian Rupee</option>
-                                <option>USD — US Dollar</option>
-                                <option>EUR — Euro</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Status</label><select
-                                class="form-control-tally">
-                                <option>Active</option>
-                                <option>Inactive</option>
-                            </select></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-tally-outline" onclick="closeModal('ledgerModal')">Cancel</button>
-                <button class="btn-tally-primary" onclick="saveLedger()"><i class="bi bi-check-lg"></i> Save
-                    Ledger</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Stock Item Modal -->
-    <div class="tally-modal-overlay" id="stockModal">
-        <div class="tally-modal">
-            <div class="modal-header">
-                <div class="modal-title">Add Stock Item</div>
-                <div class="modal-close" onclick="closeModal('stockModal')"><i class="bi bi-x-lg"></i></div>
-            </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-8">
-                        <div class="form-group"><label class="form-label">Item Name *</label><input type="text"
-                                class="form-control-tally" placeholder="e.g. Steel Pipe 2 inch"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Item Code</label><input type="text"
-                                class="form-control-tally" placeholder="ITM-001"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Category *</label><select
-                                class="form-control-tally">
-                                <option>Electrical</option>
-                                <option>Pipes & Fittings</option>
-                                <option>Building Materials</option>
-                                <option>Electronics</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Unit of Measure *</label><select
-                                class="form-control-tally">
-                                <option>Pcs</option>
-                                <option>Kg</option>
-                                <option>Litre</option>
-                                <option>Roll</option>
-                                <option>Bag</option>
-                                <option>Box</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Opening Qty</label><input type="number"
-                                class="form-control-tally" placeholder="0"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Purchase Rate</label><input type="number"
-                                class="form-control-tally" placeholder="0.00"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Selling Rate</label><input type="number"
-                                class="form-control-tally" placeholder="0.00"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Valuation Method</label><select
-                                class="form-control-tally">
-                                <option>FIFO</option>
-                                <option>LIFO</option>
-                                <option>Average Cost</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Reorder Level</label><input type="number"
-                                class="form-control-tally" placeholder="Minimum stock level"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">GST Rate (%)</label><select
-                                class="form-control-tally">
-                                <option>0%</option>
-                                <option>5%</option>
-                                <option>12%</option>
-                                <option>18%</option>
-                                <option>28%</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">HSN / SAC Code</label><input type="text"
-                                class="form-control-tally" placeholder="8-digit HSN code"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-tally-outline" onclick="closeModal('stockModal')">Cancel</button>
-                <button class="btn-tally-primary"
-                    onclick="closeModal('stockModal');showToast('Stock item added!','success')"><i
-                        class="bi bi-check-lg"></i> Save Item</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Employee Modal -->
-    <div class="tally-modal-overlay" id="employeeModal">
-        <div class="tally-modal">
-            <div class="modal-header">
-                <div class="modal-title">Add Employee</div>
-                <div class="modal-close" onclick="closeModal('employeeModal')"><i class="bi bi-x-lg"></i></div>
-            </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">First Name *</label><input type="text"
-                                class="form-control-tally" placeholder="First Name"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Last Name *</label><input type="text"
-                                class="form-control-tally" placeholder="Last Name"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Employee ID</label><input type="text"
-                                class="form-control-tally" placeholder="EMP-005"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Joining Date</label><input type="date"
-                                class="form-control-tally"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Department *</label><select
-                                class="form-control-tally">
-                                <option>Accounts</option>
-                                <option>HR</option>
-                                <option>Sales</option>
-                                <option>IT</option>
-                                <option>Operations</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Designation *</label><input type="text"
-                                class="form-control-tally" placeholder="e.g. Senior Manager"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Basic Salary *</label><input type="number"
-                                class="form-control-tally" placeholder="0.00"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">HRA</label><input type="number"
-                                class="form-control-tally" placeholder="0.00"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Allowances</label><input type="number"
-                                class="form-control-tally" placeholder="0.00"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">PAN Number</label><input type="text"
-                                class="form-control-tally" placeholder="ABCDE1234F"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Aadhar Number</label><input type="text"
-                                class="form-control-tally" placeholder="XXXX XXXX XXXX"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">PF Applicable</label><select
-                                class="form-control-tally">
-                                <option>Yes</option>
-                                <option>No</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">ESI Applicable</label><select
-                                class="form-control-tally">
-                                <option>Yes (if salary ≤21000)</option>
-                                <option>No</option>
-                            </select></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-tally-outline" onclick="closeModal('employeeModal')">Cancel</button>
-                <button class="btn-tally-primary"
-                    onclick="closeModal('employeeModal');showToast('Employee added successfully!','success')"><i
-                        class="bi bi-check-lg"></i> Save Employee</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- GST Entry Modal -->
-    <div class="tally-modal-overlay" id="gstModal">
-        <div class="tally-modal">
-            <div class="modal-header">
-                <div class="modal-title">Add GST Entry</div>
-                <div class="modal-close" onclick="closeModal('gstModal')"><i class="bi bi-x-lg"></i></div>
-            </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Invoice Number *</label><input type="text"
-                                class="form-control-tally" placeholder="INV-XXXX"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Invoice Date *</label><input type="date"
-                                class="form-control-tally"></div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="form-group"><label class="form-label">Party Name *</label><input type="text"
-                                class="form-control-tally" placeholder="Customer / Supplier name"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Type</label><select
-                                class="form-control-tally">
-                                <option>B2B</option>
-                                <option>B2C</option>
-                                <option>Export</option>
-                                <option>Import</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Party GSTIN</label><input type="text"
-                                class="form-control-tally" placeholder="15-char GSTIN" maxlength="15"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Place of Supply</label><select
-                                class="form-control-tally">
-                                <option>Maharashtra (27)</option>
-                                <option>Delhi (07)</option>
-                                <option>Karnataka (29)</option>
-                                <option>Tamil Nadu (33)</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Taxable Amount *</label><input type="number"
-                                class="form-control-tally" placeholder="0.00"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">GST Rate</label><select
-                                class="form-control-tally">
-                                <option>0%</option>
-                                <option>5%</option>
-                                <option>12%</option>
-                                <option>18%</option>
-                                <option>28%</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Transaction Type</label><select
-                                class="form-control-tally">
-                                <option>Inter-state (IGST)</option>
-                                <option>Intra-state (CGST+SGST)</option>
-                            </select></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-tally-outline" onclick="closeModal('gstModal')">Cancel</button>
-                <button class="btn-tally-primary"
-                    onclick="closeModal('gstModal');showToast('GST entry saved!','success')"><i
-                        class="bi bi-check-lg"></i> Save Entry</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- User Modal -->
-    <div class="tally-modal-overlay" id="userModal">
-        <div class="tally-modal">
-            <div class="modal-header">
-                <div class="modal-title">Add System User</div>
-                <div class="modal-close" onclick="closeModal('userModal')"><i class="bi bi-x-lg"></i></div>
-            </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Full Name *</label><input type="text"
-                                class="form-control-tally" placeholder="User full name"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Email *</label><input type="email"
-                                class="form-control-tally" placeholder="user@company.com"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Role *</label><select
-                                class="form-control-tally">
-                                <option>Super Admin</option>
-                                <option>Accountant</option>
-                                <option>HR Manager</option>
-                                <option>Inventory Manager</option>
-                                <option>Read Only</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Password *</label><input type="password"
-                                class="form-control-tally" placeholder="Min 8 characters"></div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group"><label class="form-label">Module Access</label>
-                            <div class="row g-2 mt-1">
-                                <div class="col-6"><label
-                                        style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text-secondary)"><input
-                                            type="checkbox" checked> Accounting</label></div>
-                                <div class="col-6"><label
-                                        style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text-secondary)"><input
-                                            type="checkbox"> Inventory</label></div>
-                                <div class="col-6"><label
-                                        style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text-secondary)"><input
-                                            type="checkbox" checked> GST & Tax</label></div>
-                                <div class="col-6"><label
-                                        style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text-secondary)"><input
-                                            type="checkbox"> Payroll</label></div>
-                                <div class="col-6"><label
-                                        style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text-secondary)"><input
-                                            type="checkbox"> Reports</label></div>
-                                <div class="col-6"><label
-                                        style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text-secondary)"><input
-                                            type="checkbox"> Security</label></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-tally-outline" onclick="closeModal('userModal')">Cancel</button>
-                <button class="btn-tally-primary"
-                    onclick="closeModal('userModal');showToast('User created and invite sent!','success')"><i
-                        class="bi bi-check-lg"></i> Create User</button>
-            </div>
-        </div>
-    </div>
 
     <!-- Party Modal -->
     <div class="tally-modal-overlay" id="partyModal">
@@ -615,247 +205,92 @@
             </div>
             <div class="modal-body">
                 <div class="row g-3">
+                    <input type="hidden" id="partyId">
                     <div class="col-md-8">
-                        <div class="form-group"><label class="form-label">Party Name *</label><input type="text"
-                                class="form-control-tally" placeholder="Company or individual name"></div>
+                        <div class="form-group">
+                            <label class="form-label">Party Name *</label>
+                            <input type="text" class="form-control-tally" id="partyName" placeholder="Company or individual name">
+                            <div class="field-error" id="error-PartyName"></div>
+                        </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Party Type</label><select
-                                class="form-control-tally">
-                                <option>Customer</option>
-                                <option>Supplier</option>
-                                <option>Both</option>
-                            </select></div>
+                        <div class="form-group">
+                            <label class="form-label">Party Type</label>
+                            <select class="form-control-tally" id="partyType">
+                                <option value="Customer">Customer</option>
+                                <option value="Supplier">Supplier</option>
+                                <option value="Both">Both</option>
+                            </select>
+                            <div class="field-error" id="error-PartyType"></div>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">GSTIN</label><input type="text"
-                                class="form-control-tally" placeholder="15-char GSTIN" maxlength="15"></div>
+                        <div class="form-group">
+                            <label class="form-label">GSTIN</label>
+                            <input type="text" class="form-control-tally" id="gstin" placeholder="15-char GSTIN" maxlength="15">
+                            <div class="field-error" id="error-Gstin"></div>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">PAN Number</label><input type="text"
-                                class="form-control-tally" placeholder="ABCDE1234F"></div>
+                        <div class="form-group">
+                            <label class="form-label">PAN Number</label>
+                            <input type="text" class="form-control-tally" id="panNumber" placeholder="ABCDE1234F">
+                            <div class="field-error" id="error-PanNumber"></div>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Phone</label><input type="tel"
-                                class="form-control-tally" placeholder="+91 XXXXX XXXXX"></div>
+                        <div class="form-group">
+                            <label class="form-label">Phone</label>
+                            <input type="tel" class="form-control-tally" id="phone" placeholder="+91 XXXXX XXXXX">
+                            <div class="field-error" id="error-Phone"></div>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Email</label><input type="email"
-                                class="form-control-tally" placeholder="party@email.com"></div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control-tally" id="email" placeholder="party@email.com">
+                            <div class="field-error" id="error-Email"></div>
+                        </div>
                     </div>
                     <div class="col-12">
-                        <div class="form-group"><label class="form-label">Address</label><textarea
-                                class="form-control-tally" rows="2"></textarea></div>
+                        <div class="form-group">
+                            <label class="form-label">Address</label>
+                            <textarea class="form-control-tally" id="address" rows="2"></textarea>
+                            <div class="field-error" id="error-Address"></div>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Credit Limit (₹)</label><input type="number"
-                                class="form-control-tally" placeholder="0"></div>
+                        <div class="form-group">
+                            <label class="form-label">Credit Limit (₹)</label>
+                            <input type="number" class="form-control-tally" id="creditLimit" placeholder="0">
+                            <div class="field-error" id="error-CreditLimit"></div>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Credit Period (Days)</label><input
-                                type="number" class="form-control-tally" placeholder="30"></div>
+                        <div class="form-group">
+                            <label class="form-label">Credit Period (Days)</label>
+                            <input type="number" class="form-control-tally" id="creditPeriod" placeholder="30">
+                            <div class="field-error" id="error-CreditPeriod"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Status</label>
+                            <select class="form-control-tally" id="partyStatus">
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                                <option value="Blacklisted">Blacklisted</option>
+                            </select>
+                            <div class="field-error" id="error-Status"></div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn-tally-outline" onclick="closeModal('partyModal')">Cancel</button>
-                <button class="btn-tally-primary"
-                    onclick="closeModal('partyModal');showToast('Party added!','success')"><i
-                        class="bi bi-check-lg"></i> Save Party</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Branch Modal -->
-    <div class="tally-modal-overlay" id="branchModal">
-        <div class="tally-modal">
-            <div class="modal-header">
-                <div class="modal-title">Add Branch</div>
-                <div class="modal-close" onclick="closeModal('branchModal')"><i class="bi bi-x-lg"></i></div>
-            </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-8">
-                        <div class="form-group"><label class="form-label">Branch Name *</label><input type="text"
-                                class="form-control-tally" placeholder="e.g. Pune Branch"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Branch Code</label><input type="text"
-                                class="form-control-tally" placeholder="BR-PUN"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">City / Location *</label><input type="text"
-                                class="form-control-tally" placeholder="City, State"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Branch Manager</label><select
-                                class="form-control-tally">
-                                <option>-- Select Manager --</option>
-                                <option>Rajesh Kumar</option>
-                                <option>Priya Sharma</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">GSTIN</label><input type="text"
-                                class="form-control-tally" placeholder="Branch GSTIN"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Phone</label><input type="text"
-                                class="form-control-tally" placeholder="Branch contact number"></div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group"><label class="form-label">Full Address</label><textarea
-                                class="form-control-tally" rows="2"></textarea></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-tally-outline" onclick="closeModal('branchModal')">Cancel</button>
-                <button class="btn-tally-primary"
-                    onclick="closeModal('branchModal');showToast('Branch created!','success')"><i
-                        class="bi bi-check-lg"></i> Save Branch</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bank Modal -->
-    <div class="tally-modal-overlay" id="bankModal">
-        <div class="tally-modal">
-            <div class="modal-header">
-                <div class="modal-title">Add Bank Account</div>
-                <div class="modal-close" onclick="closeModal('bankModal')"><i class="bi bi-x-lg"></i></div>
-            </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-8">
-                        <div class="form-group"><label class="form-label">Account Name *</label><input type="text"
-                                class="form-control-tally" placeholder="e.g. SBI Current Account"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Account Type</label><select
-                                class="form-control-tally">
-                                <option>Current</option>
-                                <option>Savings</option>
-                                <option>OD / CC</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Bank Name *</label><input type="text"
-                                class="form-control-tally" placeholder="e.g. State Bank of India"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Account Number *</label><input type="text"
-                                class="form-control-tally" placeholder="XXXXXXXXXX"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">IFSC Code</label><input type="text"
-                                class="form-control-tally" placeholder="SBIN0001234"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Opening Balance</label><input type="number"
-                                class="form-control-tally" placeholder="0.00"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-tally-outline" onclick="closeModal('bankModal')">Cancel</button>
-                <button class="btn-tally-primary"
-                    onclick="closeModal('bankModal');showToast('Bank account added!','success')"><i
-                        class="bi bi-check-lg"></i>
-                    Save</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Currency Modal -->
-    <div class="tally-modal-overlay" id="currencyModal">
-        <div class="tally-modal">
-            <div class="modal-header">
-                <div class="modal-title">Add Currency</div>
-                <div class="modal-close" onclick="closeModal('currencyModal')"><i class="bi bi-x-lg"></i></div>
-            </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-8">
-                        <div class="form-group"><label class="form-label">Currency Name *</label><input type="text"
-                                class="form-control-tally" placeholder="e.g. Japanese Yen"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Currency Code</label><input type="text"
-                                class="form-control-tally" placeholder="JPY" maxlength="3"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Symbol</label><input type="text"
-                                class="form-control-tally" placeholder="¥" maxlength="3"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Buy Rate (vs INR)</label><input type="number"
-                                class="form-control-tally" placeholder="0.000" step="0.001"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Sell Rate (vs INR)</label><input type="number"
-                                class="form-control-tally" placeholder="0.000" step="0.001"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-tally-outline" onclick="closeModal('currencyModal')">Cancel</button>
-                <button class="btn-tally-primary"
-                    onclick="closeModal('currencyModal');showToast('Currency added!','success')"><i
-                        class="bi bi-check-lg"></i>
-                    Save</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Generic Modal -->
-    <div class="tally-modal-overlay" id="genericModal">
-        <div class="tally-modal">
-            <div class="modal-header">
-                <div class="modal-title" id="genericModalTitle">Add New Entry</div>
-                <div class="modal-close" onclick="closeModal('genericModal')"><i class="bi bi-x-lg"></i></div>
-            </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-12">
-                        <div class="form-group"><label class="form-label">Name *</label><input type="text"
-                                class="form-control-tally" placeholder="Enter name"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Code / Reference</label><input type="text"
-                                class="form-control-tally" placeholder="Reference code"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Category</label><select
-                                class="form-control-tally">
-                                <option>Type A</option>
-                                <option>Type B</option>
-                                <option>Type C</option>
-                            </select></div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group"><label class="form-label">Description</label><textarea
-                                class="form-control-tally" rows="3" placeholder="Enter description..."></textarea></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Date</label><input type="date"
-                                class="form-control-tally">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Status</label><select
-                                class="form-control-tally">
-                                <option>Active</option>
-                                <option>Inactive</option>
-                            </select></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-tally-outline" onclick="closeModal('genericModal')">Cancel</button>
-                <button class="btn-tally-primary"
-                    onclick="closeModal('genericModal');showToast('Entry saved successfully!','success')"><i
-                        class="bi bi-check-lg"></i> Save</button>
+                <button class="btn-tally-primary" id="btnSaveParty" onclick="saveParty()">
+                    <i class="bi bi-check-lg"></i> Save Party
+                </button>
             </div>
         </div>
     </div>
@@ -864,14 +299,13 @@
     <div class="tally-modal-overlay" id="deleteModal">
         <div class="delete-confirm" style="margin:auto;">
             <div class="del-icon">🗑️</div>
-            <h5 style="font-family:var(--font-display);color:var(--text-primary);margin-bottom:8px;">Delete Entry?</h5>
-            <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">This action cannot be undone. The
-                record
-                will be permanently removed.</p>
+            <h5 style="font-family:var(--font-display);color:var(--text-primary);margin-bottom:8px;">Delete Party?</h5>
+            <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">This action cannot be undone. The record will be permanently removed.</p>
             <div class="d-flex justify-content-center gap-3">
                 <button class="btn-tally-outline" onclick="closeModal('deleteModal')">Cancel</button>
-                <button class="btn-tally-danger" style="padding:8px 20px;font-size:13px;" onclick="confirmDelete()"><i
-                        class="bi bi-trash"></i> Yes, Delete</button>
+                <button class="btn-tally-danger" style="padding:8px 20px;font-size:13px;" onclick="confirmDelete()">
+                    <i class="bi bi-trash"></i> Yes, Delete
+                </button>
             </div>
         </div>
     </div>
@@ -882,103 +316,424 @@
     <partial name="_Scripts" />
 
     <script>
-        // ============================================================
-        // STATE
-        // ============================================================
-        let currentPage = 'payable';
-        let ledgerData = [];
-        let deleteTarget = null;
+        /**
+         * @@typedef {Object} PartyState
+         * @@property {Array} data - List of parties
+         * @@property {number} page - Current page number
+         * @@property {number} pageSize - Records per page
+         * @@property {number} totalCount - Total number of records
+         * @@property {number} totalPages - Total number of pages
+         * @@property {string} search - Search query
+         * @@property {string} sortColumn - Column to sort by
+         * @@property {string} sortDirection - Sort direction (asc/desc)
+         * @@property {number|null} editingId - ID of the record being edited
+         * @@property {boolean} hasPreviousPage - Whether there is a previous page
+         * @@property {boolean} hasNextPage - Whether there is a next page
+         */
+        let partyState = {
+            data: [],
+            page: 1,
+            pageSize: 10,
+            totalCount: 0,
+            totalPages: 0,
+            search: '',
+            sortColumn: 'Id',
+            sortDirection: 'asc',
+            editingId: null,
+            hasPreviousPage: false,
+            hasNextPage: false
+        };
 
-        // ============================================================
-        // MODAL MANAGEMENT
-        // ============================================================
-        function openModal(modalId, title) {
-            const overlay = document.getElementById(modalId);
-            if (overlay) {
-                overlay.classList.add('open');
-                if (title) {
-                    const titleEl = document.getElementById(modalId + 'Title');
-                    if (titleEl) titleEl.textContent = 'Add ' + title;
-                }
+        let partySearchDebounceTimer;
+        let deleteTargetId = null;
+
+        /**
+         * Loads parties from the API based on current state.
+         * @@returns {Promise<void>}
+         */
+        async function loadParties() {
+            try {
+                const params = new URLSearchParams({
+                    page: partyState.page,
+                    pageSize: partyState.pageSize,
+                    search: partyState.search,
+                    sortColumn: partyState.sortColumn,
+                    sortDirection: partyState.sortDirection
+                });
+
+                const response = await fetch(`/PartyDirectory/api/index?${params}`);
+                if (!response.ok) throw new Error('Load failed');
+                
+                const result = await response.json();
+                partyState.data = result.data || [];
+                partyState.totalCount = result.totalCount || 0;
+                partyState.totalPages = result.totalPages || 0;
+                partyState.page = result.page || 1;
+                partyState.hasPreviousPage = result.hasPreviousPage || false;
+                partyState.hasNextPage = result.hasNextPage || false;
+                
+                renderPartyTable();
+                renderPartyPagination();
+                updateSortIcons();
+            } catch (error) {
+                console.error(error);
+                showToast('Failed to load parties', 'error');
             }
         }
 
-        function closeModal(modalId) {
-            const overlay = document.getElementById(modalId);
-            if (overlay) overlay.classList.remove('open');
-        }
+        /**
+         * Renders the party table rows.
+         */
+        function renderPartyTable() {
+            const tbody = document.getElementById('partyTableBody');
+            tbody.innerHTML = '';
 
-        // Close on overlay click
-        document.querySelectorAll('.tally-modal-overlay').forEach(overlay => {
-            overlay.addEventListener('click', function (e) {
-                if (e.target === this) closeModal(this.id);
+            if (partyState.data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text-muted);">No parties found</td></tr>';
+                return;
+            }
+
+            partyState.data.forEach(party => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="font-weight-bold">${escapeHtml(party.partyName)}</td>
+                    <td><span class="badge-tally ${party.partyType === 'Supplier' ? 'badge-danger' : 'badge-success'}">${escapeHtml(party.partyType)}</span></td>
+                    <td class="text-mono">${escapeHtml(party.gstin || 'N/A')}</td>
+                    <td>${escapeHtml(party.phone || '-')}</td>
+                    <td>${escapeHtml(party.email || '-')}</td>
+                    <td><span class="badge-tally ${party.status === 'Active' ? 'badge-success' : 'badge-warning'}">${escapeHtml(party.status)}</span></td>
+                    <td>
+                        <button class="btn-tally-edit" onclick="editParty(${party.id})"><i class="bi bi-pencil"></i></button>
+                        <button class="btn-tally-danger" onclick="deleteParty(${party.id})"><i class="bi bi-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(row);
             });
-        });
 
-        // ============================================================
-        // LEDGER CRUD
-        // ============================================================
-        function saveLedger() {
-            const name = document.getElementById('ledgerName').value.trim();
-            if (!name) { showToast('Ledger name is required!', 'error'); return; }
-            const ledger = {
-                id: Date.now(),
-                name: name,
-                date: new Date().toLocaleDateString('en-IN')
+            const start = ((partyState.page - 1) * partyState.pageSize) + 1;
+            document.getElementById('partyShowingStart').textContent = partyState.totalCount > 0 ? start : 0;
+            document.getElementById('partyShowingEnd').textContent = Math.min(start + partyState.pageSize - 1, partyState.totalCount);
+            document.getElementById('partyTotalRecords').textContent = partyState.totalCount;
+        }
+
+        /**
+         * Renders the pagination controls for party table.
+         */
+        function renderPartyPagination() {
+            const pageNumbersEl = document.getElementById('partyPageNumbers');
+            pageNumbersEl.innerHTML = '';
+
+            const maxButtons = 5;
+            let startPage = Math.max(1, partyState.page - Math.floor(maxButtons / 2));
+            let endPage = Math.min(partyState.totalPages, startPage + maxButtons - 1);
+            if (endPage - startPage < maxButtons - 1) {
+                startPage = Math.max(1, endPage - maxButtons + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const btn = document.createElement('button');
+                btn.className = `btn-tally-outline ${i === partyState.page ? 'active' : ''}`;
+                btn.style.cssText = 'padding:6px 10px;min-width:36px;';
+                btn.textContent = i;
+                btn.onclick = () => goToPartyPage(i);
+                pageNumbersEl.appendChild(btn);
+            }
+
+            document.getElementById('partyPrevBtn').disabled = !partyState.hasPreviousPage;
+            document.getElementById('partyNextBtn').disabled = !partyState.hasNextPage;
+            document.getElementById('partyPageSizeSelect').value = partyState.pageSize;
+        }
+
+        /**
+         * Navigates to a specific page.
+         * @@param {number} page - Page number
+         */
+        function goToPartyPage(page) {
+            if (page < 1 || page > partyState.totalPages) return;
+            partyState.page = page;
+            loadParties();
+        }
+
+        /**
+         * Navigates to the previous page.
+         */
+        function prevPartyPage() {
+            if (partyState.hasPreviousPage) goToPartyPage(partyState.page - 1);
+        }
+
+        /**
+         * Navigates to the next page.
+         */
+        function nextPartyPage() {
+            if (partyState.hasNextPage) goToPartyPage(partyState.page + 1);
+        }
+
+        /**
+         * Changes the page size and reloads data.
+         */
+        function changePartyPageSize() {
+            const select = document.getElementById('partyPageSizeSelect');
+            partyState.pageSize = parseInt(select.value);
+            partyState.page = 1;
+            loadParties();
+        }
+
+        /**
+         * Handles the party table sorting.
+         * @@param {string} column - Column to sort by
+         */
+        function sortBy(column) {
+            if (partyState.sortColumn === column) {
+                partyState.sortDirection = partyState.sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                partyState.sortColumn = column;
+                partyState.sortDirection = 'asc';
+            }
+            partyState.page = 1;
+            loadParties();
+        }
+
+        /**
+         * Updates sort icons in the table header.
+         */
+        function updateSortIcons() {
+            document.querySelectorAll('th[onclick^="sortBy"]').forEach(th => {
+                const icon = th.querySelector('i');
+                if (icon) {
+                    const colMatch = th.getAttribute('onclick').match(/'([^']+)'/);
+                    if (colMatch) {
+                        const col = colMatch[1];
+                        if (col === partyState.sortColumn) {
+                            icon.className = `bi bi-sort-${partyState.sortDirection === 'asc' ? 'down' : 'up'} ms-1`;
+                            icon.style.color = 'var(--primary)';
+                        } else {
+                            icon.className = 'bi bi-arrow-down-up ms-1';
+                            icon.style.color = 'var(--text-muted)';
+                        }
+                    }
+                }
+            });
+        }
+
+        /**
+         * Opens a modal for adding or editing a party.
+         * @@param {string} modalId - ID of the modal to open
+         * @@param {Object|null} data - Data to populate the modal with
+         */
+        function openModal(modalId, data = null) {
+            const overlay = document.getElementById(modalId);
+            if (!overlay) return;
+
+            if (modalId === 'partyModal') {
+                resetPartyForm();
+                if (data) {
+                    partyState.editingId = data.id;
+                    document.querySelector('#partyModal .modal-title').textContent = 'Edit Party';
+                    document.getElementById('btnSaveParty').innerHTML = '<i class="bi bi-check-lg"></i> Update Party';
+                    
+                    document.getElementById('partyId').value = data.id;
+                    document.getElementById('partyName').value = data.partyName;
+                    document.getElementById('partyType').value = data.partyType;
+                    document.getElementById('gstin').value = data.gstin || '';
+                    document.getElementById('panNumber').value = data.panNumber || '';
+                    document.getElementById('phone').value = data.phone || '';
+                    document.getElementById('email').value = data.email || '';
+                    document.getElementById('address').value = data.address || '';
+                    document.getElementById('creditLimit').value = data.creditLimit;
+                    document.getElementById('creditPeriod').value = data.creditPeriod;
+                    document.getElementById('partyStatus').value = data.status;
+                } else {
+                    partyState.editingId = null;
+                    document.querySelector('#partyModal .modal-title').textContent = 'Add Party';
+                    document.getElementById('btnSaveParty').innerHTML = '<i class="bi bi-check-lg"></i> Save Party';
+                }
+            }
+            overlay.classList.add('open');
+        }
+
+        /**
+         * Closes a modal.
+         * @@param {string} modalId - ID of the modal to close
+         */
+        function closeModal(modalId) {
+            document.getElementById(modalId)?.classList.remove('open');
+        }
+
+        /**
+         * Resets the party form fields.
+         */
+        function resetPartyForm() {
+            document.getElementById('partyId').value = '';
+            document.getElementById('partyName').value = '';
+            document.getElementById('partyType').value = 'Customer';
+            document.getElementById('gstin').value = '';
+            document.getElementById('panNumber').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('creditLimit').value = '';
+            document.getElementById('creditPeriod').value = '';
+            document.getElementById('partyStatus').value = 'Active';
+            document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
+        }
+
+        /**
+         * Saves (creates or updates) a party record.
+         * @@returns {Promise<void>}
+         */
+        async function saveParty() {
+            // Clear previous errors
+            document.querySelectorAll('.field-error').forEach(el => { el.textContent = ''; el.style.display = 'none'; });
+
+            const formData = {
+                partyName: document.getElementById('partyName').value.trim(),
+                partyType: document.getElementById('partyType').value,
+                gstin: document.getElementById('gstin').value.trim(),
+                panNumber: document.getElementById('panNumber').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                address: document.getElementById('address').value.trim(),
+                creditLimit: parseFloat(document.getElementById('creditLimit').value) || 0,
+                creditPeriod: parseInt(document.getElementById('creditPeriod').value) || 0,
+                status: document.getElementById('partyStatus').value
             };
-            ledgerData.push(ledger);
-            closeModal('ledgerModal');
-            showToast('Ledger "' + name + '" created!', 'success');
-            document.getElementById('ledgerName').value = '';
+
+            let hasError = false;
+            if (!formData.partyName) { showFieldError('PartyName', 'Required'); hasError = true; }
+            if (!formData.gstin) { showFieldError('Gstin', 'Required'); hasError = true; }
+            if (!formData.panNumber) { showFieldError('PanNumber', 'Required'); hasError = true; }
+            if (!formData.phone) { showFieldError('Phone', 'Required'); hasError = true; }
+            if (!formData.email) { showFieldError('Email', 'Required'); hasError = true; }
+            if (!formData.address) { showFieldError('Address', 'Required'); hasError = true; }
+            
+            if (hasError) return;
+
+            try {
+                const url = partyState.editingId ? `/PartyDirectory/update/${partyState.editingId}` : `/PartyDirectory/create`;
+                const method = partyState.editingId ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                if (!response.ok) {
+                    if (result.errors) {
+                        for (const [f, m] of Object.entries(result.errors)) showFieldError(f, m.join(', '));
+                        return;
+                    }
+                    throw new Error(result.message || 'Save failed');
+                }
+
+                closeModal('partyModal');
+                showToast('Party saved!', 'success');
+                loadParties();
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
         }
 
-        function editLedger(id) {
-            document.getElementById('ledgerModalTitle').textContent = 'Edit Ledger';
-            openModal('ledgerModal');
+        /**
+         * Prepares a party for editing.
+         * @@param {number} id - Party ID
+         */
+        function editParty(id) {
+            const party = partyState.data.find(p => p.id === id);
+            if (party) openModal('partyModal', party);
         }
 
-        function deleteLedger(id) {
-            deleteTarget = { type: 'ledger', id: id };
+        /**
+         * Opens delete confirmation.
+         * @@param {number} id - Party ID
+         */
+        function deleteParty(id) {
+            deleteTargetId = id;
             openModal('deleteModal');
         }
 
-        function confirmDelete() {
-            closeModal('deleteModal');
-            showToast('Record deleted successfully', 'info');
-            deleteTarget = null;
+        /**
+         * Confirms deletion.
+         */
+        async function confirmDelete() {
+            if (!deleteTargetId) return;
+            try {
+                const response = await fetch(`/PartyDirectory/delete/${deleteTargetId}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error('Delete failed');
+                closeModal('deleteModal');
+                showToast('Party deleted', 'success');
+                loadParties();
+            } catch (error) {
+                showToast('Error deleting party', 'error');
+            } finally {
+                deleteTargetId = null;
+            }
         }
 
-        // ============================================================
-        // VOUCHER TYPE SELECTION
-        // ============================================================
-        function selectVoucherType(btn, type) {
-            document.querySelectorAll('.voucher-type-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+        /**
+         * Handles the party search input event with debouncing.
+         * @@param {Event} e - Input event
+         */
+        function handlePartySearch(e) {
+            clearTimeout(partySearchDebounceTimer);
+            const q = e.target.value.trim();
+            partySearchDebounceTimer = setTimeout(() => {
+                partyState.search = q;
+                partyState.page = 1;
+                loadParties();
+            }, 500);
         }
 
-        // ============================================================
-        // TAB SWITCHING
-        // ============================================================
+        /**
+         * Switches between tabs.
+         * @@param {HTMLElement} btn - Tab button
+         * @@param {string} contentId - Content element ID
+         */
         function switchTab(btn, contentId) {
-            // Find sibling tabs
             const tabs = btn.closest('.tally-tabs');
-            if (tabs) tabs.querySelectorAll('.tally-tab').forEach(t => t.classList.remove('active'));
+            tabs.querySelectorAll('.tally-tab').forEach(t => t.classList.remove('active'));
             btn.classList.add('active');
 
-            // Find sibling content divs — we look for the next div after tabs
             const page = btn.closest('.page');
-            const allTabContents = page.querySelectorAll('[id^="tab-"],[id^="rpt-"]');
-            allTabContents.forEach(c => c.style.display = 'none');
+            page.querySelectorAll('[id^="tab-"]').forEach(c => c.style.display = 'none');
             const target = document.getElementById(contentId);
             if (target) target.style.display = 'block';
+
+            if (contentId === 'tab-parties') loadParties();
         }
 
-        // ============================================================
-        // TOAST NOTIFICATIONS
-        // ============================================================
+        /**
+         * Displays a field error.
+         * @@param {string} field - Field name
+         * @@param {string} msg - Error message
+         */
+        function showFieldError(field, msg) {
+            const el = document.getElementById(`error-${field}`);
+            if (el) { el.textContent = msg; el.style.display = 'block'; }
+        }
+
+        /**
+         * Escapes HTML.
+         * @@param {string} text - Text to escape
+         * @@returns {string} Escaped text
+         */
+        function escapeHtml(text) {
+            if (!text) return '';
+            const d = document.createElement('div');
+            d.textContent = text;
+            return d.innerHTML;
+        }
+
+        /**
+         * Displays a toast notification.
+         * @@param {string} message - Message
+         * @@param {string} [type='success'] - Toast type
+         */
         function showToast(message, type = 'success') {
             const icons = { success: '✅', error: '❌', info: 'ℹ️' };
             const container = document.getElementById('toastContainer');
+            if(!container) return;
             const toast = document.createElement('div');
             toast.className = `tally-toast ${type}`;
             toast.innerHTML = `<span style="font-size:16px">${icons[type]}</span><span>${message}</span>`;
@@ -987,87 +742,25 @@
                 toast.style.opacity = '0';
                 toast.style.transform = 'translateX(20px)';
                 toast.style.transition = '0.3s ease';
-                toast.style.pointerEvents = 'none';
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
 
-        // ============================================================
-        // MODULE SEARCH
-        // ============================================================
-        document.getElementById('moduleSearch').addEventListener('input', function () {
-            const q = this.value.toLowerCase();
-            document.querySelectorAll('.nav-sublink').forEach(link => {
-                const text = link.textContent.toLowerCase();
-                const item = link.closest('.nav-item');
-                if (q && text.includes(q)) {
-                    link.style.display = 'flex';
-                    if (item) item.classList.add('open');
-                    link.style.background = 'rgba(0,200,150,0.1)';
-                    link.style.color = 'var(--primary)';
-                } else if (!q) {
-                    link.style.display = '';
-                    link.style.background = '';
-                    link.style.color = '';
-                } else {
-                    link.style.display = 'none';
-                }
-            });
-            if (!q) {
-                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('open'));
-            }
-        });
-
-        // ============================================================
-        // TABLE SEARCH
-        // ============================================================
-        document.querySelectorAll('.table-search').forEach(input => {
-            input.addEventListener('input', function () {
-                const q = this.value.toLowerCase();
-                const table = this.closest('.data-table-wrapper').querySelector('.tally-table');
-                if (!table) return;
-                table.querySelectorAll('tbody tr').forEach(row => {
-                    row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
-                });
-            });
-        });
-
-        // ============================================================
-        // FULLSCREEN
-        // ============================================================
-        document.querySelector('[title="Full Screen"]').addEventListener('click', function () {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen();
-                this.querySelector('i').className = 'bi bi-fullscreen-exit';
-            } else {
-                document.exitFullscreen();
-                this.querySelector('i').className = 'bi bi-fullscreen';
-            }
-        });
-
-        // ============================================================
-        // KEYBOARD SHORTCUTS
-        // ============================================================
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.tally-modal-overlay.open').forEach(m => m.classList.remove('open'));
-            }
-            if (e.ctrlKey && e.key === 'l') { e.preventDefault(); window.location.href = 'ledger.html'; }
-            if (e.ctrlKey && e.key === 'v') { e.preventDefault(); window.location.href = 'voucher.html'; openModal('voucherModal'); }
-        });
-
-        // ============================================================
-        // INIT
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', function () {
-            showToast('Welcome to TallyPro Enterprise! 🚀', 'info');
-
+        document.addEventListener('DOMContentLoaded', () => {
+            loadParties();
+            
             // Set today's date in date inputs
             const today = new Date().toISOString().split('T')[0];
             document.querySelectorAll('input[type=date]').forEach(input => { if (!input.value) input.value = today; });
+            
+            // Close modals on overlay click
+            document.querySelectorAll('.tally-modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === this) closeModal(this.id);
+                });
+            });
         });
     </script>
 </body>
 
 </html>
-

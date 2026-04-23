@@ -19,7 +19,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(50)]
-        public string VoucherNumber { get; set; }
+        public string VoucherNumber { get; set; } = string.Empty;
         /**
          * Field: VoucherType
          * Type: string
@@ -27,7 +27,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(50)]
-        public string VoucherType { get; set; }
+        public string VoucherType { get; set; } = string.Empty;
         /**
          * Field: VoucherDate
          * Type: DateTime
@@ -36,10 +36,10 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
         public DateTime VoucherDate { get; set; }
         /**
          * Field: PartyId
-         * Type: long
+         * Type: long?
          * Description: Request property for VoucherEntry
          */
-        public long PartyId { get; set; }
+        public long? PartyId { get; set; }
         /**
          * Field: Amount
          * Type: decimal
@@ -54,13 +54,13 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(50)]
-        public string PaymentMode { get; set; }
+        public string PaymentMode { get; set; } = string.Empty;
         /**
          * Field: BankAccountId
-         * Type: long
+         * Type: long?
          * Description: Request property for VoucherEntry
          */
-        public long BankAccountId { get; set; }
+        public long? BankAccountId { get; set; }
         /**
          * Field: ReferenceNumber
          * Type: string
@@ -68,14 +68,14 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(100)]
-        public string ReferenceNumber { get; set; }
+        public string ReferenceNumber { get; set; } = string.Empty;
         /**
          * Field: Narration
          * Type: string
          * Description: Request property for VoucherEntry
          */
         [Required]
-        public string Narration { get; set; }
+        public string Narration { get; set; } = string.Empty;
         /**
          * Field: Status
          * Type: string
@@ -83,7 +83,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(20)]
-        public string Status { get; set; }
+        public string Status { get; set; } = string.Empty;
         /**
          * Field: CreatedAt
          * Type: DateTime

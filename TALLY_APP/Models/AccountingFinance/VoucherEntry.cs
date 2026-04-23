@@ -49,7 +49,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("VoucherNumber")]
     [Required]
     [MaxLength(50)]
-    public string VoucherNumber { get; set; }
+    public string VoucherNumber { get; set; } = string.Empty;
 
     /**
      * Column: VoucherType
@@ -58,7 +58,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("VoucherType")]
     [Required]
     [MaxLength(50)]
-    public string VoucherType { get; set; }
+    public string VoucherType { get; set; } = string.Empty;
 
     /**
      * Column: VoucherDate
@@ -88,7 +88,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("PaymentMode")]
     [Required]
     [MaxLength(50)]
-    public string PaymentMode { get; set; }
+    public string PaymentMode { get; set; } = string.Empty;
 
     /**
      * Column: BankAccountId
@@ -104,7 +104,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("ReferenceNumber")]
     [Required]
     [MaxLength(100)]
-    public string ReferenceNumber { get; set; }
+    public string ReferenceNumber { get; set; } = string.Empty;
 
     /**
      * Column: Narration
@@ -112,7 +112,7 @@ namespace TALLY_APP.Models.AccountingFinance
      */
     [Column("Narration", TypeName = "longtext")]
     [Required]
-    public string Narration { get; set; }
+    public string Narration { get; set; } = string.Empty;
 
     /**
      * Column: Status
@@ -121,7 +121,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("Status")]
     [Required]
     [MaxLength(20)]
-    public string Status { get; set; }
+    public string Status { get; set; } = string.Empty;
 
     /**
      * Column: CreatedAt

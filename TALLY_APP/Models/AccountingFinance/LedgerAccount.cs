@@ -49,7 +49,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("LedgerName")]
     [Required]
     [MaxLength(200)]
-    public string LedgerName { get; set; }
+    public string LedgerName { get; set; } = string.Empty;
 
     /**
      * Column: LedgerCode
@@ -58,7 +58,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("LedgerCode")]
     [Required]
     [MaxLength(50)]
-    public string LedgerCode { get; set; }
+    public string LedgerCode { get; set; } = string.Empty;
 
     /**
      * Column: GroupName
@@ -67,7 +67,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("GroupName")]
     [Required]
     [MaxLength(100)]
-    public string GroupName { get; set; }
+    public string GroupName { get; set; } = string.Empty;
 
     /**
      * Column: AccountType
@@ -76,7 +76,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("AccountType")]
     [Required]
     [MaxLength(50)]
-    public string AccountType { get; set; }
+    public string AccountType { get; set; } = string.Empty;
 
     /**
      * Column: OpeningBalance
@@ -92,7 +92,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("BalanceType")]
     [Required]
     [MaxLength(20)]
-    public string BalanceType { get; set; }
+    public string BalanceType { get; set; } = string.Empty;
 
     /**
      * Column: Description
@@ -100,7 +100,7 @@ namespace TALLY_APP.Models.AccountingFinance
      */
     [Column("Description", TypeName = "longtext")]
     [Required]
-    public string Description { get; set; }
+    public string Description { get; set; } = string.Empty;
 
     /**
      * Column: Currency
@@ -109,7 +109,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("Currency")]
     [Required]
     [MaxLength(10)]
-    public string Currency { get; set; }
+    public string Currency { get; set; } = string.Empty;
 
     /**
      * Column: Status
@@ -118,7 +118,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("Status")]
     [Required]
     [MaxLength(20)]
-    public string Status { get; set; }
+    public string Status { get; set; } = string.Empty;
 
     /**
      * Column: CreatedAt

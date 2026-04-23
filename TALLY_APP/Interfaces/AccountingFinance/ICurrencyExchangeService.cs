@@ -9,13 +9,6 @@ namespace TALLY_APP.Interfaces.AccountingFinance
      * =====================================================
      * Interface: ICurrencyExchangeService
      * =====================================================
-     *
-     * Purpose:
-     * Defines contract for CurrencyExchange business operations.
-     * Acts as abstraction layer between Controller and Service.
-     *
-     * Architecture:
-     * Controller  Interface  Service Implementation
      */
     public interface ICurrencyExchangeService
     {
@@ -25,9 +18,9 @@ namespace TALLY_APP.Interfaces.AccountingFinance
         Task<List<CurrencyExchangeResponse>> All();
 
         /**
-         * Get paginated records
+         * Get paginated records with search, sort
          */
-        Task<List<CurrencyExchangeResponse>> Index();
+        Task<PaginatedCurrencyResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc");
 
         /**
          * Get single record by ID

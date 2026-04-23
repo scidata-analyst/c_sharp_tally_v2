@@ -78,4 +78,21 @@ namespace TALLY_APP.DTOs.Response.AccountingFinance
         public DateTime UpdatedAt { get; set; }
 
     }
+
+    /**
+     * Response DTO: PaginatedBankAccountResponse
+     *
+     * Purpose:
+     * API response model for paginated bank account list
+     */
+    public class PaginatedBankAccountResponse
+    {
+        public System.Collections.Generic.List<BankAccountResponse> Data { get; set; }
+        public int TotalCount { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages { get; set; }
+        public bool HasPreviousPage { get; set; }
+        public bool HasNextPage { get; set; }
+    }
 }

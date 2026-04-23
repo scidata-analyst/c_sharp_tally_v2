@@ -19,7 +19,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(100)]
-        public string CurrencyName { get; set; }
+        public string CurrencyName { get; set; } = string.Empty;
         /**
          * Field: CurrencyCode
          * Type: string
@@ -27,7 +27,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(10)]
-        public string CurrencyCode { get; set; }
+        public string CurrencyCode { get; set; } = string.Empty;
         /**
          * Field: Symbol
          * Type: string
@@ -35,7 +35,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(10)]
-        public string Symbol { get; set; }
+        public string Symbol { get; set; } = string.Empty;
         /**
          * Field: BuyRate
          * Type: decimal
@@ -63,7 +63,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(20)]
-        public string Status { get; set; }
+        public string Status { get; set; } = string.Empty;
         /**
          * Field: CreatedAt
          * Type: DateTime

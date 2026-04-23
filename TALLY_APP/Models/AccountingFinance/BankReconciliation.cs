@@ -91,7 +91,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("Status")]
     [Required]
     [MaxLength(20)]
-    public string Status { get; set; }
+    public string Status { get; set; } = string.Empty;
 
     /**
      * Column: ReconciledAt

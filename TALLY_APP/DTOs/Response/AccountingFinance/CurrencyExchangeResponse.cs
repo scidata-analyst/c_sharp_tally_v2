@@ -72,4 +72,21 @@ namespace TALLY_APP.DTOs.Response.AccountingFinance
         public DateTime UpdatedAt { get; set; }
 
     }
+
+    /**
+     * Response DTO: PaginatedCurrencyResponse
+     *
+     * Purpose:
+     * API response model for paginated currency list
+     */
+    public class PaginatedCurrencyResponse
+    {
+        public System.Collections.Generic.List<CurrencyExchangeResponse> Data { get; set; }
+        public int TotalCount { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages { get; set; }
+        public bool HasPreviousPage { get; set; }
+        public bool HasNextPage { get; set; }
+    }
 }

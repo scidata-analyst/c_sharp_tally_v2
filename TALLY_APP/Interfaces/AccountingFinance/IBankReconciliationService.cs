@@ -9,13 +9,6 @@ namespace TALLY_APP.Interfaces.AccountingFinance
      * =====================================================
      * Interface: IBankReconciliationService
      * =====================================================
-     *
-     * Purpose:
-     * Defines contract for BankReconciliation business operations.
-     * Acts as abstraction layer between Controller and Service.
-     *
-     * Architecture:
-     * Controller  Interface  Service Implementation
      */
     public interface IBankReconciliationService
     {
@@ -25,9 +18,9 @@ namespace TALLY_APP.Interfaces.AccountingFinance
         Task<List<BankReconciliationResponse>> All();
 
         /**
-         * Get paginated records
+         * Get paginated records with search, sort
          */
-        Task<List<BankReconciliationResponse>> Index();
+        Task<PaginatedBankReconciliationResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc");
 
         /**
          * Get single record by ID

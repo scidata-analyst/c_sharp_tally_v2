@@ -19,7 +19,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(200)]
-        public string PartyName { get; set; }
+        public string PartyName { get; set; } = string.Empty;
         /**
          * Field: PartyType
          * Type: string
@@ -27,7 +27,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(50)]
-        public string PartyType { get; set; }
+        public string PartyType { get; set; } = string.Empty;
         /**
          * Field: Gstin
          * Type: string
@@ -35,7 +35,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(50)]
-        public string Gstin { get; set; }
+        public string Gstin { get; set; } = string.Empty;
         /**
          * Field: PanNumber
          * Type: string
@@ -43,7 +43,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(20)]
-        public string PanNumber { get; set; }
+        public string PanNumber { get; set; } = string.Empty;
         /**
          * Field: Phone
          * Type: string
@@ -51,7 +51,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(20)]
-        public string Phone { get; set; }
+        public string Phone { get; set; } = string.Empty;
         /**
          * Field: Email
          * Type: string
@@ -59,14 +59,14 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(100)]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
         /**
          * Field: Address
          * Type: string
          * Description: Request property for PartyDirectory
          */
         [Required]
-        public string Address { get; set; }
+        public string Address { get; set; } = string.Empty;
         /**
          * Field: CreditLimit
          * Type: decimal
@@ -87,7 +87,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(20)]
-        public string Status { get; set; }
+        public string Status { get; set; } = string.Empty;
         /**
          * Field: CreatedAt
          * Type: DateTime

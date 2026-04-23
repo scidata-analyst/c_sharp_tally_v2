@@ -49,7 +49,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("CurrencyName")]
     [Required]
     [MaxLength(100)]
-    public string CurrencyName { get; set; }
+    public string CurrencyName { get; set; } = string.Empty;
 
     /**
      * Column: CurrencyCode
@@ -58,7 +58,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("CurrencyCode")]
     [Required]
     [MaxLength(10)]
-    public string CurrencyCode { get; set; }
+    public string CurrencyCode { get; set; } = string.Empty;
 
     /**
      * Column: Symbol
@@ -67,7 +67,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("Symbol")]
     [Required]
     [MaxLength(10)]
-    public string Symbol { get; set; }
+    public string Symbol { get; set; } = string.Empty;
 
     /**
      * Column: BuyRate
@@ -97,7 +97,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("Status")]
     [Required]
     [MaxLength(20)]
-    public string Status { get; set; }
+    public string Status { get; set; } = string.Empty;
 
     /**
      * Column: CreatedAt

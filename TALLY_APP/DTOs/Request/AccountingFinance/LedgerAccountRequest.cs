@@ -19,7 +19,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(200)]
-        public string LedgerName { get; set; }
+        public string LedgerName { get; set; } = string.Empty;
         /**
          * Field: LedgerCode
          * Type: string
@@ -27,7 +27,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(50)]
-        public string LedgerCode { get; set; }
+        public string LedgerCode { get; set; } = string.Empty;
         /**
          * Field: GroupName
          * Type: string
@@ -35,7 +35,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(100)]
-        public string GroupName { get; set; }
+        public string GroupName { get; set; } = string.Empty;
         /**
          * Field: AccountType
          * Type: string
@@ -43,7 +43,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(50)]
-        public string AccountType { get; set; }
+        public string AccountType { get; set; } = string.Empty;
         /**
          * Field: OpeningBalance
          * Type: decimal
@@ -58,13 +58,13 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(20)]
-        public string BalanceType { get; set; }
+        public string BalanceType { get; set; } = string.Empty;
         /**
          * Field: Description
          * Type: string
          * Description: Request property for LedgerAccount
          */
-        public string Description { get; set; }
+        public string? Description { get; set; }
         /**
          * Field: Currency
          * Type: string
@@ -72,7 +72,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(10)]
-        public string Currency { get; set; }
+        public string Currency { get; set; } = string.Empty;
         /**
          * Field: Status
          * Type: string
@@ -80,7 +80,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(20)]
-        public string Status { get; set; }
+        public string Status { get; set; } = string.Empty;
         /**
          * Field: CreatedAt
          * Type: DateTime

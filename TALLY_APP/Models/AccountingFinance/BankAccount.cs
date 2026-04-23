@@ -49,7 +49,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("AccountName")]
     [Required]
     [MaxLength(200)]
-    public string AccountName { get; set; }
+    public string AccountName { get; set; } = string.Empty;
 
     /**
      * Column: AccountType
@@ -58,7 +58,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("AccountType")]
     [Required]
     [MaxLength(50)]
-    public string AccountType { get; set; }
+    public string AccountType { get; set; } = string.Empty;
 
     /**
      * Column: BankName
@@ -67,7 +67,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("BankName")]
     [Required]
     [MaxLength(200)]
-    public string BankName { get; set; }
+    public string BankName { get; set; } = string.Empty;
 
     /**
      * Column: AccountNumber
@@ -76,7 +76,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("AccountNumber")]
     [Required]
     [MaxLength(50)]
-    public string AccountNumber { get; set; }
+    public string AccountNumber { get; set; } = string.Empty;
 
     /**
      * Column: IfscCode
@@ -85,7 +85,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("IfscCode")]
     [Required]
     [MaxLength(20)]
-    public string IfscCode { get; set; }
+    public string IfscCode { get; set; } = string.Empty;
 
     /**
      * Column: OpeningBalance
@@ -108,7 +108,7 @@ namespace TALLY_APP.Models.AccountingFinance
     [Column("Status")]
     [Required]
     [MaxLength(20)]
-    public string Status { get; set; }
+    public string Status { get; set; } = string.Empty;
 
     /**
      * Column: CreatedAt

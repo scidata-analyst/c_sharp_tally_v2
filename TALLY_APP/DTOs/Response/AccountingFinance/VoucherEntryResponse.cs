@@ -90,4 +90,21 @@ namespace TALLY_APP.DTOs.Response.AccountingFinance
         public DateTime UpdatedAt { get; set; }
 
     }
+
+    /**
+     * Response DTO: PaginatedVoucherResponse
+     *
+     * Purpose:
+     * API response model for paginated voucher list
+     */
+    public class PaginatedVoucherResponse
+    {
+        public System.Collections.Generic.List<VoucherEntryResponse> Data { get; set; }
+        public int TotalCount { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages { get; set; }
+        public bool HasPreviousPage { get; set; }
+        public bool HasNextPage { get; set; }
+    }
 }

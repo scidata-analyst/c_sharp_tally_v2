@@ -19,7 +19,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(200)]
-        public string AccountName { get; set; }
+        public string AccountName { get; set; } = string.Empty;
         /**
          * Field: AccountType
          * Type: string
@@ -27,7 +27,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(50)]
-        public string AccountType { get; set; }
+        public string AccountType { get; set; } = string.Empty;
         /**
          * Field: BankName
          * Type: string
@@ -35,7 +35,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(200)]
-        public string BankName { get; set; }
+        public string BankName { get; set; } = string.Empty;
         /**
          * Field: AccountNumber
          * Type: string
@@ -43,7 +43,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(50)]
-        public string AccountNumber { get; set; }
+        public string AccountNumber { get; set; } = string.Empty;
         /**
          * Field: IfscCode
          * Type: string
@@ -51,7 +51,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(20)]
-        public string IfscCode { get; set; }
+        public string IfscCode { get; set; } = string.Empty;
         /**
          * Field: OpeningBalance
          * Type: decimal
@@ -73,7 +73,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          */
         [Required]
         [MaxLength(20)]
-        public string Status { get; set; }
+        public string Status { get; set; } = string.Empty;
         /**
          * Field: CreatedAt
          * Type: DateTime
