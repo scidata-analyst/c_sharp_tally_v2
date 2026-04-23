@@ -1121,18 +1121,6 @@
                 status: document.getElementById('Status').value
             };
 
-            // Client-side validation
-            let hasError = false;
-            if (!formData.ledgerName) { showFieldError('LedgerName', 'Ledger Name is required'); hasError = true; }
-            if (!formData.ledgerCode) { showFieldError('LedgerCode', 'Ledger Code is required'); hasError = true; }
-            if (!formData.groupName) { showFieldError('GroupName', 'Group is required'); hasError = true; }
-            if (!formData.accountType) { showFieldError('AccountType', 'Account Type is required'); hasError = true; }
-            if (!formData.balanceType) { showFieldError('BalanceType', 'Balance Type is required'); hasError = true; }
-            if (!formData.currency) { showFieldError('Currency', 'Currency is required'); hasError = true; }
-            if (!formData.status) { showFieldError('Status', 'Status is required'); hasError = true; }
-
-            if (hasError) return;
-
             try {
                 const url = ledgerState.editingId
                     ? `/LedgerAccount/update/${ledgerState.editingId}`

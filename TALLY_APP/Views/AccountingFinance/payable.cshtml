@@ -598,17 +598,9 @@
                 status: document.getElementById('partyStatus').value
             };
 
-            let hasError = false;
-            if (!formData.partyName) { showFieldError('PartyName', 'Required'); hasError = true; }
-            if (!formData.gstin) { showFieldError('Gstin', 'Required'); hasError = true; }
-            if (!formData.panNumber) { showFieldError('PanNumber', 'Required'); hasError = true; }
-            if (!formData.phone) { showFieldError('Phone', 'Required'); hasError = true; }
-            if (!formData.email) { showFieldError('Email', 'Required'); hasError = true; }
-            if (!formData.address) { showFieldError('Address', 'Required'); hasError = true; }
-            
-            if (hasError) return;
 
             try {
+
                 const url = partyState.editingId ? `/PartyDirectory/update/${partyState.editingId}` : `/PartyDirectory/create`;
                 const method = partyState.editingId ? 'PUT' : 'POST';
 

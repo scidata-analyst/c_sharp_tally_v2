@@ -579,13 +579,6 @@
                 status: document.getElementById('voucherStatus').value
             };
 
-            let hasError = false;
-            if (!formData.voucherNumber) { showFieldError('VoucherNumber', 'Required'); hasError = true; }
-            if (!formData.voucherDate) { showFieldError('VoucherDate', 'Required'); hasError = true; }
-            if (formData.amount <= 0) { showFieldError('Amount', 'Must be greater than 0'); hasError = true; }
-            
-            if (hasError) return;
-
             try {
                 const url = voucherState.editingId ? `/VoucherEntry/update/${voucherState.editingId}` : `/VoucherEntry/create`;
                 const method = voucherState.editingId ? 'PUT' : 'POST';

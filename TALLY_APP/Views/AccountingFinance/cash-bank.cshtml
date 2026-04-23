@@ -499,14 +499,6 @@
                 status: document.getElementById('bankStatus').value
             };
 
-            let hasError = false;
-            if (!formData.accountName) { showFieldError('AccountName', 'Required'); hasError = true; }
-            if (!formData.bankName) { showFieldError('BankName', 'Required'); hasError = true; }
-            if (!formData.accountNumber) { showFieldError('AccountNumber', 'Required'); hasError = true; }
-            if (!formData.ifscCode) { showFieldError('IfscCode', 'Required'); hasError = true; }
-            
-            if (hasError) return;
-
             try {
                 const url = bankState.editingId ? `/BankAccount/update/${bankState.editingId}` : `/BankAccount/create`;
                 const method = bankState.editingId ? 'PUT' : 'POST';

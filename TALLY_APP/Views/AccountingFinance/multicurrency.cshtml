@@ -445,13 +445,6 @@
                 status: 'Active'
             };
 
-            let hasError = false;
-            if (!formData.currencyName) { showFieldError('CurrencyName', 'Required'); hasError = true; }
-            if (!formData.currencyCode) { showFieldError('CurrencyCode', 'Required'); hasError = true; }
-            if (!formData.symbol) { showFieldError('Symbol', 'Required'); hasError = true; }
-            
-            if (hasError) return;
-
             try {
                 const url = currencyState.editingId ? `/CurrencyExchange/update/${currencyState.editingId}` : `/CurrencyExchange/create`;
                 const method = currencyState.editingId ? 'PUT' : 'POST';
