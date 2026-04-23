@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6CftUGXMGfk=",
+  "dgSpecHash": "aBDDS/mDLXk=",
   "success": true,
-  "projectFilePath": "F:\\DASHBOARD_APP\\GIT_VERSION\\TALLY\\TALLY_APP\\TALLY_APP.csproj",
+  "projectFilePath": "F:\\DASHBOARD_APP\\GIT_VERSION\\TALLY\\tally_app\\TALLY_APP.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Dell\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\mapster\\10.0.7\\mapster.10.0.7.nupkg.sha512",
