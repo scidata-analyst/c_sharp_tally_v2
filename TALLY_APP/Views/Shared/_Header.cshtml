@@ -1,0 +1,30 @@
+@model string
+<!-- ===== HEADER ===== -->
+<header class="main-header">
+    <div class="header-breadcrumb">
+        <span class="breadcrumb-root">TallyPro</span>
+        <span class="breadcrumb-sep"><i class="bi bi-chevron-right"></i></span>
+        <span class="breadcrumb-current" id="breadcrumbCurrent">@(Model ?? "Dashboard")</span>
+    </div>
+
+    <div class="header-actions">
+        <div class="company-selector">
+            <div class="company-dot"></div>
+            <span>ABC Enterprises Ltd.</span>
+            <i class="bi bi-chevron-down" style="font-size:10px;"></i>
+        </div>
+        <div class="header-btn" title="Notifications">
+            <i class="bi bi-bell"></i>
+            <div class="notif-badge"></div>
+        </div>
+        <div class="header-btn" title="Search">
+            <i class="bi bi-search"></i>
+        </div>
+        <div class="header-btn" title="Settings">
+            <i class="bi bi-gear"></i>
+        </div>
+        <div class="header-btn" title="Full Screen">
+            <i class="bi bi-fullscreen"></i>
+        </div>
+    </div>
+</header>
