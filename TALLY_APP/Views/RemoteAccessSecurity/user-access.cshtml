@@ -893,19 +893,6 @@
         let ledgerData = [];
         let deleteTarget = null;
 
-        
-
-        function toggleNav(navId) {
-            const item = document.getElementById(navId);
-            if (!item) return;
-            const isOpen = item.classList.contains('open');
-            // Close all others
-            document.querySelectorAll('.nav-item.open').forEach(i => {
-                if (i.id !== navId) i.classList.remove('open');
-            });
-            item.classList.toggle('open', !isOpen);
-        }
-
         // ============================================================
         // MODAL MANAGEMENT
         // ============================================================

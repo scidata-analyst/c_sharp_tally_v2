@@ -1,3 +1,20 @@
+@{
+    var currentPath = Context.Request.Path.ToString().ToLower();
+
+    string IsActive(string path)
+    {
+        return currentPath == path.ToLower() || currentPath == path.ToLower() + "/" ? "active" : "";
+    }
+
+    string IsParentOpen(params string[] paths)
+    {
+        foreach (var path in paths)
+        {
+            if (currentPath.Equals(path.ToLower(), StringComparison.OrdinalIgnoreCase)) return "open";
+        }
+        return "";
+    }
+}
 <!-- ===== SIDEBAR ===== -->
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
@@ -18,211 +35,211 @@
         <!-- Dashboard -->
         <div class="nav-section-label">Main</div>
         <div class="nav-item">
-            <div class="nav-link" onclick="window.location.href='/'">
+            <a href="/" class="nav-link @IsActive("/")">
                 <span class="nav-icon">🏠</span>
                 <span class="nav-label">Dashboard</span>
-            </div>
+            </a>
         </div>
 
         <!-- 1. Accounting & Finance -->
         <div class="nav-section-label">Core Modules</div>
-        <div class="nav-item" id="nav-accounting">
+        <div class="nav-item @IsParentOpen("/LedgerAccount", "/VoucherEntry", "/PartyDirectory", "/BankReconciliation", "/BankAccount", "/CurrencyExchange")" id="nav-accounting">
             <div class="nav-link" onclick="toggleNav('nav-accounting')">
                 <span class="nav-icon">🧾</span>
                 <span class="nav-label">Accounting & Finance</span>
                 <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
             </div>
             <div class="nav-submenu">
-                <div class="nav-sublink" onclick="window.location.href='/LedgerAccount'"><span class="sub-dot"></span>Ledger Management</div>
-                <div class="nav-sublink" onclick="window.location.href='/VoucherEntry'"><span
-                        class="sub-dot"></span>Voucher Entry</div>
-                <div class="nav-sublink" onclick="window.location.href='/PartyDirectory'"><span
+                <a href="/LedgerAccount" class="nav-sublink @IsActive("/LedgerAccount")"><span class="sub-dot"></span>Ledger Management</a>
+                <a href="/VoucherEntry" class="nav-sublink @IsActive("/VoucherEntry")"><span
+                        class="sub-dot"></span>Voucher Entry</a>
+                <a href="/PartyDirectory" class="nav-sublink @IsActive("/PartyDirectory")"><span
                         class="sub-dot"></span>Accounts Payable &
-                    Receivable</div>
-                <div class="nav-sublink" onclick="window.location.href='/BankReconciliation'"><span
+                    Receivable</a>
+                <a href="/BankReconciliation" class="nav-sublink @IsActive("/BankReconciliation")"><span
                         class="sub-dot"></span>Bank Reconciliation
-                </div>
-                <div class="nav-sublink" onclick="window.location.href='/BankAccount'"><span
+                </a>
+                <a href="/BankAccount" class="nav-sublink @IsActive("/BankAccount")"><span
                         class="sub-dot"></span>Cash & Bank Management
-                </div>
-                <div class="nav-sublink" onclick="window.location.href='/CurrencyExchange'"><span
+                </a>
+                <a href="/CurrencyExchange" class="nav-sublink @IsActive("/CurrencyExchange")"><span
                         class="sub-dot"></span>Multi-currency
-                    Support</div>
+                    Support</a>
             </div>
         </div>
 
         <!-- 2. Inventory -->
-        <div class="nav-item" id="nav-inventory">
+        <div class="nav-item @IsParentOpen("/StockItem", "/StockGroup", "/BatchRegister", "/StockMovement", "/Godown")" id="nav-inventory">
             <div class="nav-link" onclick="toggleNav('nav-inventory')">
                 <span class="nav-icon">📦</span>
                 <span class="nav-label">Inventory Management</span>
                 <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
             </div>
             <div class="nav-submenu">
-                <div class="nav-sublink" onclick="window.location.href='/StockItem'"><span
+                <a href="/StockItem" class="nav-sublink @IsActive("/StockItem")"><span
                         class="sub-dot"></span>Stock Items &
-                    Categories</div>
-                <div class="nav-sublink" onclick="window.location.href='/StockGroup'"><span
+                    Categories</a>
+                <a href="/StockGroup" class="nav-sublink @IsActive("/StockGroup")"><span
                         class="sub-dot"></span>Stock Groups &
-                    Valuation</div>
-                <div class="nav-sublink" onclick="window.location.href='/BatchRegister'"><span
+                    Valuation</a>
+                <a href="/BatchRegister" class="nav-sublink @IsActive("/BatchRegister")"><span
                         class="sub-dot"></span>Batch / Expiry /
-                    Serial</div>
-                <div class="nav-sublink" onclick="window.location.href='/StockMovement'"><span
+                    Serial</a>
+                <a href="/StockMovement" class="nav-sublink @IsActive("/StockMovement")"><span
                         class="sub-dot"></span>Stock In/Out &
-                    Transfer</div>
-                <div class="nav-sublink" onclick="window.location.href='/Godown'"><span
-                        class="sub-dot"></span>Godown / Warehouse</div>
+                    Transfer</a>
+                <a href="/Godown" class="nav-sublink @IsActive("/Godown")"><span
+                        class="sub-dot"></span>Godown / Warehouse</a>
             </div>
         </div>
 
         <!-- 3. GST -->
-        <div class="nav-item" id="nav-gst">
+        <div class="nav-item @IsParentOpen("/GSTEntry", "/VATServiceTax", "/GSTReturn", "/TDSTCSEntry")" id="nav-gst">
             <div class="nav-link" onclick="toggleNav('nav-gst')">
                 <span class="nav-icon">💰</span>
                 <span class="nav-label">GST & Taxation</span>
                 <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
             </div>
             <div class="nav-submenu">
-                <div class="nav-sublink" onclick="window.location.href='/GSTEntry'"><span
+                <a href="/GSTEntry" class="nav-sublink @IsActive("/GSTEntry")"><span
                         class="sub-dot"></span>GST Calculation & Filing
-                </div>
-                <div class="nav-sublink" onclick="window.location.href='/VATServiceTax'"><span
+                </a>
+                <a href="/VATServiceTax" class="nav-sublink @IsActive("/VATServiceTax")"><span
                         class="sub-dot"></span>VAT / Service Tax
-                </div>
-                <div class="nav-sublink" onclick="window.location.href='/GSTReturn'"><span
+                </a>
+                <a href="/GSTReturn" class="nav-sublink @IsActive("/GSTReturn")"><span
                         class="sub-dot"></span>Tax Reports
-                    (GSTR1/2/3B)</div>
-                <div class="nav-sublink" onclick="window.location.href='/TDSTCSEntry'"><span
-                        class="sub-dot"></span>TDS / TCS Management</div>
+                    (GSTR1/2/3B)</a>
+                <a href="/TDSTCSEntry" class="nav-sublink @IsActive("/TDSTCSEntry")"><span
+                        class="sub-dot"></span>TDS / TCS Management</a>
             </div>
         </div>
 
         <!-- 4. Payroll -->
-        <div class="nav-item" id="nav-payroll">
+        <div class="nav-item @IsParentOpen("/Employee", "/PayrollRun", "/Payslip", "/StatutoryDeduction")" id="nav-payroll">
             <div class="nav-link" onclick="toggleNav('nav-payroll')">
                 <span class="nav-icon">👥</span>
                 <span class="nav-label">Payroll Management</span>
                 <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
             </div>
             <div class="nav-submenu">
-                <div class="nav-sublink" onclick="window.location.href='/Employee'"><span
+                <a href="/Employee" class="nav-sublink @IsActive("/Employee")"><span
                         class="sub-dot"></span>Employee Info & Salary
-                    Structure</div>
-                <div class="nav-sublink" onclick="window.location.href='/PayrollRun'"><span
+                    Structure</a>
+                <a href="/PayrollRun" class="nav-sublink @IsActive("/PayrollRun")"><span
                         class="sub-dot"></span>Payroll Calculation
-                </div>
-                <div class="nav-sublink" onclick="window.location.href='/Payslip'"><span
-                        class="sub-dot"></span>Payslip Generation</div>
-                <div class="nav-sublink" onclick="window.location.href='/StatutoryDeduction'"><span
+                </a>
+                <a href="/Payslip" class="nav-sublink @IsActive("/Payslip")"><span
+                        class="sub-dot"></span>Payslip Generation</a>
+                <a href="/StatutoryDeduction" class="nav-sublink @IsActive("/StatutoryDeduction")"><span
                         class="sub-dot"></span>PF / ESI / TDS
-                    Deductions</div>
+                    Deductions</a>
             </div>
         </div>
 
         <!-- 5. Banking -->
-        <div class="nav-item" id="nav-banking">
+        <div class="nav-item @IsParentOpen("/PaymentEntry", "/BankReconciliation", "/PaymentReminder", "/BankIntegration")" id="nav-banking">
             <div class="nav-link" onclick="toggleNav('nav-banking')">
                 <span class="nav-icon">🏦</span>
                 <span class="nav-label">Banking & Payments</span>
                 <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
             </div>
             <div class="nav-submenu">
-                <div class="nav-sublink" onclick="window.location.href='/PaymentEntry'"><span
+                <a href="/PaymentEntry" class="nav-sublink @IsActive("/PaymentEntry")"><span
                         class="sub-dot"></span>Cheque / Online Payments
-                </div>
-                <div class="nav-sublink" onclick="window.location.href='/BankReconciliation'"><span
+                </a>
+                <a href="/BankReconciliation" class="nav-sublink @IsActive("/BankReconciliation")"><span
                         class="sub-dot"></span>Bank Reconciliation
-                </div>
-                <div class="nav-sublink" onclick="window.location.href='/PaymentReminder'"><span
-                        class="sub-dot"></span>Payment Reminders</div>
-                <div class="nav-sublink" onclick="window.location.href='/BankIntegration'"><span
+                </a>
+                <a href="/PaymentReminder" class="nav-sublink @IsActive("/PaymentReminder")"><span
+                        class="sub-dot"></span>Payment Reminders</a>
+                <a href="/BankIntegration" class="nav-sublink @IsActive("/BankIntegration")"><span
                         class="sub-dot"></span>Online Banking
-                    Integration</div>
+                    Integration</a>
             </div>
         </div>
 
         <!-- 6. Reports -->
-        <div class="nav-item" id="nav-reports">
+        <div class="nav-item @IsParentOpen("/TrialBalance", "/CashFlowStatement", "/StockReport", "/SalesPurchaseSummary")" id="nav-reports">
             <div class="nav-link" onclick="toggleNav('nav-reports')">
                 <span class="nav-icon">📊</span>
                 <span class="nav-label">Reporting & Analytics</span>
                 <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
             </div>
             <div class="nav-submenu">
-                <div class="nav-sublink" onclick="window.location.href='/TrialBalance'"><span
+                <a href="/TrialBalance" class="nav-sublink @IsActive("/TrialBalance")"><span
                         class="sub-dot"></span>Trial Balance /
-                    B.Sheet / P&L</div>
-                <div class="nav-sublink" onclick="window.location.href='/CashFlowStatement'"><span
+                    B.Sheet / P&L</a>
+                <a href="/CashFlowStatement" class="nav-sublink @IsActive("/CashFlowStatement")"><span
                         class="sub-dot"></span>Cash Flow Statements
-                </div>
-                <div class="nav-sublink" onclick="window.location.href='/StockReport'"><span
+                </a>
+                <a href="/StockReport" class="nav-sublink @IsActive("/StockReport")"><span
                         class="sub-dot"></span>Stock & Inventory
-                    Reports</div>
-                <div class="nav-sublink" onclick="window.location.href='/SalesPurchaseSummary'"><span
+                    Reports</a>
+                <a href="/SalesPurchaseSummary" class="nav-sublink @IsActive("/SalesPurchaseSummary")"><span
                         class="sub-dot"></span>Sales & Purchase
-                    Summary</div>
+                    Summary</a>
             </div>
         </div>
 
         <!-- 7. Multi-location -->
-        <div class="nav-item" id="nav-multiloc">
+        <div class="nav-item @IsParentOpen("/Branch", "/BranchConsolidation", "/BranchPerformance")" id="nav-multiloc">
             <div class="nav-link" onclick="toggleNav('nav-multiloc')">
                 <span class="nav-icon">🌍</span>
                 <span class="nav-label">Multi-location / Branch</span>
                 <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
             </div>
             <div class="nav-submenu">
-                <div class="nav-sublink" onclick="window.location.href='/Branch'"><span
-                        class="sub-dot"></span>Branch Accounting</div>
-                <div class="nav-sublink" onclick="window.location.href='/BranchConsolidation'"><span
+                <a href="/Branch" class="nav-sublink @IsActive("/Branch")"><span
+                        class="sub-dot"></span>Branch Accounting</a>
+                <a href="/BranchConsolidation" class="nav-sublink @IsActive("/BranchConsolidation")"><span
                         class="sub-dot"></span>Consolidation of
-                    Accounts</div>
-                <div class="nav-sublink" onclick="window.location.href='/BranchPerformance'"><span
+                    Accounts</a>
+                <a href="/BranchPerformance" class="nav-sublink @IsActive("/BranchPerformance")"><span
                         class="sub-dot"></span>Stock & Sales per
-                    Branch</div>
+                    Branch</a>
             </div>
         </div>
 
         <!-- 8. Security -->
-        <div class="nav-item" id="nav-security">
+        <div class="nav-item @IsParentOpen("/SystemUser", "/SecuritySettings", "/AuditLog")" id="nav-security">
             <div class="nav-link" onclick="toggleNav('nav-security')">
                 <span class="nav-icon">🔒</span>
                 <span class="nav-label">Remote Access & Security</span>
                 <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
             </div>
             <div class="nav-submenu">
-                <div class="nav-sublink" onclick="window.location.href='/SystemUser'"><span
+                <a href="/SystemUser" class="nav-sublink @IsActive("/SystemUser")"><span
                         class="sub-dot"></span>User Access Control
-                </div>
-                <div class="nav-sublink" onclick="window.location.href='/SecuritySettings'"><span
+                </a>
+                <a href="/SecuritySettings" class="nav-sublink @IsActive("/SecuritySettings")"><span
                         class="sub-dot"></span>Data Encryption &
-                    Backup</div>
-                <div class="nav-sublink" onclick="window.location.href='/AuditLog'"><span
-                        class="sub-dot"></span>Audit Trails & Logs</div>
+                    Backup</a>
+                <a href="/AuditLog" class="nav-sublink @IsActive("/AuditLog")"><span
+                        class="sub-dot"></span>Audit Trails & Logs</a>
             </div>
         </div>
 
         <!-- 9. Additional -->
-        <div class="nav-item" id="nav-addons">
+        <div class="nav-item @IsParentOpen("/AutomationRule", "/Budget", "/ForexTransaction", "/CustomReport")" id="nav-addons">
             <div class="nav-link" onclick="toggleNav('nav-addons')">
                 <span class="nav-icon">⚙️</span>
                 <span class="nav-label">Additional Features</span>
                 <span class="nav-arrow"><i class="bi bi-chevron-right"></i></span>
             </div>
             <div class="nav-submenu">
-                <div class="nav-sublink" onclick="window.location.href='/AutomationRule'"><span
+                <a href="/AutomationRule" class="nav-sublink @IsActive("/AutomationRule")"><span
                         class="sub-dot"></span>Voucher Automation
-                </div>
-                <div class="nav-sublink" onclick="window.location.href='/Budget'"><span
+                </a>
+                <a href="/Budget" class="nav-sublink @IsActive("/Budget")"><span
                         class="sub-dot"></span>Budgeting & Cost Centers
-                </div>
-                <div class="nav-sublink" onclick="window.location.href='/ForexTransaction'"><span
+                </a>
+                <a href="/ForexTransaction" class="nav-sublink @IsActive("/ForexTransaction")"><span
                         class="sub-dot"></span>Multi-currency
-                    Transactions</div>
-                <div class="nav-sublink" onclick="window.location.href='/CustomReport'"><span
+                    Transactions</a>
+                <a href="/CustomReport" class="nav-sublink @IsActive("/CustomReport")"><span
                         class="sub-dot"></span>Custom Reports
-                </div>
+                </a>
             </div>
         </div>
 
@@ -239,3 +256,13 @@
         </div>
     </div>
 </aside>
+
+<script>
+    function toggleNav(navId) {
+        const item = document.getElementById(navId);
+        if (!item) return;
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.nav-item.open').forEach(i => { if (i.id !== navId) i.classList.remove('open'); });
+        item.classList.toggle('open', !isOpen);
+    }
+</script>
