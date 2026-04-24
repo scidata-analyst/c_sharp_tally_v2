@@ -15,19 +15,22 @@ namespace TALLY_APP.Controllers.InventoryManagement
      * Handles all CRUD operations for StockItem module.
      * Follows RESTful API standards with Clean Architecture.
      */
-    [ApiController]
+    
+    
+    
     [Route("StockItem")]
+    [ApiController]
     public class StockItemController : Controller
     {
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/InventoryManagement/stock-items.cshtml");
+
         private readonly IStockItemService _service;
 
         public StockItemController(IStockItemService service)
         {
             _service = service;
         }
-
-        [HttpGet("")]
-        public IActionResult Index() => View("~/Views/InventoryManagement/stock-items.cshtml");
 
         [HttpGet("all")]
         public async Task<ActionResult<List<StockItemResponse>>> GetAll()
@@ -96,3 +99,14 @@ namespace TALLY_APP.Controllers.InventoryManagement
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+

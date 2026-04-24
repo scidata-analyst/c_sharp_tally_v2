@@ -3,82 +3,111 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TallyPro — Enterprise Accounting Suite</title>
+    <title>TallyPro — Automation Rules</title>
     <partial name="_Styles" />
 </head>
-
 <body>
+    <partial name="_Sidebar" />
+    <partial name="_Header" model='@("Automation")' />
 
-        <partial name="_Sidebar" />
-
-    <partial name="_Header" model='@("Voucher Automation")' />
-
-    <!-- ===== MAIN CONTENT ===== -->
     <main class="main-content">
-
-        <!-- ===================== VOUCHER AUTOMATION ===================== -->
-        <div class="page active" id="page-automation">
+        <div class="page active">
             <div class="page-title-row">
                 <div>
-                    <div class="page-title">Voucher Automation</div>
-                    <div class="page-subtitle">Set up recurring and auto-generated vouchers</div>
-                </div><button class="btn-tally-primary" onclick="openModal('genericModal','Automation Rule')"><i
-                        class="bi bi-plus-lg"></i> New Rule</button>
+                    <div class="page-title">Automation Rules</div>
+                    <div class="page-subtitle">Additional Features · Configure event-driven business logic</div>
+                </div>
+                <button class="btn-tally-primary" onclick="openModal('ruleModal')"><i class="bi bi-plus-circle"></i> Create Rule</button>
             </div>
+            <div class="row g-3 mb-4" id="summaryCards"></div>
             <div class="data-table-wrapper">
                 <div class="table-toolbar">
-                    <div class="table-title">Automation Rules</div>
+                    <div class="table-title">Active Rules</div>
+                    <div class="table-actions"><input class="table-search" placeholder="Search rules..." oninput="handleSearch(event)"></div>
                 </div>
                 <table class="tally-table">
                     <thead>
                         <tr>
-                            <th>Rule Name</th>
-                            <th>Type</th>
-                            <th>Frequency</th>
-                            <th>Next Run</th>
-                            <th>Last Run</th>
+                            <th onclick="sortBy('Id')" style="cursor:pointer;">#</th>
+                            <th onclick="sortBy('RuleName')" style="cursor:pointer;">Rule Name</th>
+                            <th onclick="sortBy('RuleType')" style="cursor:pointer;">Type</th>
+                            <th onclick="sortBy('Frequency')" style="cursor:pointer;">Frequency</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Monthly Rent</td>
-                            <td><span class="badge-tally badge-danger">Payment</span></td>
-                            <td>Monthly</td>
-                            <td class="text-mono">01-04-2026</td>
-                            <td class="text-mono">01-03-2026</td>
-                            <td><span class="badge-tally badge-success">Active</span></td>
-                            <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
-                                    class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>Depreciation Entry</td>
-                            <td><span class="badge-tally badge-accent">Journal</span></td>
-                            <td>Monthly</td>
-                            <td class="text-mono">01-04-2026</td>
-                            <td class="text-mono">01-03-2026</td>
-                            <td><span class="badge-tally badge-success">Active</span></td>
-                            <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button> <button
-                                    class="btn-tally-danger"><i class="bi bi-trash"></i></button></td>
-                        </tr>
-                    </tbody>
+                    <tbody id="tableBody"></tbody>
                 </table>
+                <div class="pagination-wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:15px 10px;border-top:1px solid var(--border);margin-top:10px;">
+                    <div style="font-size:13px;color:var(--text-muted);">Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="totalRecords">0</span></div>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <select id="pageSizeSelect" class="form-control-tally" onchange="changePageSize()"><option value="10">10</option><option value="25">25</option></select>
+                        <div style="display:flex;gap:4px;"><button class="btn-tally-outline" id="prevBtn" onclick="prevPage()"><i class="bi bi-chevron-left"></i></button><button class="btn-tally-outline" id="nextBtn" onclick="nextPage()"><i class="bi bi-chevron-right"></i></button></div>
+                    </div>
+                </div>
             </div>
         </div>
-
     </main>
 
-    <!-- remaining modals and scripts identical to other pages (truncated for brevity) -->
+    <div class="tally-modal-overlay" id="ruleModal">
+        <div class="tally-modal" style="max-width:600px;">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">New Rule</div>
+                <div class="modal-close" onclick="closeModal('ruleModal')"><i class="bi bi-x-lg"></i></div>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-12"><div class="form-group"><label class="form-label">Rule Name *</label><input type="text" class="form-control-tally" id="RuleName"><div class="field-error" id="error-RuleName"></div></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Rule Type</label><select class="form-control-tally" id="RuleType"><option value="Email">Send Email</option><option value="Log">Log Event</option><option value="Notification">Notification</option></select></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Frequency</label><select class="form-control-tally" id="Frequency"><option value="Daily">Daily</option><option value="Weekly">Weekly</option><option value="Monthly">Monthly</option></select></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Status</label><select class="form-control-tally" id="Status"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div></div>
+                </div>
+            </div>
+            <div class="modal-footer"><button class="btn-tally-outline" onclick="closeModal('ruleModal')">Cancel</button><button class="btn-tally-primary" onclick="saveRecord()"><i class="bi bi-check-lg"></i> Save Rule</button></div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
     <partial name="_Scripts" />
+
     <script>
-        // page script same as others, with currentPage = 'automation'
+        let st = { data: [], page: 1, pageSize: 10, totalCount: 0, totalPages: 0, search: '', sortColumn: 'Id', sortDirection: 'asc', editingId: null };
+        let searchTimer = null;
+
+        function openModal(id, item = null) { document.getElementById(id).classList.add('open'); if(item) { st.editingId = item.id; document.getElementById('RuleName').value = item.ruleName; document.getElementById('RuleType').value = item.ruleType; document.getElementById('Frequency').value = item.frequency; document.getElementById('Status').value = item.status; } else { st.editingId = null; document.getElementById('RuleName').value = ''; document.getElementById('RuleType').value = 'Email'; document.getElementById('Frequency').value = 'Daily'; document.getElementById('Status').value = 'Active'; } }
+        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+        async function loadData() {
+            const r = await fetch(`/AutomationRule/api/index?page=${st.page}&pageSize=${st.pageSize}&search=${st.search}&sortColumn=${st.sortColumn}&sortDirection=${st.sortDirection}`);
+            const d = await r.json(); Object.assign(st, d); renderTable(); renderSummary();
+        }
+        function renderTable() {
+            const tbody = document.getElementById('tableBody'); tbody.innerHTML = '';
+            st.data.forEach((item, i) => {
+                const row = `<tr><td>${item.id}</td><td><b>${item.ruleName}</b></td><td>${item.ruleType}</td><td>${item.frequency}</td><td><span class="badge-tally ${item.status==='Active'?'badge-success':'badge-danger'}">${item.status}</span></td><td><button class="btn-tally-edit" onclick='editItem(${item.id})'><i class="bi bi-pencil"></i></button> <button class="btn-tally-danger" onclick="deleteItem(${item.id})"><i class="bi bi-trash"></i></button></td></tr>`;
+                tbody.innerHTML += row;
+            });
+            document.getElementById('showingStart').textContent = (st.page-1)*st.pageSize+1; document.getElementById('showingEnd').textContent = Math.min(st.page*st.pageSize, st.totalCount); document.getElementById('totalRecords').textContent = st.totalCount;
+            document.getElementById('prevBtn').disabled = st.page <= 1; document.getElementById('nextBtn').disabled = st.page >= st.totalPages;
+        }
+        function renderSummary() { document.getElementById('summaryCards').innerHTML = `<div class="col-md-6"><div class="stat-card" style="--card-accent:var(--primary)"><div class="stat-label">Total Rules</div><div class="stat-value">${st.totalCount}</div></div></div><div class="col-md-6"><div class="stat-card" style="--card-accent:var(--success)"><div class="stat-label">Active Rules</div><div class="stat-value">${st.data.filter(x => x.status === 'Active').length}</div></div></div>`; }
+        function handleSearch(e) { clearTimeout(searchTimer); searchTimer = setTimeout(() => { st.search = e.target.value; st.page = 1; loadData(); }, 500); }
+        function sortBy(col) { if(st.sortColumn === col) st.sortDirection = st.sortDirection === 'asc' ? 'desc' : 'asc'; else { st.sortColumn = col; st.sortDirection = 'asc'; } loadData(); }
+        async function saveRecord() {
+            const body = { ruleName: document.getElementById('RuleName').value, ruleType: document.getElementById('RuleType').value, frequency: document.getElementById('Frequency').value, status: document.getElementById('Status').value };
+            const url = st.editingId ? `/AutomationRule/update/${st.editingId}` : `/AutomationRule/create`;
+            const r = await fetch(url, { method: st.editingId ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+            if(r.ok) { closeModal('ruleModal'); loadData(); showToast('Success', 'success'); }
+        }
+        function editItem(id) { openModal('ruleModal', st.data.find(x => x.id === id)); }
+        async function deleteItem(id) { if(confirm('Delete?')) { await fetch(`/AutomationRule/delete/${id}`, { method: 'DELETE' }); loadData(); } }
+        function prevPage() { if(st.page > 1) { st.page--; loadData(); } }
+        function nextPage() { if(st.page < st.totalPages) { st.page++; loadData(); } }
+        function changePageSize() { st.pageSize = document.getElementById('pageSizeSelect').value; st.page = 1; loadData(); }
+        function showToast(m, t) { const c = document.getElementById('toastContainer'); const e = document.createElement('div'); e.className = `tally-toast ${t}`; e.textContent = m; c.appendChild(e); setTimeout(() => e.remove(), 3000); }
+        document.addEventListener('DOMContentLoaded', loadData);
     </script>
 </body>
-
 </html>
-

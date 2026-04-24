@@ -15,10 +15,16 @@ namespace TALLY_APP.Controllers.AccountingFinance
      * Handles all CRUD operations for VoucherEntry module.
      * Follows RESTful API standards with Clean Architecture.
      */
-    [ApiController]
+    
+    
+    
     [Route("VoucherEntry")]
+    [ApiController]
     public class VoucherEntryController : Controller
     {
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/AccountingFinance/voucher.cshtml");
+
         private readonly IVoucherEntryService _service;
 
         /**
@@ -30,9 +36,6 @@ namespace TALLY_APP.Controllers.AccountingFinance
         {
             _service = service;
         }
-
-        [HttpGet("")]
-        public IActionResult Index() => View("~/Views/AccountingFinance/voucher.cshtml");
 
         /**
          * Get all records
@@ -137,3 +140,14 @@ namespace TALLY_APP.Controllers.AccountingFinance
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+

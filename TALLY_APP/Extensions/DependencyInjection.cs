@@ -11,9 +11,9 @@ using TALLY_APP.Interfaces.BankingPayments;
 using TALLY_APP.Services.Dashboard;
 using TALLY_APP.Repositories.Dashboard;
 using TALLY_APP.Interfaces.Dashboard;
-using TALLY_APP.Services.GSTTaxation;
-using TALLY_APP.Repositories.GSTTaxation;
-using TALLY_APP.Interfaces.GSTTaxation;
+using TALLY_APP.Services.GstTaxation;
+using TALLY_APP.Repositories.GstTaxation;
+using TALLY_APP.Interfaces.GstTaxation;
 using TALLY_APP.Services.InventoryManagement;
 using TALLY_APP.Repositories.InventoryManagement;
 using TALLY_APP.Interfaces.InventoryManagement;
@@ -72,7 +72,7 @@ namespace TALLY_APP.Extensions
             services.AddScoped<IDashboardWidgetService, DashboardWidgetService>();
             services.AddScoped<DashboardWidgetRepository>();
 
-            // GSTTaxation
+            // GstTaxation
             services.AddScoped<IGSTEntryService, GSTEntryService>();
             services.AddScoped<IGSTReturnService, GSTReturnService>();
             services.AddScoped<ITDSTCSEntryService, TDSTCSEntryService>();

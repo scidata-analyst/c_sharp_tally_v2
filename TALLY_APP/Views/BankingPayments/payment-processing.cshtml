@@ -1,0 +1,153 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TallyPro — Payment Processing</title>
+    <partial name="_Styles" />
+</head>
+<body>
+    <partial name="_Sidebar" />
+    <partial name="_Header" model='@("Payment Processing")' />
+
+    <main class="main-content">
+        <div class="page active" id="page-payment-processing">
+            <div class="page-title-row">
+                <div>
+                    <div class="page-title">Payment Entries</div>
+                    <div class="page-subtitle">Banking & Payments · Manage incoming and outgoing payments</div>
+                </div>
+                <button class="btn-tally-primary" onclick="openModal('paymentModal')"><i class="bi bi-plus-lg"></i> New Payment</button>
+            </div>
+            <div class="row g-3 mb-4" id="summaryCards"></div>
+            <div class="data-table-wrapper">
+                <div class="table-toolbar">
+                    <div class="table-title">Payment Records</div>
+                    <div class="table-actions"><input class="table-search" placeholder="Search payments..." oninput="handleSearch(event)"></div>
+                </div>
+                <table class="tally-table">
+                    <thead>
+                        <tr>
+                            <th onclick="sortBy('Id')" style="cursor:pointer;"># <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('ReferenceNumber')" style="cursor:pointer;">Ref No <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('PaymentDate')" style="cursor:pointer;">Date <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('PartyName')" style="cursor:pointer;">Party <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('BankAccount')" style="cursor:pointer;">Bank Account <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th>Mode</th>
+                            <th onclick="sortBy('Amount')" style="cursor:pointer;">Amount <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('Status')" style="cursor:pointer;">Status <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+                <div class="pagination-wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:15px 10px;border-top:1px solid var(--border);margin-top:10px;">
+                    <div style="font-size:13px;color:var(--text-muted);">Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="totalRecords">0</span> records</div>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <label style="font-size:13px;color:var(--text-muted);">Rows:</label>
+                        <select id="pageSizeSelect" class="form-control-tally" style="width:70px;padding:4px 8px;" onchange="changePageSize()"><option value="5">5</option><option value="10" selected>10</option><option value="25">25</option><option value="50">50</option></select>
+                        <div style="display:flex;gap:4px;">
+                            <button class="btn-tally-outline" id="prevBtn" style="padding:6px 12px;" onclick="prevPage()"><i class="bi bi-chevron-left"></i></button>
+                            <span id="pageNumbers" style="display:flex;gap:2px;"></span>
+                            <button class="btn-tally-outline" id="nextBtn" style="padding:6px 12px;" onclick="nextPage()"><i class="bi bi-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Payment Modal -->
+    <div class="tally-modal-overlay" id="paymentModal">
+        <div class="tally-modal" style="max-width:800px;">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">New Payment Entry</div>
+                <div class="modal-close" onclick="closeModal('paymentModal')"><i class="bi bi-x-lg"></i></div>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-4"><div class="form-group"><label class="form-label">Reference No *</label><input type="text" class="form-control-tally" id="ReferenceNumber" placeholder="e.g. PAY-001"><div class="field-error" id="error-ReferenceNumber"></div></div></div>
+                    <div class="col-md-4"><div class="form-group"><label class="form-label">Date *</label><input type="date" class="form-control-tally" id="PaymentDate"><div class="field-error" id="error-PaymentDate"></div></div></div>
+                    <div class="col-md-4"><div class="form-group"><label class="form-label">Amount *</label><input type="number" step="0.01" class="form-control-tally" id="Amount"><div class="field-error" id="error-Amount"></div></div></div>
+
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Party Name *</label><input type="text" class="form-control-tally" id="PartyName"><div class="field-error" id="error-PartyName"></div></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Party ID</label><input type="number" class="form-control-tally" id="PartyId"><div class="field-error" id="error-PartyId"></div></div></div>
+
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Bank Account</label><input type="text" class="form-control-tally" id="BankAccount"><div class="field-error" id="error-BankAccount"></div></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Bank Account ID</label><input type="number" class="form-control-tally" id="BankAccountId"><div class="field-error" id="error-BankAccountId"></div></div></div>
+
+                    <div class="col-md-4"><div class="form-group"><label class="form-label">Payment Mode *</label><select class="form-control-tally" id="PaymentMode" onchange="toggleCheque()"><option value="Cash">Cash</option><option value="Bank Transfer">Bank Transfer</option><option value="Cheque">Cheque</option><option value="UPI">UPI</option></select><div class="field-error" id="error-PaymentMode"></div></div></div>
+                    <div class="col-md-4"><div class="form-group"><label class="form-label">Cheque/Txn Ref</label><input type="text" class="form-control-tally" id="ChequeRefNumber" disabled><div class="field-error" id="error-ChequeRefNumber"></div></div></div>
+                    <div class="col-md-4"><div class="form-group"><label class="form-label">Status</label><select class="form-control-tally" id="Status"><option value="Cleared">Cleared</option><option value="Pending">Pending</option><option value="Bounced">Bounced</option><option value="Cancelled">Cancelled</option></select><div class="field-error" id="error-Status"></div></div></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-tally-outline" onclick="closeModal('paymentModal')">Cancel</button>
+                <button class="btn-tally-primary" onclick="saveRecord()"><i class="bi bi-check-lg"></i> Save Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="tally-modal-overlay" id="deleteModal">
+        <div class="delete-confirm" style="margin:auto;"><div class="del-icon">🗑️</div><h5 style="font-family:var(--font-display);color:var(--text-primary);margin-bottom:8px;">Delete Payment?</h5><p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">This action cannot be undone.</p><div class="d-flex justify-content-center gap-3"><button class="btn-tally-outline" onclick="closeModal('deleteModal')">Cancel</button><button class="btn-tally-danger" style="padding:8px 20px;font-size:13px;" onclick="confirmDelete()"><i class="bi bi-trash"></i> Yes, Delete</button></div></div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+    <partial name="_Scripts" />
+
+    <script>
+        let st = { data: [], page: 1, pageSize: 10, totalCount: 0, totalPages: 0, search: '', sortColumn: 'Id', sortDirection: 'desc', hasPreviousPage: false, hasNextPage: false, editingId: null };
+        let deleteTarget = null; let searchTimer = null;
+
+        function toggleCheque() { const m = document.getElementById('PaymentMode').value; document.getElementById('ChequeRefNumber').disabled = (m === 'Cash'); }
+
+        function openModal(id, item = null) { const o = document.getElementById(id); if (!o) return; o.classList.add('open'); if (id === 'paymentModal') { clearErrors(); if (item) { st.editingId = item.id; document.getElementById('modalTitle').textContent = 'Edit Payment Entry'; document.getElementById('ReferenceNumber').value = item.referenceNumber||''; document.getElementById('PaymentDate').value = item.paymentDate ? item.paymentDate.substring(0,10) : ''; document.getElementById('Amount').value = item.amount||0; document.getElementById('PartyName').value = item.partyName||''; document.getElementById('PartyId').value = item.partyId||''; document.getElementById('BankAccount').value = item.bankAccount||''; document.getElementById('BankAccountId').value = item.bankAccountId||''; document.getElementById('PaymentMode').value = item.paymentMode||'Cash'; document.getElementById('ChequeRefNumber').value = item.chequeRefNumber||''; document.getElementById('Status').value = item.status||'Cleared'; toggleCheque(); } else { st.editingId = null; document.getElementById('modalTitle').textContent = 'New Payment Entry'; ['ReferenceNumber','PartyName','PartyId','BankAccount','BankAccountId','ChequeRefNumber'].forEach(f=>document.getElementById(f).value=''); document.getElementById('PaymentDate').value = new Date().toISOString().substring(0,10); document.getElementById('Amount').value = 0; document.getElementById('PaymentMode').value='Bank Transfer'; document.getElementById('Status').value='Cleared'; toggleCheque(); } } }
+        function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
+        function clearErrors() { document.querySelectorAll('.field-error').forEach(el => el.textContent = ''); }
+        function showFieldError(f, msg) { const el = document.getElementById('error-' + f); if (el) el.textContent = msg; }
+
+        async function loadData() {
+            const params = new URLSearchParams({ page: st.page, pageSize: st.pageSize, search: st.search, sortColumn: st.sortColumn, sortDirection: st.sortDirection });
+            try { const r = await fetch(`/PaymentEntry/api/index?${params}`); if (!r.ok) throw new Error(); const d = await r.json(); Object.assign(st, { data: d.data||[], totalCount: d.totalCount||0, totalPages: d.totalPages||0, page: d.page||1, hasPreviousPage: d.hasPreviousPage||false, hasNextPage: d.hasNextPage||false }); renderTable(); renderPagination(); renderSummary(); } catch(e) { showToast('Failed to load','error'); }
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody'); tbody.innerHTML = '';
+            if (!st.data.length) { tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--text-muted);">No records found</td></tr>'; return; }
+            const s = ((st.page-1)*st.pageSize)+1;
+            st.data.forEach((item, i) => {
+                const badge = {'Cleared':'badge-success','Pending':'badge-warning','Bounced':'badge-danger','Cancelled':'badge-accent'};
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${s+i}</td><td class="text-mono">${esc(item.referenceNumber)}</td><td>${item.paymentDate?new Date(item.paymentDate).toLocaleDateString('en-IN'):'-'}</td><td style="font-weight:600">${esc(item.partyName)}</td><td>${esc(item.bankAccount||'Cash')}</td><td>${esc(item.paymentMode)}</td><td style="font-weight:600">₹${fmt(item.amount)}</td><td><span class="badge-tally ${badge[item.status]||'badge-info'}">${esc(item.status)}</span></td><td><button class="btn-tally-edit" onclick="editItem(${item.id})"><i class="bi bi-pencil"></i></button> <button class="btn-tally-danger" onclick="deleteItem(${item.id})"><i class="bi bi-trash"></i></button></td>`;
+                tbody.appendChild(row);
+            });
+            document.getElementById('showingStart').textContent = st.totalCount > 0 ? s : 0; document.getElementById('showingEnd').textContent = Math.min(s+st.pageSize-1, st.totalCount); document.getElementById('totalRecords').textContent = st.totalCount;
+        }
+
+        function renderSummary() {
+            document.getElementById('summaryCards').innerHTML = `<div class="col-md-3"><div class="stat-card" style="--card-accent:var(--accent)"><div class="stat-label">Total Entries</div><div class="stat-value">${st.totalCount}</div></div></div><div class="col-md-3"><div class="stat-card" style="--card-accent:var(--success)"><div class="stat-label">Cleared Amount</div><div class="stat-value">₹${fmt(st.data.filter(i=>i.status==='Cleared').reduce((a,i)=>a+i.amount,0))}</div></div></div><div class="col-md-3"><div class="stat-card" style="--card-accent:var(--warning)"><div class="stat-label">Pending Amount</div><div class="stat-value">₹${fmt(st.data.filter(i=>i.status==='Pending').reduce((a,i)=>a+i.amount,0))}</div></div></div><div class="col-md-3"><div class="stat-card" style="--card-accent:var(--danger)"><div class="stat-label">Bounced Count</div><div class="stat-value">${st.data.filter(i=>i.status==='Bounced').length}</div></div></div>`;
+        }
+
+        function renderPagination() { const el = document.getElementById('pageNumbers'); el.innerHTML = ''; const max=5; let s=Math.max(1,st.page-Math.floor(max/2)); let e=Math.min(st.totalPages,s+max-1); if(e-s<max-1) s=Math.max(1,e-max+1); for(let i=s;i<=e;i++){const b=document.createElement('button');b.className=`btn-tally-outline ${i===st.page?'active':''}`;b.style.cssText='padding:6px 10px;min-width:36px;';b.textContent=i;b.onclick=()=>goToPage(i);el.appendChild(b);} document.getElementById('prevBtn').disabled=!st.hasPreviousPage; document.getElementById('nextBtn').disabled=!st.hasNextPage; document.getElementById('pageSizeSelect').value=st.pageSize; }
+
+        function goToPage(p){if(p<1||p>st.totalPages)return;st.page=p;loadData();} function prevPage(){if(st.hasPreviousPage)goToPage(st.page-1);} function nextPage(){if(st.hasNextPage)goToPage(st.page+1);} function changePageSize(){st.pageSize=parseInt(document.getElementById('pageSizeSelect').value);st.page=1;loadData();}
+        function sortBy(col){if(st.sortColumn===col)st.sortDirection=st.sortDirection==='asc'?'desc':'asc';else{st.sortColumn=col;st.sortDirection='asc';}st.page=1;loadData();}
+        function handleSearch(e){clearTimeout(searchTimer);searchTimer=setTimeout(()=>{st.search=e.target.value.trim();st.page=1;loadData();},500);}
+
+        async function saveRecord(){clearErrors();const fd={referenceNumber:document.getElementById('ReferenceNumber').value.trim(),paymentDate:document.getElementById('PaymentDate').value||new Date().toISOString().substring(0,10),amount:parseFloat(document.getElementById('Amount').value)||0,partyName:document.getElementById('PartyName').value.trim(),partyId:parseInt(document.getElementById('PartyId').value)||null,bankAccount:document.getElementById('BankAccount').value.trim(),bankAccountId:parseInt(document.getElementById('BankAccountId').value)||null,paymentMode:document.getElementById('PaymentMode').value,chequeRefNumber:document.getElementById('ChequeRefNumber').value.trim(),status:document.getElementById('Status').value};try{const url=st.editingId?`/PaymentEntry/update/${st.editingId}`:`/PaymentEntry/create`;const m=st.editingId?'PUT':'POST';const r=await fetch(url,{method:m,headers:{'Content-Type':'application/json'},body:JSON.stringify(fd)});const d=await r.json();if(!r.ok){if(r.status===400&&d.errors){for(const[f,msgs]of Object.entries(d.errors))showFieldError(f,msgs.join(', '));return;}throw new Error(d.message||'Failed');}closeModal('paymentModal');showToast(st.editingId?'Payment updated!':'Payment logged!','success');loadData();}catch(e){showToast('Save failed: '+e.message,'error');}}
+
+        function editItem(id){const item=st.data.find(i=>i.id===id);if(item)openModal('paymentModal',item);} function deleteItem(id){deleteTarget={id};openModal('deleteModal');}
+        async function confirmDelete(){if(!deleteTarget)return;try{const r=await fetch(`/PaymentEntry/delete/${deleteTarget.id}`,{method:'DELETE'});if(!r.ok)throw new Error();closeModal('deleteModal');showToast('Payment deleted','success');loadData();}catch(e){showToast('Delete failed','error');}finally{deleteTarget=null;}}
+
+        function esc(t){if(!t)return'';const d=document.createElement('div');d.textContent=t;return d.innerHTML;} function fmt(n){return parseFloat(n||0).toLocaleString('en-IN',{maximumFractionDigits:2});}
+        function showToast(msg,type='success'){const icons={success:'✅',error:'❌',info:'ℹ️'};const c=document.getElementById('toastContainer');if(!c)return;const t=document.createElement('div');t.className=`tally-toast ${type}`;t.innerHTML=`<span style="font-size:16px">${icons[type]}</span><span>${msg}</span>`;c.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(20px)';t.style.transition='0.3s ease';setTimeout(()=>t.remove(),300);},3000);}
+
+        document.addEventListener('DOMContentLoaded',()=>{loadData();document.querySelectorAll('.tally-modal-overlay').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)closeModal(this.id);}));});
+        document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.tally-modal-overlay.open').forEach(m=>m.classList.remove('open'));});
+    </script>
+</body>
+</html>

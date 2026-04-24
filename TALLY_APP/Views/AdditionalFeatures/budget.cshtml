@@ -3,97 +3,110 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TallyPro — Enterprise Accounting Suite</title>
+    <title>TallyPro — Budget Management</title>
     <partial name="_Styles" />
 </head>
-
 <body>
+    <partial name="_Sidebar" />
+    <partial name="_Header" model='@("Budgets")' />
 
-        <partial name="_Sidebar" />
-
-    <partial name="_Header" model='@("Budgeting & Cost Centers")' />
-
-    <!-- ===== MAIN CONTENT ===== -->
     <main class="main-content">
-
-        <!-- ===================== BUDGETING & COST CENTERS ===================== -->
-        <div class="page active" id="page-budget">
+        <div class="page active">
             <div class="page-title-row">
                 <div>
-                    <div class="page-title">Budgeting & Cost Centers</div>
-                    <div class="page-subtitle">Plan and track departmental budgets</div>
-                </div><button class="btn-tally-primary" onclick="openModal('genericModal','Budget')"><i
-                        class="bi bi-plus-lg"></i> New Budget</button>
+                    <div class="page-title">Budget Management</div>
+                    <div class="page-subtitle">Additional Features · Plan and monitor financial limits</div>
+                </div>
+                <button class="btn-tally-primary" onclick="openModal('budgetModal')"><i class="bi bi-wallet2"></i> Set New Budget</button>
             </div>
+            <div class="row g-3 mb-4" id="summaryCards"></div>
             <div class="data-table-wrapper">
                 <div class="table-toolbar">
-                    <div class="table-title">Budget vs Actual — FY 2024-25</div>
+                    <div class="table-title">Department Budgets</div>
+                    <div class="table-actions"><input class="table-search" placeholder="Search budgets..." oninput="handleSearch(event)"></div>
                 </div>
                 <table class="tally-table">
                     <thead>
                         <tr>
-                            <th>Cost Center</th>
-                            <th>Annual Budget</th>
-                            <th>Spent (YTD)</th>
+                            <th onclick="sortBy('Id')" style="cursor:pointer;">#</th>
+                            <th onclick="sortBy('CostCenter')" style="cursor:pointer;">Cost Center</th>
+                            <th onclick="sortBy('AnnualBudget')" style="cursor:pointer;">Annual Budget</th>
+                            <th>Spent YTD</th>
                             <th>Remaining</th>
-                            <th>% Used</th>
+                            <th onclick="sortBy('Period')" style="cursor:pointer;">Period</th>
                             <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Marketing</td>
-                            <td>₹5,00,000</td>
-                            <td class="amount-negative">₹3,20,000</td>
-                            <td class="amount-positive">₹1,80,000</td>
-                            <td>
-                                <div class="progress-tally" style="width:120px;display:inline-block">
-                                    <div class="progress-bar-tally" style="width:64%"></div>
-                                </div> 64%
-                            </td>
-                            <td><span class="badge-tally badge-success">On Track</span></td>
-                        </tr>
-                        <tr>
-                            <td>Operations</td>
-                            <td>₹8,00,000</td>
-                            <td class="amount-negative">₹7,80,000</td>
-                            <td class="amount-positive">₹20,000</td>
-                            <td>
-                                <div class="progress-tally" style="width:120px;display:inline-block">
-                                    <div class="progress-bar-tally" style="width:97.5%;background:var(--danger)"></div>
-                                </div> 97.5%
-                            </td>
-                            <td><span class="badge-tally badge-danger">Critical</span></td>
-                        </tr>
-                        <tr>
-                            <td>IT</td>
-                            <td>₹3,00,000</td>
-                            <td class="amount-negative">₹1,40,000</td>
-                            <td class="amount-positive">₹1,60,000</td>
-                            <td>
-                                <div class="progress-tally" style="width:120px;display:inline-block">
-                                    <div class="progress-bar-tally" style="width:46%"></div>
-                                </div> 46%
-                            </td>
-                            <td><span class="badge-tally badge-success">Good</span></td>
-                        </tr>
-                    </tbody>
+                    <tbody id="tableBody"></tbody>
                 </table>
+                <div class="pagination-wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:15px 10px;border-top:1px solid var(--border);margin-top:10px;">
+                    <div style="font-size:13px;color:var(--text-muted);">Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="totalRecords">0</span></div>
+                    <div style="display:flex;gap:4px;"><button class="btn-tally-outline" id="prevBtn" onclick="prevPage()"><i class="bi bi-chevron-left"></i></button><button class="btn-tally-outline" id="nextBtn" onclick="nextPage()"><i class="bi bi-chevron-right"></i></button></div>
+                </div>
             </div>
         </div>
-
     </main>
 
-    <!-- remaining modals and scripts identical to other pages (truncated for brevity) -->
+    <div class="tally-modal-overlay" id="budgetModal">
+        <div class="tally-modal" style="max-width:600px;">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Set Budget</div>
+                <div class="modal-close" onclick="closeModal('budgetModal')"><i class="bi bi-x-lg"></i></div>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-12"><div class="form-group"><label class="form-label">Cost Center *</label><input type="text" class="form-control-tally" id="CostCenter"></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Annual Budget *</label><input type="number" class="form-control-tally" id="AnnualBudget"></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Spent YTD</label><input type="number" class="form-control-tally" id="SpentYTD"></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Period</label><select class="form-control-tally" id="Period"><option value="FY2024">FY 2024</option><option value="FY2025">FY 2025</option></select></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Status</label><select class="form-control-tally" id="Status"><option value="Active">Active</option><option value="Closed">Closed</option></select></div></div>
+                </div>
+            </div>
+            <div class="modal-footer"><button class="btn-tally-outline" onclick="closeModal('budgetModal')">Cancel</button><button class="btn-tally-primary" onclick="saveRecord()"><i class="bi bi-check-lg"></i> Save Budget</button></div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
     <partial name="_Scripts" />
+
     <script>
-        // page script same as others, with currentPage = 'budget'
+        let st = { data: [], page: 1, pageSize: 10, totalCount: 0, totalPages: 0, search: '', sortColumn: 'Id', sortDirection: 'asc', editingId: null };
+        let searchTimer = null;
+
+        function openModal(id, item = null) { document.getElementById(id).classList.add('open'); if(item) { st.editingId = item.id; document.getElementById('CostCenter').value = item.costCenter; document.getElementById('AnnualBudget').value = item.annualBudget; document.getElementById('SpentYTD').value = item.spentYTD; document.getElementById('Period').value = item.period; document.getElementById('Status').value = item.status; } else { st.editingId = null; document.getElementById('CostCenter').value = ''; document.getElementById('AnnualBudget').value = 0; document.getElementById('SpentYTD').value = 0; } }
+        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+        async function loadData() {
+            const r = await fetch(`/Budget/api/index?page=${st.page}&pageSize=${st.pageSize}&search=${st.search}&sortColumn=${st.sortColumn}&sortDirection=${st.sortDirection}`);
+            const d = await r.json(); Object.assign(st, d); renderTable(); renderSummary();
+        }
+        function renderTable() {
+            const tbody = document.getElementById('tableBody'); tbody.innerHTML = '';
+            st.data.forEach((item, i) => {
+                const row = `<tr><td>${item.id}</td><td><b>${item.costCenter}</b></td><td>₹${parseFloat(item.annualBudget).toLocaleString()}</td><td>₹${parseFloat(item.spentYTD).toLocaleString()}</td><td>₹${parseFloat(item.remaining).toLocaleString()}</td><td>${item.period}</td><td><span class="badge-tally ${item.status==='Active'?'badge-success':'badge-info'}">${item.status}</span></td><td><button class="btn-tally-edit" onclick='editItem(${item.id})'><i class="bi bi-pencil"></i></button> <button class="btn-tally-danger" onclick="deleteItem(${item.id})"><i class="bi bi-trash"></i></button></td></tr>`;
+                tbody.innerHTML += row;
+            });
+            document.getElementById('showingStart').textContent = (st.page-1)*st.pageSize+1; document.getElementById('showingEnd').textContent = Math.min(st.page*st.pageSize, st.totalCount); document.getElementById('totalRecords').textContent = st.totalCount;
+            document.getElementById('prevBtn').disabled = st.page <= 1; document.getElementById('nextBtn').disabled = st.page >= st.totalPages;
+        }
+        function renderSummary() { document.getElementById('summaryCards').innerHTML = `<div class="col-md-6"><div class="stat-card" style="--card-accent:var(--accent)"><div class="stat-label">Total Annual Budget</div><div class="stat-value">₹${st.data.reduce((a,x)=>a+x.annualBudget,0).toLocaleString()}</div></div></div><div class="col-md-6"><div class="stat-card" style="--card-accent:var(--warning)"><div class="stat-label">Total Spent</div><div class="stat-value">₹${st.data.reduce((a,x)=>a+x.spentYTD,0).toLocaleString()}</div></div></div>`; }
+        function handleSearch(e) { clearTimeout(searchTimer); searchTimer = setTimeout(() => { st.search = e.target.value; st.page = 1; loadData(); }, 500); }
+        function sortBy(col) { if(st.sortColumn === col) st.sortDirection = st.sortDirection === 'asc' ? 'desc' : 'asc'; else { st.sortColumn = col; st.sortDirection = 'asc'; } loadData(); }
+        async function saveRecord() {
+            const body = { costCenter: document.getElementById('CostCenter').value, annualBudget: parseFloat(document.getElementById('AnnualBudget').value), spentYTD: parseFloat(document.getElementById('SpentYTD').value), period: document.getElementById('Period').value, status: document.getElementById('Status').value };
+            const url = st.editingId ? `/Budget/update/${st.editingId}` : `/Budget/create`;
+            const r = await fetch(url, { method: st.editingId ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+            if(r.ok) { closeModal('budgetModal'); loadData(); showToast('Success', 'success'); }
+        }
+        function editItem(id) { openModal('budgetModal', st.data.find(x => x.id === id)); }
+        async function deleteItem(id) { if(confirm('Delete?')) { await fetch(`/Budget/delete/${id}`, { method: 'DELETE' }); loadData(); } }
+        function prevPage() { if(st.page > 1) { st.page--; loadData(); } }
+        function nextPage() { if(st.page < st.totalPages) { st.page++; loadData(); } }
+        function showToast(m, t) { const c = document.getElementById('toastContainer'); const e = document.createElement('div'); e.className = `tally-toast ${t}`; e.textContent = m; c.appendChild(e); setTimeout(() => e.remove(), 3000); }
+        document.addEventListener('DOMContentLoaded', loadData);
     </script>
 </body>
-
 </html>
-

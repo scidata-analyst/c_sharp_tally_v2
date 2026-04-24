@@ -16,7 +16,7 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
      */
     [ApiController]
     [Route("api/ReportingAnalytics/BalanceSheet")]
-    public class BalanceSheetController : ControllerBase
+    public class BalanceSheetController : Controller
     {
         private readonly IBalanceSheetService _service;
 
@@ -103,4 +103,10 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
         }
     }
 }
+
+
+
+
+
+
 

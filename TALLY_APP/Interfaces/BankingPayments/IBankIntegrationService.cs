@@ -5,48 +5,13 @@ using TALLY_APP.DTOs.Response.BankingPayments;
 
 namespace TALLY_APP.Interfaces.BankingPayments
 {
-    /**
-     * =====================================================
-     * Interface: IBankIntegrationService
-     * =====================================================
-     *
-     * Purpose:
-     * Defines contract for BankIntegration business operations.
-     * Acts as abstraction layer between Controller and Service.
-     *
-     * Architecture:
-     * Controller  Interface  Service Implementation
-     */
     public interface IBankIntegrationService
     {
-        /**
-         * Get all records
-         */
         Task<List<BankIntegrationResponse>> All();
-
-        /**
-         * Get paginated records
-         */
-        Task<List<BankIntegrationResponse>> Index();
-
-        /**
-         * Get single record by ID
-         */
+        Task<PaginatedBankIntegrationResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc");
         Task<BankIntegrationResponse> View(long id);
-
-        /**
-         * Create new record
-         */
         Task<BankIntegrationResponse> Create(BankIntegrationRequest request);
-
-        /**
-         * Update existing record
-         */
         Task<BankIntegrationResponse> Update(long id, BankIntegrationRequest request);
-
-        /**
-         * Delete record
-         */
         Task<bool> Delete(long id);
     }
 }

@@ -16,7 +16,7 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
      */
     [ApiController]
     [Route("api/ReportingAnalytics/ProfitLoss")]
-    public class ProfitLossController : ControllerBase
+    public class ProfitLossController : Controller
     {
         private readonly IProfitLossService _service;
 
@@ -103,4 +103,10 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
         }
     }
 }
+
+
+
+
+
+
 

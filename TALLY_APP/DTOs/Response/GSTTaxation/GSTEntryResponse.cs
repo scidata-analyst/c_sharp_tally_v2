@@ -114,4 +114,21 @@ namespace TALLY_APP.DTOs.Response.GSTTaxation
         public DateTime UpdatedAt { get; set; }
 
     }
+
+    /**
+     * Response DTO: PaginatedGSTEntryResponse
+     *
+     * Purpose:
+     * API response model for paginated GST entry list
+     */
+    public class PaginatedGSTEntryResponse
+    {
+        public List<GSTEntryResponse> Data { get; set; }
+        public int TotalCount { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages { get; set; }
+        public bool HasPreviousPage { get; set; }
+        public bool HasNextPage { get; set; }
+    }
 }

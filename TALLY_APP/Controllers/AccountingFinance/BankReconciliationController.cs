@@ -14,19 +14,22 @@ namespace TALLY_APP.Controllers.AccountingFinance
      * Description:
      * Handles all CRUD operations for BankReconciliation module.
      */
-    [ApiController]
+    
+    
+    
     [Route("BankReconciliation")]
+    [ApiController]
     public class BankReconciliationController : Controller
     {
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/AccountingFinance/bank-recon.cshtml");
+
         private readonly IBankReconciliationService _service;
 
         public BankReconciliationController(IBankReconciliationService service)
         {
             _service = service;
         }
-
-        [HttpGet("")]
-        public IActionResult Index() => View("~/Views/AccountingFinance/bank-recon.cshtml");
 
         /**
          * Get all records
@@ -113,3 +116,14 @@ namespace TALLY_APP.Controllers.AccountingFinance
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+

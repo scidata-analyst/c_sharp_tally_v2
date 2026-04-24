@@ -5,48 +5,13 @@ using TALLY_APP.DTOs.Response.PayrollManagement;
 
 namespace TALLY_APP.Interfaces.PayrollManagement
 {
-    /**
-     * =====================================================
-     * Interface: IPayslipService
-     * =====================================================
-     *
-     * Purpose:
-     * Defines contract for Payslip business operations.
-     * Acts as abstraction layer between Controller and Service.
-     *
-     * Architecture:
-     * Controller  Interface  Service Implementation
-     */
     public interface IPayslipService
     {
-        /**
-         * Get all records
-         */
         Task<List<PayslipResponse>> All();
-
-        /**
-         * Get paginated records
-         */
-        Task<List<PayslipResponse>> Index();
-
-        /**
-         * Get single record by ID
-         */
+        Task<PaginatedPayslipResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc");
         Task<PayslipResponse> View(long id);
-
-        /**
-         * Create new record
-         */
         Task<PayslipResponse> Create(PayslipRequest request);
-
-        /**
-         * Update existing record
-         */
         Task<PayslipResponse> Update(long id, PayslipRequest request);
-
-        /**
-         * Delete record
-         */
         Task<bool> Delete(long id);
     }
 }

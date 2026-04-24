@@ -15,10 +15,16 @@ namespace TALLY_APP.Controllers.AccountingFinance
      * Handles all CRUD operations for LedgerAccount module.
      * Follows RESTful API standards with Clean Architecture.
      */
-    [ApiController]
+    
+    
+    
     [Route("LedgerAccount")]
+    [ApiController]
     public class LedgerAccountController : Controller
     {
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/AccountingFinance/ledger.cshtml");
+
         private readonly ILedgerAccountService _service;
 
         /**
@@ -30,9 +36,6 @@ namespace TALLY_APP.Controllers.AccountingFinance
         {
             _service = service;
         }
-
-        [HttpGet("")]
-        public IActionResult Index() => View("~/Views/AccountingFinance/ledger.cshtml");
 
         /**
          * Get all records
@@ -147,4 +150,15 @@ namespace TALLY_APP.Controllers.AccountingFinance
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
 

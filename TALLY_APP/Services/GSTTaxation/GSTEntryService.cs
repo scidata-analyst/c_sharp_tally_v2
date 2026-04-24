@@ -1,98 +1,82 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TALLY_APP.Repositories.GSTTaxation;
-
+using TALLY_APP.Repositories.GstTaxation;
 using Mapster;
-using TALLY_APP.Interfaces.GSTTaxation;
+using TALLY_APP.Interfaces.GstTaxation;
 using TALLY_APP.DTOs.Request.GSTTaxation;
 using TALLY_APP.DTOs.Response.GSTTaxation;
-
 using TALLY_APP.Models.GSTTaxation;
 
-namespace TALLY_APP.Services.GSTTaxation
+namespace TALLY_APP.Services.GstTaxation
 {
-    /**
-     * @class GSTEntryService
-     * @description Business logic layer for GSTEntry module.
-     */
     public class GSTEntryService : IGSTEntryService
     {
         private readonly GSTEntryRepository _repository;
 
-        /**
-         * @constructor
-         * @param {GSTEntryRepository} repository
-         */
         public GSTEntryService(GSTEntryRepository repository)
         {
             _repository = repository;
         }
 
-        /**
-         * @method All
-         * @returns {Task<List<GSTEntry>>}
-         */
-        
-
         public async Task<List<GSTEntryResponse>> All()
         {
-            var entities = await _repository.GetAllAsync();
+            var entities = await _repository.All();
             return entities.Adapt<List<GSTEntryResponse>>();
         }
 
-        public async Task<List<GSTEntryResponse>> Index()
+        public async Task<PaginatedGSTEntryResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc")
         {
-            var entities = await _repository.GetAllAsync();
-            return entities.Adapt<List<GSTEntryResponse>>();
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+            if (pageSize > 100) pageSize = 100;
+
+            var (items, totalCount) = await _repository.Index(page, pageSize, search, sortColumn, sortDirection);
+            var data = items.Adapt<List<GSTEntryResponse>>();
+            int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            return new PaginatedGSTEntryResponse
+            {
+                Data = data,
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                HasPreviousPage = page > 1,
+                HasNextPage = page < totalPages
+            };
         }
 
-
-        /**
-         * @method View
-         * @param {long} id
-         * @returns {Task<GSTEntry>}
-         */
         public async Task<GSTEntryResponse> View(long id)
         {
-            var entity = await _repository.GetByIdAsync(id);
+            var entity = await _repository.View(id);
             return entity.Adapt<GSTEntryResponse>();
         }
 
-        /**
-         * @method Create
-         * @param {GSTEntry} entity
-         */
         public async Task<GSTEntryResponse> Create(GSTEntryRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
             var entity = request.Adapt<GSTEntry>();
-            await _repository.AddAsync(entity);
+            entity.CreatedAt = DateTime.UtcNow;
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _repository.Create(entity);
             return entity.Adapt<GSTEntryResponse>();
         }
 
-        /**
-         * @method Update
-         * @param {long} id
-         * @param {GSTEntry} entity
-         */
         public async Task<GSTEntryResponse> Update(long id, GSTEntryRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
             var entity = request.Adapt<GSTEntry>();
             entity.Id = id;
-            await _repository.UpdateAsync(entity);
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _repository.Update(entity);
             return entity.Adapt<GSTEntryResponse>();
         }
 
-        /**
-         * @method Delete
-         * @param {long} id
-         */
         public async Task<bool> Delete(long id)
         {
-            await _repository.DeleteAsync(id);
+            await _repository.Delete(id);
             return true;
         }
     }
 }
-
-
-

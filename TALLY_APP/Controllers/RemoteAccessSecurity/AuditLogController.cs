@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TALLY_APP.Interfaces.RemoteAccessSecurity;
 using TALLY_APP.DTOs.Request.RemoteAccessSecurity;
@@ -7,103 +8,74 @@ using TALLY_APP.DTOs.Response.RemoteAccessSecurity;
 
 namespace TALLY_APP.Controllers.RemoteAccessSecurity
 {
-    /**
-     * Controller: AuditLog
-     *
-     * Description:
-     * Handles all CRUD operations for AuditLog module.
-     * Follows RESTful API standards with Clean Architecture.
-     */
-    [ApiController]
+    
+    
+    
     [Route("AuditLog")]
+    [ApiController]
     public class AuditLogController : Controller
     {
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/RemoteAccessSecurity/audit.cshtml");
+
         private readonly IAuditLogService _service;
 
-        /**
-         * Constructor
-         *
-         * @param service Injected service for business logic
-         */
         public AuditLogController(IAuditLogService service)
         {
             _service = service;
         }
 
-        [HttpGet("")]
-        public IActionResult Index() => View("~/Views/RemoteAccessSecurity/audit.cshtml");
-
-        /**
-         * Get all records
-         *
-         * @return List of AuditLog objects
-         */
-        [HttpGet("all")]
-        public async Task<ActionResult<List<AuditLogResponse>>> GetAll()
-        {
-            return await _service.All();
-        }
-
-        /**
-         * Get paginated list
-         *
-         * @return List of AuditLog objects
-         */
         [HttpGet("api/index")]
-        public async Task<ActionResult<List<AuditLogResponse>>> ApiIndex()
+        public async Task<ActionResult<PaginatedAuditLogResponse>> ApiIndex(
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string search = "",
+            [FromQuery] string sortColumn = "Id",
+            [FromQuery] string sortDirection = "desc")
         {
-            return await _service.Index();
+            return await _service.Index(page, pageSize, search, sortColumn, sortDirection);
         }
 
-        /**
-         * Get single record by id
-         *
-         * @param id Record identifier
-         * @return Single AuditLog object
-         */
-        [HttpGet("view/{id}")]
-        public async Task<ActionResult<AuditLogResponse>> View(long id)
-        {
-            return await _service.View(id);
-        }
-
-        /**
-         * Create new record
-         *
-         * @param request Request body
-         * @return Created record response
-         */
         [HttpPost("create")]
         public async Task<ActionResult<AuditLogResponse>> Create([FromBody] AuditLogRequest request)
         {
-            return await _service.Create(request);
+            if (!ModelState.IsValid)
+                return BadRequest(new { errors = GetModelStateErrors() });
+
+            var result = await _service.Create(request);
+            return Ok(result);
         }
 
-        /**
-         * Update existing record
-         *
-         * @param id Record identifier
-         * @param request Updated data
-         * @return Updated record response
-         */
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult<AuditLogResponse>> Update(long id, [FromBody] AuditLogRequest request)
-        {
-            return await _service.Update(id, request);
-        }
-
-        /**
-         * Delete record
-         *
-         * @param id Record identifier
-         * @return Success message
-         */
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(long id)
         {
             await _service.Delete(id);
             return Ok(new { message = "Deleted successfully" });
         }
+
+        private Dictionary<string, string[]> GetModelStateErrors()
+        {
+            var errors = new Dictionary<string, string[]>();
+            foreach (var key in ModelState.Keys)
+            {
+                var state = ModelState[key];
+                if (state.Errors.Count > 0)
+                {
+                    errors[key] = state.Errors.Select(e => e.ErrorMessage).ToArray();
+                }
+            }
+            return errors;
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
 

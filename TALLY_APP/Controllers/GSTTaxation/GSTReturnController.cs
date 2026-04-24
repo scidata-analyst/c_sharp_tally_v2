@@ -1,109 +1,105 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using TALLY_APP.Interfaces.GSTTaxation;
+using TALLY_APP.Interfaces.GstTaxation;
 using TALLY_APP.DTOs.Request.GSTTaxation;
 using TALLY_APP.DTOs.Response.GSTTaxation;
 
-namespace TALLY_APP.Controllers.GSTTaxation
+namespace TALLY_APP.Controllers.GstTaxation
 {
-    /**
-     * Controller: GSTReturn
-     *
-     * Description:
-     * Handles all CRUD operations for GSTReturn module.
-     * Follows RESTful API standards with Clean Architecture.
-     */
-    [ApiController]
+    
+    
+    
     [Route("GSTReturn")]
+    [ApiController]
     public class GSTReturnController : Controller
     {
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/GSTTaxation/gst-reports.cshtml");
+
         private readonly IGSTReturnService _service;
 
-        /**
-         * Constructor
-         *
-         * @param service Injected service for business logic
-         */
         public GSTReturnController(IGSTReturnService service)
         {
             _service = service;
         }
 
-        [HttpGet("")]
-        public IActionResult Index() => View("~/Views/GSTTaxation/tax-reports.cshtml");
-
-        /**
-         * Get all records
-         *
-         * @return List of GSTReturn objects
-         */
         [HttpGet("all")]
         public async Task<ActionResult<List<GSTReturnResponse>>> GetAll()
         {
             return await _service.All();
         }
 
-        /**
-         * Get paginated list
-         *
-         * @return List of GSTReturn objects
-         */
         [HttpGet("api/index")]
-        public async Task<ActionResult<List<GSTReturnResponse>>> ApiIndex()
+        public async Task<ActionResult<PaginatedGSTReturnResponse>> ApiIndex(
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string search = "",
+            [FromQuery] string sortColumn = "Id",
+            [FromQuery] string sortDirection = "asc")
         {
-            return await _service.Index();
+            return await _service.Index(page, pageSize, search, sortColumn, sortDirection);
         }
 
-        /**
-         * Get single record by id
-         *
-         * @param id Record identifier
-         * @return Single GSTReturn object
-         */
         [HttpGet("view/{id}")]
         public async Task<ActionResult<GSTReturnResponse>> View(long id)
         {
-            return await _service.View(id);
+            var result = await _service.View(id);
+            if (result == null) return NotFound();
+            return result;
         }
 
-        /**
-         * Create new record
-         *
-         * @param request Request body
-         * @return Created record response
-         */
         [HttpPost("create")]
         public async Task<ActionResult<GSTReturnResponse>> Create([FromBody] GSTReturnRequest request)
         {
-            return await _service.Create(request);
+            if (!ModelState.IsValid)
+                return BadRequest(new { errors = GetModelStateErrors() });
+
+            var result = await _service.Create(request);
+            return Ok(result);
         }
 
-        /**
-         * Update existing record
-         *
-         * @param id Record identifier
-         * @param request Updated data
-         * @return Updated record response
-         */
         [HttpPut("update/{id}")]
         public async Task<ActionResult<GSTReturnResponse>> Update(long id, [FromBody] GSTReturnRequest request)
         {
-            return await _service.Update(id, request);
+            if (!ModelState.IsValid)
+                return BadRequest(new { errors = GetModelStateErrors() });
+
+            var result = await _service.Update(id, request);
+            return Ok(result);
         }
 
-        /**
-         * Delete record
-         *
-         * @param id Record identifier
-         * @return Success message
-         */
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(long id)
         {
             await _service.Delete(id);
             return Ok(new { message = "Deleted successfully" });
         }
+
+        private Dictionary<string, string[]> GetModelStateErrors()
+        {
+            var errors = new Dictionary<string, string[]>();
+            foreach (var key in ModelState.Keys)
+            {
+                var state = ModelState[key];
+                if (state.Errors.Count > 0)
+                {
+                    errors[key] = state.Errors.Select(e => e.ErrorMessage).ToArray();
+                }
+            }
+            return errors;
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
 

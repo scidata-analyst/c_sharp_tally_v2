@@ -1,69 +1,29 @@
 using System;
+using System.Collections.Generic;
 
 namespace TALLY_APP.DTOs.Response.ReportingAnalytics
 {
-    /**
-     * Response DTO: CashFlowStatement
-     *
-     * Purpose:
-     * API response model for CashFlowStatement
-     */
     public class CashFlowStatementResponse
     {
-        /**
-         * Field: Id
-         * Type: long
-         * Description: Response property for CashFlowStatement
-         */
         public long Id { get; set; }
-        /**
-         * Field: Period
-         * Type: string
-         * Description: Response property for CashFlowStatement
-         */
         public string Period { get; set; }
-        /**
-         * Field: NetProfit
-         * Type: decimal
-         * Description: Response property for CashFlowStatement
-         */
         public decimal NetProfit { get; set; }
-        /**
-         * Field: Depreciation
-         * Type: decimal
-         * Description: Response property for CashFlowStatement
-         */
         public decimal Depreciation { get; set; }
-        /**
-         * Field: IncreaseInDebtors
-         * Type: decimal
-         * Description: Response property for CashFlowStatement
-         */
         public decimal IncreaseInDebtors { get; set; }
-        /**
-         * Field: NetFromOperations
-         * Type: decimal
-         * Description: Response property for CashFlowStatement
-         */
         public decimal NetFromOperations { get; set; }
-        /**
-         * Field: PurchaseOfAssets
-         * Type: decimal
-         * Description: Response property for CashFlowStatement
-         */
         public decimal PurchaseOfAssets { get; set; }
-        /**
-         * Field: NetCashFlow
-         * Type: decimal
-         * Description: Response property for CashFlowStatement
-         */
         public decimal NetCashFlow { get; set; }
-        /**
-         * Field: CreatedAt
-         * Type: DateTime
-         * Description: Response property for CashFlowStatement
-         */
         public DateTime CreatedAt { get; set; }
+    }
 
+    public class PaginatedCashFlowStatementResponse
+    {
+        public List<CashFlowStatementResponse> Data { get; set; }
+        public int TotalCount { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages { get; set; }
+        public bool HasPreviousPage { get; set; }
+        public bool HasNextPage { get; set; }
     }
 }

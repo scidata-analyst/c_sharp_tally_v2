@@ -1,98 +1,82 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.RemoteAccessSecurity;
-
 using Mapster;
 using TALLY_APP.Interfaces.RemoteAccessSecurity;
 using TALLY_APP.DTOs.Request.RemoteAccessSecurity;
 using TALLY_APP.DTOs.Response.RemoteAccessSecurity;
-
 using TALLY_APP.Models.RemoteAccessSecurity;
 
 namespace TALLY_APP.Services.RemoteAccessSecurity
 {
-    /**
-     * @class SecuritySettingsService
-     * @description Business logic layer for SecuritySettings module.
-     */
     public class SecuritySettingsService : ISecuritySettingsService
     {
         private readonly SecuritySettingsRepository _repository;
 
-        /**
-         * @constructor
-         * @param {SecuritySettingsRepository} repository
-         */
         public SecuritySettingsService(SecuritySettingsRepository repository)
         {
             _repository = repository;
         }
 
-        /**
-         * @method All
-         * @returns {Task<List<SecuritySettings>>}
-         */
-        
-
         public async Task<List<SecuritySettingsResponse>> All()
         {
-            var entities = await _repository.GetAllAsync();
+            var entities = await _repository.All();
             return entities.Adapt<List<SecuritySettingsResponse>>();
         }
 
-        public async Task<List<SecuritySettingsResponse>> Index()
+        public async Task<PaginatedSecuritySettingsResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "desc")
         {
-            var entities = await _repository.GetAllAsync();
-            return entities.Adapt<List<SecuritySettingsResponse>>();
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+            if (pageSize > 100) pageSize = 100;
+
+            var (items, totalCount) = await _repository.Index(page, pageSize, search, sortColumn, sortDirection);
+            var data = items.Adapt<List<SecuritySettingsResponse>>();
+            int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            return new PaginatedSecuritySettingsResponse
+            {
+                Data = data,
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                HasPreviousPage = page > 1,
+                HasNextPage = page < totalPages
+            };
         }
 
-
-        /**
-         * @method View
-         * @param {long} id
-         * @returns {Task<SecuritySettings>}
-         */
         public async Task<SecuritySettingsResponse> View(long id)
         {
-            var entity = await _repository.GetByIdAsync(id);
+            var entity = await _repository.View(id);
             return entity.Adapt<SecuritySettingsResponse>();
         }
 
-        /**
-         * @method Create
-         * @param {SecuritySettings} entity
-         */
         public async Task<SecuritySettingsResponse> Create(SecuritySettingsRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
             var entity = request.Adapt<SecuritySettings>();
-            await _repository.AddAsync(entity);
+            entity.CreatedAt = DateTime.UtcNow;
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _repository.Create(entity);
             return entity.Adapt<SecuritySettingsResponse>();
         }
 
-        /**
-         * @method Update
-         * @param {long} id
-         * @param {SecuritySettings} entity
-         */
         public async Task<SecuritySettingsResponse> Update(long id, SecuritySettingsRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
             var entity = request.Adapt<SecuritySettings>();
             entity.Id = id;
-            await _repository.UpdateAsync(entity);
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _repository.Update(entity);
             return entity.Adapt<SecuritySettingsResponse>();
         }
 
-        /**
-         * @method Delete
-         * @param {long} id
-         */
         public async Task<bool> Delete(long id)
         {
-            await _repository.DeleteAsync(id);
+            await _repository.Delete(id);
             return true;
         }
     }
 }
-
-
-

@@ -1,52 +1,10 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using TALLY_APP.DTOs.Request.ReportingAnalytics;
 using TALLY_APP.DTOs.Response.ReportingAnalytics;
 
 namespace TALLY_APP.Interfaces.ReportingAnalytics
 {
-    /**
-     * =====================================================
-     * Interface: ITrialBalanceService
-     * =====================================================
-     *
-     * Purpose:
-     * Defines contract for TrialBalance business operations.
-     * Acts as abstraction layer between Controller and Service.
-     *
-     * Architecture:
-     * Controller  Interface  Service Implementation
-     */
     public interface ITrialBalanceService
     {
-        /**
-         * Get all records
-         */
-        Task<List<TrialBalanceResponse>> All();
-
-        /**
-         * Get paginated records
-         */
-        Task<List<TrialBalanceResponse>> Index();
-
-        /**
-         * Get single record by ID
-         */
-        Task<TrialBalanceResponse> View(long id);
-
-        /**
-         * Create new record
-         */
-        Task<TrialBalanceResponse> Create(TrialBalanceRequest request);
-
-        /**
-         * Update existing record
-         */
-        Task<TrialBalanceResponse> Update(long id, TrialBalanceRequest request);
-
-        /**
-         * Delete record
-         */
-        Task<bool> Delete(long id);
+        Task<PaginatedTrialBalanceResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc");
     }
 }

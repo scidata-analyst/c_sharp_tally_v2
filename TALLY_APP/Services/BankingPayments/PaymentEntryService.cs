@@ -1,98 +1,82 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.BankingPayments;
-
 using Mapster;
 using TALLY_APP.Interfaces.BankingPayments;
 using TALLY_APP.DTOs.Request.BankingPayments;
 using TALLY_APP.DTOs.Response.BankingPayments;
-
 using TALLY_APP.Models.BankingPayments;
 
 namespace TALLY_APP.Services.BankingPayments
 {
-    /**
-     * @class PaymentEntryService
-     * @description Business logic layer for PaymentEntry module.
-     */
     public class PaymentEntryService : IPaymentEntryService
     {
         private readonly PaymentEntryRepository _repository;
 
-        /**
-         * @constructor
-         * @param {PaymentEntryRepository} repository
-         */
         public PaymentEntryService(PaymentEntryRepository repository)
         {
             _repository = repository;
         }
 
-        /**
-         * @method All
-         * @returns {Task<List<PaymentEntry>>}
-         */
-        
-
         public async Task<List<PaymentEntryResponse>> All()
         {
-            var entities = await _repository.GetAllAsync();
+            var entities = await _repository.All();
             return entities.Adapt<List<PaymentEntryResponse>>();
         }
 
-        public async Task<List<PaymentEntryResponse>> Index()
+        public async Task<PaginatedPaymentEntryResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc")
         {
-            var entities = await _repository.GetAllAsync();
-            return entities.Adapt<List<PaymentEntryResponse>>();
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+            if (pageSize > 100) pageSize = 100;
+
+            var (items, totalCount) = await _repository.Index(page, pageSize, search, sortColumn, sortDirection);
+            var data = items.Adapt<List<PaymentEntryResponse>>();
+            int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            return new PaginatedPaymentEntryResponse
+            {
+                Data = data,
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                HasPreviousPage = page > 1,
+                HasNextPage = page < totalPages
+            };
         }
 
-
-        /**
-         * @method View
-         * @param {long} id
-         * @returns {Task<PaymentEntry>}
-         */
         public async Task<PaymentEntryResponse> View(long id)
         {
-            var entity = await _repository.GetByIdAsync(id);
+            var entity = await _repository.View(id);
             return entity.Adapt<PaymentEntryResponse>();
         }
 
-        /**
-         * @method Create
-         * @param {PaymentEntry} entity
-         */
         public async Task<PaymentEntryResponse> Create(PaymentEntryRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
             var entity = request.Adapt<PaymentEntry>();
-            await _repository.AddAsync(entity);
+            entity.CreatedAt = DateTime.UtcNow;
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _repository.Create(entity);
             return entity.Adapt<PaymentEntryResponse>();
         }
 
-        /**
-         * @method Update
-         * @param {long} id
-         * @param {PaymentEntry} entity
-         */
         public async Task<PaymentEntryResponse> Update(long id, PaymentEntryRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
             var entity = request.Adapt<PaymentEntry>();
             entity.Id = id;
-            await _repository.UpdateAsync(entity);
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _repository.Update(entity);
             return entity.Adapt<PaymentEntryResponse>();
         }
 
-        /**
-         * @method Delete
-         * @param {long} id
-         */
         public async Task<bool> Delete(long id)
         {
-            await _repository.DeleteAsync(id);
+            await _repository.Delete(id);
             return true;
         }
     }
 }
-
-
-

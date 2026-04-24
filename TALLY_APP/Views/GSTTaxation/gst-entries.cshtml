@@ -1,0 +1,177 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TallyPro — GST Entries</title>
+    <partial name="_Styles" />
+</head>
+<body>
+    <partial name="_Sidebar" />
+    <partial name="_Header" model='@("GST Entries")' />
+
+    <main class="main-content">
+        <div class="page active" id="page-gst-entries">
+            <div class="page-title-row">
+                <div>
+                    <div class="page-title">GST Entries</div>
+                    <div class="page-subtitle">GST & Taxation · Record and calculate GST on invoices</div>
+                </div>
+                <button class="btn-tally-primary" onclick="openModal('gstModal')"><i class="bi bi-plus-lg"></i> New GST Entry</button>
+            </div>
+            <div class="row g-3 mb-4" id="summaryCards"></div>
+            <div class="data-table-wrapper">
+                <div class="table-toolbar">
+                    <div class="table-title">GST Invoices</div>
+                    <div class="table-actions"><input class="table-search" placeholder="Search invoices..." oninput="handleSearch(event)"></div>
+                </div>
+                <table class="tally-table">
+                    <thead>
+                        <tr>
+                            <th onclick="sortBy('Id')" style="cursor:pointer;"># <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('InvoiceNumber')" style="cursor:pointer;">Invoice No <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('InvoiceDate')" style="cursor:pointer;">Date <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('PartyName')" style="cursor:pointer;">Party <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th>GSTIN</th>
+                            <th onclick="sortBy('TransactionType')" style="cursor:pointer;">Type <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('TaxableAmount')" style="cursor:pointer;">Taxable <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('TotalTax')" style="cursor:pointer;">Total Tax <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('Status')" style="cursor:pointer;">Status <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+                <div class="pagination-wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:15px 10px;border-top:1px solid var(--border);margin-top:10px;">
+                    <div style="font-size:13px;color:var(--text-muted);">Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="totalRecords">0</span> records</div>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <label style="font-size:13px;color:var(--text-muted);">Rows:</label>
+                        <select id="pageSizeSelect" class="form-control-tally" style="width:70px;padding:4px 8px;" onchange="changePageSize()"><option value="5">5</option><option value="10" selected>10</option><option value="25">25</option><option value="50">50</option></select>
+                        <div style="display:flex;gap:4px;">
+                            <button class="btn-tally-outline" id="prevBtn" style="padding:6px 12px;" onclick="prevPage()"><i class="bi bi-chevron-left"></i></button>
+                            <span id="pageNumbers" style="display:flex;gap:2px;"></span>
+                            <button class="btn-tally-outline" id="nextBtn" style="padding:6px 12px;" onclick="nextPage()"><i class="bi bi-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- GST Modal -->
+    <div class="tally-modal-overlay" id="gstModal">
+        <div class="tally-modal" style="max-width:850px;">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">New GST Entry</div>
+                <div class="modal-close" onclick="closeModal('gstModal')"><i class="bi bi-x-lg"></i></div>
+            </div>
+            <div class="modal-body">
+                <h6 style="margin-bottom: 15px; color: var(--primary);">Invoice Details</h6>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3"><div class="form-group"><label class="form-label">Invoice No *</label><input type="text" class="form-control-tally" id="InvoiceNumber"><div class="field-error" id="error-InvoiceNumber"></div></div></div>
+                    <div class="col-md-3"><div class="form-group"><label class="form-label">Date *</label><input type="date" class="form-control-tally" id="InvoiceDate"><div class="field-error" id="error-InvoiceDate"></div></div></div>
+                    <div class="col-md-3"><div class="form-group"><label class="form-label">Type *</label><select class="form-control-tally" id="TransactionType" onchange="calcTax()"><option value="Sales">Sales</option><option value="Purchase">Purchase</option></select><div class="field-error" id="error-TransactionType"></div></div></div>
+                    <div class="col-md-3"><div class="form-group"><label class="form-label">Status</label><select class="form-control-tally" id="Status"><option value="Draft">Draft</option><option value="Posted">Posted</option></select><div class="field-error" id="error-Status"></div></div></div>
+                </div>
+
+                <h6 style="margin-bottom: 15px; color: var(--primary);">Party Details</h6>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4"><div class="form-group"><label class="form-label">Party Name *</label><input type="text" class="form-control-tally" id="PartyName"><div class="field-error" id="error-PartyName"></div></div></div>
+                    <div class="col-md-4"><div class="form-group"><label class="form-label">Party GSTIN *</label><input type="text" class="form-control-tally" id="PartyGstin" placeholder="22AAAAA0000A1Z5"><div class="field-error" id="error-PartyGstin"></div></div></div>
+                    <div class="col-md-4"><div class="form-group"><label class="form-label">Place of Supply</label><select class="form-control-tally" id="PlaceOfSupply" onchange="calcTax()"><option value="Intra-State">Intra-State (Same State)</option><option value="Inter-State">Inter-State (Other State)</option></select><div class="field-error" id="error-PlaceOfSupply"></div></div></div>
+                </div>
+
+                <h6 style="margin-bottom: 15px; color: var(--primary);">Tax Calculation</h6>
+                <div class="row g-3">
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Taxable Amount *</label><input type="number" step="0.01" class="form-control-tally calc" id="TaxableAmount"><div class="field-error" id="error-TaxableAmount"></div></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">GST Rate (%) *</label><select class="form-control-tally calc" id="GstRate"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select><div class="field-error" id="error-GstRate"></div></div></div>
+                    
+                    <div class="col-md-3"><div class="form-group"><label class="form-label">CGST</label><input type="number" step="0.01" class="form-control-tally" id="CgstAmount" readonly style="background:var(--bg-tertiary);"><div class="field-error" id="error-CgstAmount"></div></div></div>
+                    <div class="col-md-3"><div class="form-group"><label class="form-label">SGST</label><input type="number" step="0.01" class="form-control-tally" id="SgstAmount" readonly style="background:var(--bg-tertiary);"><div class="field-error" id="error-SgstAmount"></div></div></div>
+                    <div class="col-md-3"><div class="form-group"><label class="form-label">IGST</label><input type="number" step="0.01" class="form-control-tally" id="IgstAmount" readonly style="background:var(--bg-tertiary);"><div class="field-error" id="error-IgstAmount"></div></div></div>
+                    <div class="col-md-3"><div class="form-group"><label class="form-label">Total Tax</label><input type="number" step="0.01" class="form-control-tally" id="TotalTax" readonly style="background:var(--success);color:white;font-weight:600;"><div class="field-error" id="error-TotalTax"></div></div></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-tally-outline" onclick="closeModal('gstModal')">Cancel</button>
+                <button class="btn-tally-primary" onclick="saveRecord()"><i class="bi bi-check-lg"></i> Save Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="tally-modal-overlay" id="deleteModal">
+        <div class="delete-confirm" style="margin:auto;"><div class="del-icon">🗑️</div><h5 style="font-family:var(--font-display);color:var(--text-primary);margin-bottom:8px;">Delete Entry?</h5><p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">This action cannot be undone.</p><div class="d-flex justify-content-center gap-3"><button class="btn-tally-outline" onclick="closeModal('deleteModal')">Cancel</button><button class="btn-tally-danger" style="padding:8px 20px;font-size:13px;" onclick="confirmDelete()"><i class="bi bi-trash"></i> Yes, Delete</button></div></div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+    <partial name="_Scripts" />
+
+    <script>
+        let st = { data: [], page: 1, pageSize: 10, totalCount: 0, totalPages: 0, search: '', sortColumn: 'Id', sortDirection: 'desc', hasPreviousPage: false, hasNextPage: false, editingId: null };
+        let deleteTarget = null; let searchTimer = null;
+
+        function openModal(id, item = null) { const o = document.getElementById(id); if (!o) return; o.classList.add('open'); if (id === 'gstModal') { clearErrors(); if (item) { st.editingId = item.id; document.getElementById('modalTitle').textContent = 'Edit GST Entry'; document.getElementById('InvoiceNumber').value = item.invoiceNumber||''; document.getElementById('InvoiceDate').value = item.invoiceDate ? item.invoiceDate.substring(0,10) : ''; document.getElementById('TransactionType').value = item.transactionType||'Sales'; document.getElementById('PartyName').value = item.partyName||''; document.getElementById('PartyGstin').value = item.partyGstin||''; document.getElementById('PlaceOfSupply').value = item.placeOfSupply||'Intra-State'; document.getElementById('TaxableAmount').value = item.taxableAmount||0; document.getElementById('GstRate').value = item.gstRate||18; document.getElementById('CgstAmount').value = item.cgstAmount||0; document.getElementById('SgstAmount').value = item.sgstAmount||0; document.getElementById('IgstAmount').value = item.igstAmount||0; document.getElementById('TotalTax').value = item.totalTax||0; document.getElementById('Status').value = item.status||'Draft'; } else { st.editingId = null; document.getElementById('modalTitle').textContent = 'New GST Entry'; ['InvoiceNumber','PartyName','PartyGstin'].forEach(f=>document.getElementById(f).value=''); document.getElementById('InvoiceDate').value = new Date().toISOString().substring(0,10); document.getElementById('TaxableAmount').value = 0; document.getElementById('GstRate').value = 18; ['CgstAmount','SgstAmount','IgstAmount','TotalTax'].forEach(f=>document.getElementById(f).value='0'); document.getElementById('TransactionType').value='Sales'; document.getElementById('PlaceOfSupply').value='Intra-State'; document.getElementById('Status').value='Draft'; } } }
+        function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
+        function clearErrors() { document.querySelectorAll('.field-error').forEach(el => el.textContent = ''); }
+        function showFieldError(f, msg) { const el = document.getElementById('error-' + f); if (el) el.textContent = msg; }
+
+        function calcTax() {
+            const taxAmt = parseFloat(document.getElementById('TaxableAmount').value) || 0;
+            const rate = parseFloat(document.getElementById('GstRate').value) || 0;
+            const pos = document.getElementById('PlaceOfSupply').value;
+            let cgst = 0, sgst = 0, igst = 0;
+            const total = (taxAmt * rate) / 100;
+            if (pos === 'Intra-State') { cgst = total / 2; sgst = total / 2; } else { igst = total; }
+            document.getElementById('CgstAmount').value = cgst.toFixed(2);
+            document.getElementById('SgstAmount').value = sgst.toFixed(2);
+            document.getElementById('IgstAmount').value = igst.toFixed(2);
+            document.getElementById('TotalTax').value = total.toFixed(2);
+        }
+        document.querySelectorAll('.calc').forEach(el => el.addEventListener('input', calcTax));
+
+        async function loadData() {
+            const params = new URLSearchParams({ page: st.page, pageSize: st.pageSize, search: st.search, sortColumn: st.sortColumn, sortDirection: st.sortDirection });
+            try { const r = await fetch(`/GSTEntry/api/index?${params}`); if (!r.ok) throw new Error(); const d = await r.json(); Object.assign(st, { data: d.data||[], totalCount: d.totalCount||0, totalPages: d.totalPages||0, page: d.page||1, hasPreviousPage: d.hasPreviousPage||false, hasNextPage: d.hasNextPage||false }); renderTable(); renderPagination(); renderSummary(); } catch(e) { showToast('Failed to load','error'); }
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody'); tbody.innerHTML = '';
+            if (!st.data.length) { tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:30px;color:var(--text-muted);">No records found</td></tr>'; return; }
+            const s = ((st.page-1)*st.pageSize)+1;
+            st.data.forEach((item, i) => {
+                const badge = {'Sales':'badge-success','Purchase':'badge-info'};
+                const statBadge = {'Posted':'badge-accent','Draft':'badge-warning'};
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${s+i}</td><td class="text-mono" style="font-weight:600">${esc(item.invoiceNumber)}</td><td>${item.invoiceDate?new Date(item.invoiceDate).toLocaleDateString('en-IN'):'-'}</td><td style="font-weight:600">${esc(item.partyName)}</td><td class="text-mono">${esc(item.partyGstin)}</td><td><span class="badge-tally ${badge[item.transactionType]||'badge-primary'}">${esc(item.transactionType)}</span></td><td>₹${fmt(item.taxableAmount)}</td><td style="font-weight:600;color:var(--danger);">₹${fmt(item.totalTax)}</td><td><span class="badge-tally ${statBadge[item.status]||'badge-info'}">${esc(item.status)}</span></td><td><button class="btn-tally-edit" onclick="editItem(${item.id})"><i class="bi bi-pencil"></i></button> <button class="btn-tally-danger" onclick="deleteItem(${item.id})"><i class="bi bi-trash"></i></button></td>`;
+                tbody.appendChild(row);
+            });
+            document.getElementById('showingStart').textContent = st.totalCount > 0 ? s : 0; document.getElementById('showingEnd').textContent = Math.min(s+st.pageSize-1, st.totalCount); document.getElementById('totalRecords').textContent = st.totalCount;
+        }
+
+        function renderSummary() {
+            document.getElementById('summaryCards').innerHTML = `<div class="col-md-3"><div class="stat-card" style="--card-accent:var(--accent)"><div class="stat-label">Total Invoices</div><div class="stat-value">${st.totalCount}</div></div></div><div class="col-md-3"><div class="stat-card" style="--card-accent:var(--success)"><div class="stat-label">Total Taxable</div><div class="stat-value">₹${fmt(st.data.reduce((a,i)=>a+i.taxableAmount,0))}</div></div></div><div class="col-md-3"><div class="stat-card" style="--card-accent:var(--danger)"><div class="stat-label">Total Tax (Output/Input)</div><div class="stat-value">₹${fmt(st.data.reduce((a,i)=>a+i.totalTax,0))}</div></div></div><div class="col-md-3"><div class="stat-card" style="--card-accent:var(--primary)"><div class="stat-label">Posted Entries</div><div class="stat-value">${st.data.filter(i=>i.status==='Posted').length}</div></div></div>`;
+        }
+
+        function renderPagination() { const el = document.getElementById('pageNumbers'); el.innerHTML = ''; const max=5; let s=Math.max(1,st.page-Math.floor(max/2)); let e=Math.min(st.totalPages,s+max-1); if(e-s<max-1) s=Math.max(1,e-max+1); for(let i=s;i<=e;i++){const b=document.createElement('button');b.className=`btn-tally-outline ${i===st.page?'active':''}`;b.style.cssText='padding:6px 10px;min-width:36px;';b.textContent=i;b.onclick=()=>goToPage(i);el.appendChild(b);} document.getElementById('prevBtn').disabled=!st.hasPreviousPage; document.getElementById('nextBtn').disabled=!st.hasNextPage; document.getElementById('pageSizeSelect').value=st.pageSize; }
+
+        function goToPage(p){if(p<1||p>st.totalPages)return;st.page=p;loadData();} function prevPage(){if(st.hasPreviousPage)goToPage(st.page-1);} function nextPage(){if(st.hasNextPage)goToPage(st.page+1);} function changePageSize(){st.pageSize=parseInt(document.getElementById('pageSizeSelect').value);st.page=1;loadData();}
+        function sortBy(col){if(st.sortColumn===col)st.sortDirection=st.sortDirection==='asc'?'desc':'asc';else{st.sortColumn=col;st.sortDirection='asc';}st.page=1;loadData();}
+        function handleSearch(e){clearTimeout(searchTimer);searchTimer=setTimeout(()=>{st.search=e.target.value.trim();st.page=1;loadData();},500);}
+
+        async function saveRecord(){clearErrors();const fd={invoiceNumber:document.getElementById('InvoiceNumber').value.trim(),invoiceDate:document.getElementById('InvoiceDate').value||new Date().toISOString().substring(0,10),partyName:document.getElementById('PartyName').value.trim(),transactionType:document.getElementById('TransactionType').value,partyGstin:document.getElementById('PartyGstin').value.trim(),placeOfSupply:document.getElementById('PlaceOfSupply').value,taxableAmount:parseFloat(document.getElementById('TaxableAmount').value)||0,gstRate:parseFloat(document.getElementById('GstRate').value)||0,cgstAmount:parseFloat(document.getElementById('CgstAmount').value)||0,sgstAmount:parseFloat(document.getElementById('SgstAmount').value)||0,igstAmount:parseFloat(document.getElementById('IgstAmount').value)||0,totalTax:parseFloat(document.getElementById('TotalTax').value)||0,status:document.getElementById('Status').value};try{const url=st.editingId?`/GSTEntry/update/${st.editingId}`:`/GSTEntry/create`;const m=st.editingId?'PUT':'POST';const r=await fetch(url,{method:m,headers:{'Content-Type':'application/json'},body:JSON.stringify(fd)});const d=await r.json();if(!r.ok){if(r.status===400&&d.errors){for(const[f,msgs]of Object.entries(d.errors))showFieldError(f,msgs.join(', '));return;}throw new Error(d.message||'Failed');}closeModal('gstModal');showToast(st.editingId?'Entry updated!':'Entry logged!','success');loadData();}catch(e){showToast('Save failed: '+e.message,'error');}}
+
+        function editItem(id){const item=st.data.find(i=>i.id===id);if(item)openModal('gstModal',item);} function deleteItem(id){deleteTarget={id};openModal('deleteModal');}
+        async function confirmDelete(){if(!deleteTarget)return;try{const r=await fetch(`/GSTEntry/delete/${deleteTarget.id}`,{method:'DELETE'});if(!r.ok)throw new Error();closeModal('deleteModal');showToast('Entry deleted','success');loadData();}catch(e){showToast('Delete failed','error');}finally{deleteTarget=null;}}
+
+        function esc(t){if(!t)return'';const d=document.createElement('div');d.textContent=t;return d.innerHTML;} function fmt(n){return parseFloat(n||0).toLocaleString('en-IN',{maximumFractionDigits:2});}
+        function showToast(msg,type='success'){const icons={success:'✅',error:'❌',info:'ℹ️'};const c=document.getElementById('toastContainer');if(!c)return;const t=document.createElement('div');t.className=`tally-toast ${type}`;t.innerHTML=`<span style="font-size:16px">${icons[type]}</span><span>${msg}</span>`;c.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(20px)';t.style.transition='0.3s ease';setTimeout(()=>t.remove(),300);},3000);}
+
+        document.addEventListener('DOMContentLoaded',()=>{loadData();document.querySelectorAll('.tally-modal-overlay').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)closeModal(this.id);}));});
+        document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.tally-modal-overlay.open').forEach(m=>m.classList.remove('open'));});
+    </script>
+</body>
+</html>

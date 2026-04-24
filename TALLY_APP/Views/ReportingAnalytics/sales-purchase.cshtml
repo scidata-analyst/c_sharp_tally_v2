@@ -3,67 +3,80 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TallyPro — Enterprise Accounting Suite</title>
+    <title>TallyPro — Sales & Purchase Summary</title>
     <partial name="_Styles" />
 </head>
-
 <body>
+    <partial name="_Sidebar" />
+    <partial name="_Header" model='@("Sales & Purchase")' />
 
-        <partial name="_Sidebar" />
-
-    <partial name="_Header" model='@("Sales & Purchase Summary")' />
-
-    <!-- ===== MAIN CONTENT ===== -->
     <main class="main-content">
-
-        <!-- ===================== SALES & PURCHASE SUMMARY ===================== -->
-        <div class="page active" id="page-sales-purchase">
+        <div class="page active">
             <div class="page-title-row">
                 <div>
                     <div class="page-title">Sales & Purchase Summary</div>
-                    <div class="page-subtitle">Month-wise sales and purchase analysis</div>
+                    <div class="page-subtitle">Reporting · Monthly performance overview</div>
                 </div>
             </div>
-            <div class="row g-3 mb-4">
-                <div class="col-md-3">
-                    <div class="stat-card" style="--card-accent:var(--primary)">
-                        <div class="stat-label">Total Sales (MTD)</div>
-                        <div class="stat-value">₹48,20,000</div>
-                    </div>
+            
+            <div class="row g-3 mb-4" id="summaryCards"></div>
+
+            <div class="data-table-wrapper">
+                <div class="table-toolbar">
+                    <div class="table-title">Monthly Comparison</div>
+                    <div class="table-actions"><input class="table-search" placeholder="Search month..." oninput="handleSearch(event)"></div>
                 </div>
-                <div class="col-md-3">
-                    <div class="stat-card" style="--card-accent:var(--danger)">
-                        <div class="stat-label">Total Purchases (MTD)</div>
-                        <div class="stat-value">₹31,40,000</div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="stat-card" style="--card-accent:var(--accent)">
-                        <div class="stat-label">Gross Margin</div>
-                        <div class="stat-value">34.8%</div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="stat-card" style="--card-accent:var(--accent2)">
-                        <div class="stat-label">Return on Sales</div>
-                        <div class="stat-value">₹16,80,000</div>
-                    </div>
+                <table class="tally-table">
+                    <thead>
+                        <tr>
+                            <th onclick="sortBy('Period')" style="cursor:pointer;">Period</th>
+                            <th onclick="sortBy('TotalSales')" style="cursor:pointer;">Sales Amount</th>
+                            <th>Purchases Amount</th>
+                            <th>Gross Margin</th>
+                            <th>Return On Sales</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+                <div class="pagination-wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:15px 10px;border-top:1px solid var(--border);margin-top:10px;">
+                    <div style="font-size:13px;color:var(--text-muted);">Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="totalRecords">0</span></div>
+                    <div style="display:flex;gap:4px;"><button class="btn-tally-outline" id="prevBtn" onclick="prevPage()"><i class="bi bi-chevron-left"></i></button><button class="btn-tally-outline" id="nextBtn" onclick="nextPage()"><i class="bi bi-chevron-right"></i></button></div>
                 </div>
             </div>
         </div>
-
     </main>
 
-    <!-- remaining modals and scripts identical to other pages (truncated for brevity) -->
+    <div class="toast-container" id="toastContainer"></div>
     <partial name="_Scripts" />
+
     <script>
-        // page script same as others, with currentPage = 'sales-purchase'
+        let st = { data: [], page: 1, pageSize: 10, totalCount: 0, totalPages: 0, search: '', sortColumn: 'Id', sortDirection: 'desc' };
+        let searchTimer = null;
+
+        async function loadData() {
+            const r = await fetch(`/SalesPurchaseSummary/api/index?page=${st.page}&pageSize=${st.pageSize}&search=${st.search}&sortColumn=${st.sortColumn}&sortDirection=${st.sortDirection}`);
+            const d = await r.json(); Object.assign(st, d); renderTable(); renderSummary();
+        }
+        function renderTable() {
+            const tbody = document.getElementById('tableBody'); tbody.innerHTML = '';
+            st.data.forEach((item) => {
+                const row = `<tr><td><b>${item.period}</b></td><td class="text-success">₹${item.totalSales.toLocaleString()}</td><td class="text-danger">₹${item.totalPurchases.toLocaleString()}</td><td><b>₹${item.grossMargin.toLocaleString()}</b></td><td>${item.returnOnSales}%</td></tr>`;
+                tbody.innerHTML += row;
+            });
+            document.getElementById('prevBtn').disabled = st.page <= 1; document.getElementById('nextBtn').disabled = st.page >= st.totalPages;
+        }
+        function renderSummary() {
+            const totalS = st.data.reduce((a,x)=>a+x.totalSales,0); const totalP = st.data.reduce((a,x)=>a+x.totalPurchases,0);
+            document.getElementById('summaryCards').innerHTML = `<div class="col-md-6"><div class="stat-card" style="--card-accent:var(--success)"><div class="stat-label">Total Sales (Period)</div><div class="stat-value">₹${totalS.toLocaleString()}</div></div></div><div class="col-md-6"><div class="stat-card" style="--card-accent:var(--danger)"><div class="stat-label">Total Purchases (Period)</div><div class="stat-value">₹${totalP.toLocaleString()}</div></div></div>`;
+        }
+        function handleSearch(e) { clearTimeout(searchTimer); searchTimer = setTimeout(() => { st.search = e.target.value; st.page = 1; loadData(); }, 500); }
+        function sortBy(col) { if(st.sortColumn === col) st.sortDirection = st.sortDirection === 'asc' ? 'desc' : 'asc'; else { st.sortColumn = col; st.sortDirection = 'asc'; } loadData(); }
+        function prevPage() { if(st.page > 1) { st.page--; loadData(); } }
+        function nextPage() { if(st.page < st.totalPages) { st.page++; loadData(); } }
+        document.addEventListener('DOMContentLoaded', loadData);
     </script>
 </body>
-
 </html>
-

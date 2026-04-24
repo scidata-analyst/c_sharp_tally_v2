@@ -1,79 +1,32 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TALLY_APP.Data;
 using TALLY_APP.Models.ReportingAnalytics;
 
 namespace TALLY_APP.Repositories.ReportingAnalytics
 {
-    /**
-     * @class CashFlowStatementRepository
-     * @description Handles database operations for CashFlowStatement using EF Core.
-     */
     public class CashFlowStatementRepository
     {
         private readonly ApplicationDbContext _context;
+        public CashFlowStatementRepository(ApplicationDbContext context) => _context = context;
 
-        /**
-         * @constructor
-         * @param {ApplicationDbContext} context - Database context instance
-         */
-        public CashFlowStatementRepository(ApplicationDbContext context)
+        public async Task<(List<CashFlowStatement> items, int totalCount)> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "desc")
         {
-            _context = context;
-        }
+            var query = _context.Set<CashFlowStatement>().AsQueryable();
+            if (!string.IsNullOrWhiteSpace(search))
+                query = query.Where(x => x.Period.Contains(search));
 
-        /**
-         * @method GetAllAsync
-         * @returns {Task<List<CashFlowStatement>>}
-         */
-        public async Task<List<CashFlowStatement>> GetAllAsync()
-        {
-            return await _context.Set<CashFlowStatement>().ToListAsync();
-        }
-
-        /**
-         * @method GetByIdAsync
-         * @param {long} id
-         * @returns {Task<CashFlowStatement>}
-         */
-        public async Task<CashFlowStatement> GetByIdAsync(long id)
-        {
-            return await _context.Set<CashFlowStatement>().FindAsync(id);
-        }
-
-        /**
-         * @method AddAsync
-         * @param {CashFlowStatement} entity
-         */
-        public async Task AddAsync(CashFlowStatement entity)
-        {
-            await _context.Set<CashFlowStatement>().AddAsync(entity);
-            await _context.SaveChangesAsync();
-        }
-
-        /**
-         * @method UpdateAsync
-         * @param {CashFlowStatement} entity
-         */
-        public async Task UpdateAsync(CashFlowStatement entity)
-        {
-            _context.Set<CashFlowStatement>().Update(entity);
-            await _context.SaveChangesAsync();
-        }
-
-        /**
-         * @method DeleteAsync
-         * @param {long} id
-         */
-        public async Task DeleteAsync(long id)
-        {
-            var entity = await _context.Set<CashFlowStatement>().FindAsync(id);
-            if (entity != null)
-            {
-                _context.Set<CashFlowStatement>().Remove(entity);
-                await _context.SaveChangesAsync();
-            }
+            int totalCount = await query.CountAsync();
+            bool asc = sortDirection.ToLower() == "asc";
+            query = sortColumn.ToLower() switch {
+                "period" => asc ? query.OrderBy(x => x.Period) : query.OrderByDescending(x => x.Period),
+                "netcashflow" => asc ? query.OrderBy(x => x.NetCashFlow) : query.OrderByDescending(x => x.NetCashFlow),
+                _ => asc ? query.OrderBy(x => x.Id) : query.OrderByDescending(x => x.Id)
+            };
+            var items = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return (items, totalCount);
         }
     }
 }

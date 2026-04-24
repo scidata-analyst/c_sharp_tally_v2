@@ -3,91 +3,107 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TallyPro — Enterprise Accounting Suite</title>
+    <title>TallyPro — Custom Reports</title>
     <partial name="_Styles" />
 </head>
-
 <body>
-
-        <partial name="_Sidebar" />
-
+    <partial name="_Sidebar" />
     <partial name="_Header" model='@("Custom Reports")' />
 
-    <!-- ===== MAIN CONTENT ===== -->
     <main class="main-content">
-
-        <!-- ===================== CUSTOM REPORTS ===================== -->
-        <div class="page active" id="page-custom-reports">
+        <div class="page active">
             <div class="page-title-row">
                 <div>
-                    <div class="page-title">Custom Reports</div>
-                    <div class="page-subtitle">Create and manage custom report templates</div>
-                </div><button class="btn-tally-primary" onclick="openModal('genericModal','Report Template')"><i
-                        class="bi bi-plus-lg"></i> New Report</button>
+                    <div class="page-title">Custom Reports Builder</div>
+                    <div class="page-subtitle">Additional Features · Design and export tailored business reports</div>
+                </div>
+                <button class="btn-tally-primary" onclick="openModal('reportModal')"><i class="bi bi-file-earmark-plus"></i> Design Report</button>
             </div>
+            <div class="row g-3 mb-4" id="summaryCards"></div>
             <div class="data-table-wrapper">
                 <div class="table-toolbar">
-                    <div class="table-title">Saved Report Templates</div>
+                    <div class="table-title">Saved Definitions</div>
+                    <div class="table-actions"><input class="table-search" placeholder="Search reports..." oninput="handleSearch(event)"></div>
                 </div>
                 <table class="tally-table">
                     <thead>
                         <tr>
-                            <th>Report Name</th>
-                            <th>Module</th>
+                            <th onclick="sortBy('Id')" style="cursor:pointer;">#</th>
+                            <th onclick="sortBy('ReportName')" style="cursor:pointer;">Report Name</th>
+                            <th onclick="sortBy('Module')" style="cursor:pointer;">Module</th>
                             <th>Format</th>
-                            <th>Last Generated</th>
                             <th>Schedule</th>
+                            <th onclick="sortBy('CreatedAt')" style="cursor:pointer;">Created At</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Monthly Sales Summary</td>
-                            <td>Sales</td>
-                            <td><span class="badge-tally badge-info">Excel</span></td>
-                            <td>01-03-2026</td>
-                            <td>Monthly</td>
-                            <td><button class="btn-tally-primary" style="font-size:11px;padding:5px 10px;"><i
-                                        class="bi bi-play-fill"></i> Run</button> <button class="btn-tally-edit"><i
-                                        class="bi bi-pencil"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>GST Compliance Report</td>
-                            <td>GST</td>
-                            <td><span class="badge-tally badge-danger">PDF</span></td>
-                            <td>11-03-2026</td>
-                            <td>Quarterly</td>
-                            <td><button class="btn-tally-primary" style="font-size:11px;padding:5px 10px;"><i
-                                        class="bi bi-play-fill"></i> Run</button> <button class="btn-tally-edit"><i
-                                        class="bi bi-pencil"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>Employee Cost Analysis</td>
-                            <td>Payroll</td>
-                            <td><span class="badge-tally badge-info">Excel</span></td>
-                            <td>28-02-2026</td>
-                            <td>Monthly</td>
-                            <td><button class="btn-tally-primary" style="font-size:11px;padding:5px 10px;"><i
-                                        class="bi bi-play-fill"></i> Run</button> <button class="btn-tally-edit"><i
-                                        class="bi bi-pencil"></i></button></td>
-                        </tr>
-                    </tbody>
+                    <tbody id="tableBody"></tbody>
                 </table>
+                <div class="pagination-wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:15px 10px;border-top:1px solid var(--border);margin-top:10px;">
+                    <div style="font-size:13px;color:var(--text-muted);">Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="totalRecords">0</span></div>
+                    <div style="display:flex;gap:4px;"><button class="btn-tally-outline" id="prevBtn" onclick="prevPage()"><i class="bi bi-chevron-left"></i></button><button class="btn-tally-outline" id="nextBtn" onclick="nextPage()"><i class="bi bi-chevron-right"></i></button></div>
+                </div>
             </div>
         </div>
-
     </main>
 
-    <!-- remaining modals and scripts identical to other pages (truncated for brevity) -->
+    <div class="tally-modal-overlay" id="reportModal">
+        <div class="tally-modal" style="max-width:700px;">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Report Designer</div>
+                <div class="modal-close" onclick="closeModal('reportModal')"><i class="bi bi-x-lg"></i></div>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-12"><div class="form-group"><label class="form-label">Report Name *</label><input type="text" class="form-control-tally" id="ReportName"></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Module</label><select class="form-control-tally" id="Module"><option value="Accounting">Accounting</option><option value="Inventory">Inventory</option><option value="Payroll">Payroll</option></select></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Format</label><select class="form-control-tally" id="Format"><option value="PDF">PDF</option><option value="Excel">Excel</option><option value="CSV">CSV</option></select></div></div>
+                    <div class="col-md-12"><div class="form-group"><label class="form-label">Query Config (JSON)</label><textarea class="form-control-tally text-mono" id="QueryConfig" rows="4">{}</textarea></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Schedule</label><select class="form-control-tally" id="Schedule"><option value="None">None</option><option value="Daily">Daily</option><option value="Weekly">Weekly</option></select></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Status</label><select class="form-control-tally" id="Status"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div></div>
+                </div>
+            </div>
+            <div class="modal-footer"><button class="btn-tally-outline" onclick="closeModal('reportModal')">Cancel</button><button class="btn-tally-primary" onclick="saveRecord()"><i class="bi bi-magic"></i> Save Definition</button></div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
     <partial name="_Scripts" />
+
     <script>
-        // page script same as others, with currentPage = 'custom-reports'
+        let st = { data: [], page: 1, pageSize: 10, totalCount: 0, totalPages: 0, search: '', sortColumn: 'Id', sortDirection: 'asc' };
+        let searchTimer = null;
+
+        function openModal(id) { document.getElementById(id).classList.add('open'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+        async function loadData() {
+            const r = await fetch(`/CustomReport/api/index?page=${st.page}&pageSize=${st.pageSize}&search=${st.search}&sortColumn=${st.sortColumn}&sortDirection=${st.sortDirection}`);
+            const d = await r.json(); Object.assign(st, d); renderTable(); renderSummary();
+        }
+        function renderTable() {
+            const tbody = document.getElementById('tableBody'); tbody.innerHTML = '';
+            st.data.forEach((item, i) => {
+                const row = `<tr><td>${item.id}</td><td><b>${item.reportName}</b></td><td>${item.module}</td><td>${item.format}</td><td>${item.schedule}</td><td>${new Date(item.createdAt).toLocaleDateString()}</td><td><button class="btn-tally-outline" style="padding:4px 8px;"><i class="bi bi-play-fill"></i> Run</button> <button class="btn-tally-danger" onclick="deleteItem(${item.id})"><i class="bi bi-trash"></i></button></td></tr>`;
+                tbody.innerHTML += row;
+            });
+            document.getElementById('prevBtn').disabled = st.page <= 1; document.getElementById('nextBtn').disabled = st.page >= st.totalPages;
+        }
+        function renderSummary() { document.getElementById('summaryCards').innerHTML = `<div class="col-md-6"><div class="stat-card" style="--card-accent:var(--primary)"><div class="stat-label">Total Reports</div><div class="stat-value">${st.totalCount}</div></div></div><div class="col-md-6"><div class="stat-card" style="--card-accent:var(--success)"><div class="stat-label">Scheduled</div><div class="stat-value">${st.data.filter(x => x.schedule !== 'None').length}</div></div></div>`; }
+        function handleSearch(e) { clearTimeout(searchTimer); searchTimer = setTimeout(() => { st.search = e.target.value; st.page = 1; loadData(); }, 500); }
+        function sortBy(col) { if(st.sortColumn === col) st.sortDirection = st.sortDirection === 'asc' ? 'desc' : 'asc'; else { st.sortColumn = col; st.sortDirection = 'asc'; } loadData(); }
+        async function saveRecord() {
+            const body = { reportName: document.getElementById('ReportName').value, module: document.getElementById('Module').value, format: document.getElementById('Format').value, queryConfig: document.getElementById('QueryConfig').value, schedule: document.getElementById('Schedule').value, status: document.getElementById('Status').value };
+            const r = await fetch(`/CustomReport/create`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+            if(r.ok) { closeModal('reportModal'); loadData(); showToast('Success', 'success'); }
+        }
+        async function deleteItem(id) { if(confirm('Delete?')) { await fetch(`/CustomReport/delete/${id}`, { method: 'DELETE' }); loadData(); } }
+        function prevPage() { if(st.page > 1) { st.page--; loadData(); } }
+        function nextPage() { if(st.page < st.totalPages) { st.page++; loadData(); } }
+        function showToast(m, t) { const c = document.getElementById('toastContainer'); const e = document.createElement('div'); e.className = `tally-toast ${t}`; e.textContent = m; c.appendChild(e); setTimeout(() => e.remove(), 3000); }
+        document.addEventListener('DOMContentLoaded', loadData);
     </script>
 </body>
-
 </html>
-

@@ -6,6 +6,7 @@ namespace TALLY_APP.Controllers;
 
 public class HomeController : Controller
 {
+        [HttpGet("")]
     public IActionResult Index()
     {
         return View("~/Views/Dashboard/index.cshtml");
@@ -22,4 +23,5 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
+
 

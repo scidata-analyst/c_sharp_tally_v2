@@ -1,98 +1,82 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.MultiLocationBranch;
-
 using Mapster;
 using TALLY_APP.Interfaces.MultiLocationBranch;
 using TALLY_APP.DTOs.Request.MultiLocationBranch;
 using TALLY_APP.DTOs.Response.MultiLocationBranch;
-
 using TALLY_APP.Models.MultiLocationBranch;
 
 namespace TALLY_APP.Services.MultiLocationBranch
 {
-    /**
-     * @class BranchService
-     * @description Business logic layer for Branch module.
-     */
     public class BranchService : IBranchService
     {
         private readonly BranchRepository _repository;
 
-        /**
-         * @constructor
-         * @param {BranchRepository} repository
-         */
         public BranchService(BranchRepository repository)
         {
             _repository = repository;
         }
 
-        /**
-         * @method All
-         * @returns {Task<List<Branch>>}
-         */
-        
-
         public async Task<List<BranchResponse>> All()
         {
-            var entities = await _repository.GetAllAsync();
+            var entities = await _repository.All();
             return entities.Adapt<List<BranchResponse>>();
         }
 
-        public async Task<List<BranchResponse>> Index()
+        public async Task<PaginatedBranchResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc")
         {
-            var entities = await _repository.GetAllAsync();
-            return entities.Adapt<List<BranchResponse>>();
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+            if (pageSize > 100) pageSize = 100;
+
+            var (items, totalCount) = await _repository.Index(page, pageSize, search, sortColumn, sortDirection);
+            var data = items.Adapt<List<BranchResponse>>();
+            int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            return new PaginatedBranchResponse
+            {
+                Data = data,
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                HasPreviousPage = page > 1,
+                HasNextPage = page < totalPages
+            };
         }
 
-
-        /**
-         * @method View
-         * @param {long} id
-         * @returns {Task<Branch>}
-         */
         public async Task<BranchResponse> View(long id)
         {
-            var entity = await _repository.GetByIdAsync(id);
+            var entity = await _repository.View(id);
             return entity.Adapt<BranchResponse>();
         }
 
-        /**
-         * @method Create
-         * @param {Branch} entity
-         */
         public async Task<BranchResponse> Create(BranchRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
             var entity = request.Adapt<Branch>();
-            await _repository.AddAsync(entity);
+            entity.CreatedAt = DateTime.UtcNow;
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _repository.Create(entity);
             return entity.Adapt<BranchResponse>();
         }
 
-        /**
-         * @method Update
-         * @param {long} id
-         * @param {Branch} entity
-         */
         public async Task<BranchResponse> Update(long id, BranchRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
             var entity = request.Adapt<Branch>();
             entity.Id = id;
-            await _repository.UpdateAsync(entity);
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _repository.Update(entity);
             return entity.Adapt<BranchResponse>();
         }
 
-        /**
-         * @method Delete
-         * @param {long} id
-         */
         public async Task<bool> Delete(long id)
         {
-            await _repository.DeleteAsync(id);
+            await _repository.Delete(id);
             return true;
         }
     }
 }
-
-
-

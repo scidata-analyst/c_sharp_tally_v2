@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TALLY_APP.Data;
 using TALLY_APP.Models.RemoteAccessSecurity;
@@ -14,59 +15,67 @@ namespace TALLY_APP.Repositories.RemoteAccessSecurity
     {
         private readonly ApplicationDbContext _context;
 
-        /**
-         * @constructor
-         * @param {ApplicationDbContext} context - Database context instance
-         */
         public SecuritySettingsRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        /**
-         * @method GetAllAsync
-         * @returns {Task<List<SecuritySettings>>}
-         */
-        public async Task<List<SecuritySettings>> GetAllAsync()
+        public async Task<List<SecuritySettings>> All()
         {
             return await _context.Set<SecuritySettings>().ToListAsync();
         }
 
-        /**
-         * @method GetByIdAsync
-         * @param {long} id
-         * @returns {Task<SecuritySettings>}
-         */
-        public async Task<SecuritySettings> GetByIdAsync(long id)
+        public async Task<(List<SecuritySettings> items, int totalCount)> Index(
+            int page = 1,
+            int pageSize = 10,
+            string search = "",
+            string sortColumn = "Id",
+            string sortDirection = "desc")
+        {
+            var query = _context.Set<SecuritySettings>().AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                search = search.ToLower();
+                query = query.Where(x =>
+                    x.EncryptionType.ToLower().Contains(search) ||
+                    x.Status.ToLower().Contains(search));
+            }
+
+            int totalCount = await query.CountAsync();
+
+            bool ascending = sortDirection.ToLower() == "asc";
+            query = sortColumn.ToLower() switch
+            {
+                "encryptiontype" => ascending ? query.OrderBy(x => x.EncryptionType) : query.OrderByDescending(x => x.EncryptionType),
+                "status" => ascending ? query.OrderBy(x => x.Status) : query.OrderByDescending(x => x.Status),
+                "lastbackup" => ascending ? query.OrderBy(x => x.LastBackup) : query.OrderByDescending(x => x.LastBackup),
+                _ => ascending ? query.OrderBy(x => x.Id) : query.OrderByDescending(x => x.Id),
+            };
+
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            var items = await query.ToListAsync();
+            return (items, totalCount);
+        }
+
+        public async Task<SecuritySettings?> View(long id)
         {
             return await _context.Set<SecuritySettings>().FindAsync(id);
         }
 
-        /**
-         * @method AddAsync
-         * @param {SecuritySettings} entity
-         */
-        public async Task AddAsync(SecuritySettings entity)
+        public async Task Create(SecuritySettings entity)
         {
             await _context.Set<SecuritySettings>().AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
-        /**
-         * @method UpdateAsync
-         * @param {SecuritySettings} entity
-         */
-        public async Task UpdateAsync(SecuritySettings entity)
+        public async Task Update(SecuritySettings entity)
         {
             _context.Set<SecuritySettings>().Update(entity);
             await _context.SaveChangesAsync();
         }
 
-        /**
-         * @method DeleteAsync
-         * @param {long} id
-         */
-        public async Task DeleteAsync(long id)
+        public async Task Delete(long id)
         {
             var entity = await _context.Set<SecuritySettings>().FindAsync(id);
             if (entity != null)

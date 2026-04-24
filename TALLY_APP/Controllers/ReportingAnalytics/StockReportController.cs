@@ -1,109 +1,35 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Interfaces.ReportingAnalytics;
-using TALLY_APP.DTOs.Request.ReportingAnalytics;
 using TALLY_APP.DTOs.Response.ReportingAnalytics;
 
 namespace TALLY_APP.Controllers.ReportingAnalytics
 {
-    /**
-     * Controller: StockReport
-     *
-     * Description:
-     * Handles all CRUD operations for StockReport module.
-     * Follows RESTful API standards with Clean Architecture.
-     */
-    [ApiController]
+     
+    
     [Route("StockReport")]
+    [ApiController]
     public class StockReportController : Controller
     {
-        private readonly IStockReportService _service;
-
-        /**
-         * Constructor
-         *
-         * @param service Injected service for business logic
-         */
-        public StockReportController(IStockReportService service)
-        {
-            _service = service;
-        }
-
         [HttpGet("")]
         public IActionResult Index() => View("~/Views/ReportingAnalytics/stock-reports.cshtml");
 
-        /**
-         * Get all records
-         *
-         * @return List of StockReport objects
-         */
-        [HttpGet("all")]
-        public async Task<ActionResult<List<StockReportResponse>>> GetAll()
-        {
-            return await _service.All();
-        }
+        private readonly IStockReportService _service;
+        public StockReportController(IStockReportService service) => _service = service;
 
-        /**
-         * Get paginated list
-         *
-         * @return List of StockReport objects
-         */
         [HttpGet("api/index")]
-        public async Task<ActionResult<List<StockReportResponse>>> ApiIndex()
-        {
-            return await _service.Index();
-        }
-
-        /**
-         * Get single record by id
-         *
-         * @param id Record identifier
-         * @return Single StockReport object
-         */
-        [HttpGet("view/{id}")]
-        public async Task<ActionResult<StockReportResponse>> View(long id)
-        {
-            return await _service.View(id);
-        }
-
-        /**
-         * Create new record
-         *
-         * @param request Request body
-         * @return Created record response
-         */
-        [HttpPost("create")]
-        public async Task<ActionResult<StockReportResponse>> Create([FromBody] StockReportRequest request)
-        {
-            return await _service.Create(request);
-        }
-
-        /**
-         * Update existing record
-         *
-         * @param id Record identifier
-         * @param request Updated data
-         * @return Updated record response
-         */
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult<StockReportResponse>> Update(long id, [FromBody] StockReportRequest request)
-        {
-            return await _service.Update(id, request);
-        }
-
-        /**
-         * Delete record
-         *
-         * @param id Record identifier
-         * @return Success message
-         */
-        [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> Delete(long id)
-        {
-            await _service.Delete(id);
-            return Ok(new { message = "Deleted successfully" });
-        }
+        public async Task<ActionResult<PaginatedStockReportResponse>> ApiIndex([FromQuery] int page = 1, [FromQuery] int pageSize = 10, [FromQuery] string search = "", [FromQuery] string sortColumn = "Id", [FromQuery] string sortDirection = "asc")
+            => await _service.Index(page, pageSize, search, sortColumn, sortDirection);
     }
 }
+
+
+
+
+
+
+
+
+
+
 

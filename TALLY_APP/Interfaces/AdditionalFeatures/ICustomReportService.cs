@@ -5,48 +5,11 @@ using TALLY_APP.DTOs.Response.AdditionalFeatures;
 
 namespace TALLY_APP.Interfaces.AdditionalFeatures
 {
-    /**
-     * =====================================================
-     * Interface: ICustomReportService
-     * =====================================================
-     *
-     * Purpose:
-     * Defines contract for CustomReport business operations.
-     * Acts as abstraction layer between Controller and Service.
-     *
-     * Architecture:
-     * Controller  Interface  Service Implementation
-     */
     public interface ICustomReportService
     {
-        /**
-         * Get all records
-         */
-        Task<List<CustomReportResponse>> All();
-
-        /**
-         * Get paginated records
-         */
-        Task<List<CustomReportResponse>> Index();
-
-        /**
-         * Get single record by ID
-         */
-        Task<CustomReportResponse> View(long id);
-
-        /**
-         * Create new record
-         */
+        Task<PaginatedCustomReportResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc");
         Task<CustomReportResponse> Create(CustomReportRequest request);
-
-        /**
-         * Update existing record
-         */
         Task<CustomReportResponse> Update(long id, CustomReportRequest request);
-
-        /**
-         * Delete record
-         */
         Task<bool> Delete(long id);
     }
 }

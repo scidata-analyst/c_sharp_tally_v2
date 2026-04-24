@@ -72,4 +72,21 @@ namespace TALLY_APP.DTOs.Response.BankingPayments
         public DateTime CreatedAt { get; set; }
 
     }
+
+    /**
+     * Response DTO: PaginatedPaymentReminderResponse
+     *
+     * Purpose:
+     * API response model for paginated payment reminder list
+     */
+    public class PaginatedPaymentReminderResponse
+    {
+        public List<PaymentReminderResponse> Data { get; set; }
+        public int TotalCount { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages { get; set; }
+        public bool HasPreviousPage { get; set; }
+        public bool HasNextPage { get; set; }
+    }
 }

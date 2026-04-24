@@ -14,19 +14,22 @@ namespace TALLY_APP.Controllers.AccountingFinance
      * Description:
      * Handles all CRUD operations for BankAccount module.
      */
-    [ApiController]
+    
+    
+    
     [Route("BankAccount")]
+    [ApiController]
     public class BankAccountController : Controller
     {
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/AccountingFinance/cash-bank.cshtml");
+
         private readonly IBankAccountService _service;
 
         public BankAccountController(IBankAccountService service)
         {
             _service = service;
         }
-
-        [HttpGet("")]
-        public IActionResult Index() => View("~/Views/AccountingFinance/cash-bank.cshtml");
 
         /**
          * Get all records
@@ -113,3 +116,14 @@ namespace TALLY_APP.Controllers.AccountingFinance
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+

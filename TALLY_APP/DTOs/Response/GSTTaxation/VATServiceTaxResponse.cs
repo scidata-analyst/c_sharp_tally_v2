@@ -66,4 +66,21 @@ namespace TALLY_APP.DTOs.Response.GSTTaxation
         public DateTime UpdatedAt { get; set; }
 
     }
+
+    /**
+     * Response DTO: PaginatedVATServiceTaxResponse
+     *
+     * Purpose:
+     * API response model for paginated VAT/Service Tax entry list
+     */
+    public class PaginatedVATServiceTaxResponse
+    {
+        public List<VATServiceTaxResponse> Data { get; set; }
+        public int TotalCount { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages { get; set; }
+        public bool HasPreviousPage { get; set; }
+        public bool HasNextPage { get; set; }
+    }
 }

@@ -15,10 +15,16 @@ namespace TALLY_APP.Controllers.AccountingFinance
      * Handles all CRUD operations for PartyDirectory module.
      * Follows RESTful API standards with Clean Architecture.
      */
-    [ApiController]
+    
+    
+    
     [Route("PartyDirectory")]
+    [ApiController]
     public class PartyDirectoryController : Controller
     {
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/AccountingFinance/payable.cshtml");
+
         private readonly IPartyDirectoryService _service;
 
         /**
@@ -30,9 +36,6 @@ namespace TALLY_APP.Controllers.AccountingFinance
         {
             _service = service;
         }
-
-        [HttpGet("")]
-        public IActionResult Index() => View("~/Views/AccountingFinance/payable.cshtml");
 
         /**
          * Get all records
@@ -122,3 +125,14 @@ namespace TALLY_APP.Controllers.AccountingFinance
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+

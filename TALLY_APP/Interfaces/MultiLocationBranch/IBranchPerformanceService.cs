@@ -5,48 +5,13 @@ using TALLY_APP.DTOs.Response.MultiLocationBranch;
 
 namespace TALLY_APP.Interfaces.MultiLocationBranch
 {
-    /**
-     * =====================================================
-     * Interface: IBranchPerformanceService
-     * =====================================================
-     *
-     * Purpose:
-     * Defines contract for BranchPerformance business operations.
-     * Acts as abstraction layer between Controller and Service.
-     *
-     * Architecture:
-     * Controller  Interface  Service Implementation
-     */
     public interface IBranchPerformanceService
     {
-        /**
-         * Get all records
-         */
         Task<List<BranchPerformanceResponse>> All();
-
-        /**
-         * Get paginated records
-         */
-        Task<List<BranchPerformanceResponse>> Index();
-
-        /**
-         * Get single record by ID
-         */
+        Task<PaginatedBranchPerformanceResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc");
         Task<BranchPerformanceResponse> View(long id);
-
-        /**
-         * Create new record
-         */
         Task<BranchPerformanceResponse> Create(BranchPerformanceRequest request);
-
-        /**
-         * Update existing record
-         */
         Task<BranchPerformanceResponse> Update(long id, BranchPerformanceRequest request);
-
-        /**
-         * Delete record
-         */
         Task<bool> Delete(long id);
     }
 }

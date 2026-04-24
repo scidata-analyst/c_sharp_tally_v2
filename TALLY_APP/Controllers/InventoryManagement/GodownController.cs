@@ -8,19 +8,22 @@ using TALLY_APP.DTOs.Response.InventoryManagement;
 
 namespace TALLY_APP.Controllers.InventoryManagement
 {
-    [ApiController]
+    
+    
+    
     [Route("Godown")]
+    [ApiController]
     public class GodownController : Controller
     {
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/InventoryManagement/godowns.cshtml");
+
         private readonly IGodownService _service;
 
         public GodownController(IGodownService service)
         {
             _service = service;
         }
-
-        [HttpGet("")]
-        public IActionResult Index() => View("~/Views/InventoryManagement/godown.cshtml");
 
         [HttpGet("all")]
         public async Task<ActionResult<List<GodownResponse>>> GetAll()
@@ -89,3 +92,14 @@ namespace TALLY_APP.Controllers.InventoryManagement
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+

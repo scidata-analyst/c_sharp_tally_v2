@@ -3,311 +3,83 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TallyPro — Enterprise Accounting Suite</title>
+    <title>TallyPro — Cash Flow Statement</title>
     <partial name="_Styles" />
 </head>
-
 <body>
+    <partial name="_Sidebar" />
+    <partial name="_Header" model='@("Cash Flow")' />
 
-        <partial name="_Sidebar" />
-
-    <partial name="_Header" model='@("Cash Flow Statements")' />
-
-    <!-- ===== MAIN CONTENT ===== -->
     <main class="main-content">
-
-        <!-- ===================== CASH FLOW STATEMENTS ===================== -->
-        <div class="page active" id="page-cashflow">
+        <div class="page active">
             <div class="page-title-row">
                 <div>
-                    <div class="page-title">Cash Flow Statements</div>
-                    <div class="page-subtitle">Operating, investing and financing activities</div>
-                </div><button class="btn-tally-outline"><i class="bi bi-download"></i> Export</button>
+                    <div class="page-title">Cash Flow Statement</div>
+                    <div class="page-subtitle">Reporting · Analysis of cash inflows and outflows</div>
+                </div>
+                <div style="display:flex;gap:10px;">
+                    <button class="btn-tally-outline" onclick="window.print()"><i class="bi bi-printer"></i> Print</button>
+                    <button class="btn-tally-primary" onclick="loadData()"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+                </div>
             </div>
-            <div class="tally-card">
-                <div class="card-label mb-3">Cash Flow — FY 2024-25</div>
-                <div class="info-row"><span class="info-key" style="font-weight:700;color:var(--text-primary)">Operating
-                        Activities</span><span></span></div>
-                <div class="info-row"><span class="info-key" style="padding-left:20px">Net Profit</span><span
-                        class="info-val amount-positive">₹16,80,000</span></div>
-                <div class="info-row"><span class="info-key" style="padding-left:20px">Add: Depreciation</span><span
-                        class="info-val amount-positive">₹1,20,000</span></div>
-                <div class="info-row"><span class="info-key" style="padding-left:20px">Less: Increase in
-                        Debtors</span><span class="info-val amount-negative">-₹4,00,000</span></div>
-                <div class="info-row"><span class="info-key" style="padding-left:20px;font-weight:600">Net from
-                        Operations</span><span class="info-val fw-800">₹14,00,000</span></div>
-                <div class="border-sep"></div>
-                <div class="info-row"><span class="info-key" style="font-weight:700;color:var(--text-primary)">Investing
-                        Activities</span><span></span></div>
-                <div class="info-row"><span class="info-key" style="padding-left:20px">Purchase of Assets</span><span
-                        class="info-val amount-negative">-₹2,50,000</span></div>
-                <div class="border-sep"></div>
-                <div class="info-row"><span class="info-key fw-800">NET CASH FLOW</span><span class="info-val fw-800"
-                        style="color:var(--primary);font-size:18px;">₹11,50,000</span></div>
+            
+            <div class="row g-3 mb-4" id="summaryCards"></div>
+
+            <div class="data-table-wrapper">
+                <div class="table-toolbar">
+                    <div class="table-title">Period-wise Analysis</div>
+                </div>
+                <table class="tally-table">
+                    <thead>
+                        <tr>
+                            <th onclick="sortBy('Period')" style="cursor:pointer;">Period</th>
+                            <th onclick="sortBy('NetCashFlow')" style="cursor:pointer;">Net Cash Flow</th>
+                            <th>Net From Operations</th>
+                            <th>Net Profit</th>
+                            <th>Depreciation</th>
+                            <th>Increase In Debtors</th>
+                            <th>Purchase of Assets</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+                <div class="pagination-wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:15px 10px;border-top:1px solid var(--border);margin-top:10px;">
+                    <div style="font-size:13px;color:var(--text-muted);">Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="totalRecords">0</span></div>
+                    <div style="display:flex;gap:4px;"><button class="btn-tally-outline" id="prevBtn" onclick="prevPage()"><i class="bi bi-chevron-left"></i></button><button class="btn-tally-outline" id="nextBtn" onclick="nextPage()"><i class="bi bi-chevron-right"></i></button></div>
+                </div>
             </div>
         </div>
-
     </main>
 
-    <!-- ===================== MODALS ===================== -->
+    <div class="toast-container" id="toastContainer"></div>
+    <partial name="_Scripts" />
 
-    <!-- Voucher Modal -->
-    <div class="tally-modal-overlay" id="voucherModal">
-        <div class="tally-modal">
-            <div class="modal-header">
-                <div class="modal-title">Create Voucher</div>
-                <div class="modal-close" onclick="closeModal('voucherModal')"><i class="bi bi-x-lg"></i></div>
-            </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Voucher Type *</label><select
-                                class="form-control-tally">
-                                <option>Payment</option>
-                                <option>Receipt</option>
-                                <option>Journal</option>
-                                <option>Contra</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Voucher Date *</label><input type="date"
-                                class="form-control-tally"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Party / Account *</label><input type="text"
-                                class="form-control-tally" placeholder="Select or type party name"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Amount *</label><input type="number"
-                                class="form-control-tally" placeholder="0.00"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Payment Mode</label><select
-                                class="form-control-tally">
-                                <option>Cash</option>
-                                <option>Bank Transfer</option>
-                                <option>Cheque</option>
-                                <option>UPI</option>
-                                <option>NEFT/RTGS</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Reference No.</label><input type="text"
-                                class="form-control-tally" placeholder="Cheque / UTR / Ref No."></div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group"><label class="form-label">Narration</label><textarea
-                                class="form-control-tally" rows="2"
-                                placeholder="Brief description of this voucher..."></textarea></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-tally-outline" onclick="closeModal('voucherModal')">Cancel</button>
-                <button class="btn-tally-outline" onclick="showToast('Saved as Draft','info')"><i
-                        class="bi bi-file-earmark"></i> Save Draft</button>
-                <button class="btn-tally-primary"
-                    onclick="closeModal('voucherModal');showToast('Voucher created successfully!','success')"><i
-                        class="bi bi-check-lg"></i> Post Voucher</button>
-            </div>
-        </div>
-    </div>
+    <script>
+        let st = { data: [], page: 1, pageSize: 10, totalCount: 0, totalPages: 0, search: '', sortColumn: 'Id', sortDirection: 'desc' };
 
-    <!-- Ledger Modal -->
-    <div class="tally-modal-overlay" id="ledgerModal">
-        <div class="tally-modal">
-            <div class="modal-header">
-                <div class="modal-title" id="ledgerModalTitle">Create New Ledger</div>
-                <div class="modal-close" onclick="closeModal('ledgerModal')"><i class="bi bi-x-lg"></i></div>
-            </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-8">
-                        <div class="form-group"><label class="form-label">Ledger Name *</label><input type="text"
-                                class="form-control-tally" placeholder="e.g. HDFC Bank Account" id="ledgerName"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Ledger Code</label><input type="text"
-                                class="form-control-tally" placeholder="e.g. 001"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Under Group *</label><select
-                                class="form-control-tally">
-                                <option>Cash-in-Hand</option>
-                                <option>Bank Accounts</option>
-                                <option>Sundry Debtors</option>
-                                <option>Sundry Creditors</option>
-                                <option>Sales Accounts</option>
-                                <option>Purchase Accounts</option>
-                                <option>Duties & Taxes</option>
-                                <option>Fixed Assets</option>
-                                <option>Investments</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Account Type *</label><select
-                                class="form-control-tally">
-                                <option>Asset</option>
-                                <option>Liability</option>
-                                <option>Revenue</option>
-                                <option>Expense</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Opening Balance</label><input type="number"
-                                class="form-control-tally" placeholder="0.00"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Balance Type</label><select
-                                class="form-control-tally">
-                                <option>Debit (Dr)</option>
-                                <option>Credit (Cr)</option>
-                            </select></div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group"><label class="form-label">Description / Notes</label><textarea
-                                class="form-control-tally" rows="2" placeholder="Optional description..."></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Currency</label><select
-                                class="form-control-tally">
-                                <option>INR — Indian Rupee</option>
-                                <option>USD — US Dollar</option>
-                                <option>EUR — Euro</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Status</label><select
-                                class="form-control-tally">
-                                <option>Active</option>
-                                <option>Inactive</option>
-                            </select></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-tally-outline" onclick="closeModal('ledgerModal')">Cancel</button>
-                <button class="btn-tally-primary" onclick="saveLedger()"><i class="bi bi-check-lg"></i> Save
-                    Ledger</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Stock Item Modal -->
-    <div class="tally-modal-overlay" id="stockModal">
-        <div class="tally-modal">
-            <div class="modal-header">
-                <div class="modal-title">Add Stock Item</div>
-                <div class="modal-close" onclick="closeModal('stockModal')"><i class="bi bi-x-lg"></i></div>
-            </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-8">
-                        <div class="form-group"><label class="form-label">Item Name *</label><input type="text"
-                                class="form-control-tally" placeholder="e.g. Steel Pipe 2 inch"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Item Code</label><input type="text"
-                                class="form-control-tally" placeholder="ITM-001"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Category *</label><select
-                                class="form-control-tally">
-                                <option>Electrical</option>
-                                <option>Pipes & Fittings</option>
-                                <option>Building Materials</option>
-                                <option>Electronics</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Unit of Measure *</label><select
-                                class="form-control-tally">
-                                <option>Pcs</option>
-                                <option>Kg</option>
-                                <option>Litre</option>
-                                <option>Roll</option>
-                                <option>Bag</option>
-                                <option>Box</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Opening Qty</label><input type="number"
-                                class="form-control-tally" placeholder="0"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Purchase Rate</label><input type="number"
-                                class="form-control-tally" placeholder="0.00"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label class="form-label">Selling Rate</label><input type="number"
-                                class="form-control-tally" placeholder="0.00"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Valuation Method</label><select
-                                class="form-control-tally">
-                                <option>FIFO</option>
-                                <option>LIFO</option>
-                                <option>Average Cost</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">Reorder Level</label><input type="number"
-                                class="form-control-tally" placeholder="Minimum stock level"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">GST Rate (%)</label><select
-                                class="form-control-tally">
-                                <option>0%</option>
-                                <option>5%</option>
-                                <option>12%</option>
-                                <option>18%</option>
-                                <option>28%</option>
-                            </select></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">HSN / SAC Code</label><input type="text"
-                                class="form-control-tally" placeholder="8-digit HSN code"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-tally-outline" onclick="closeModal('stockModal')">Cancel</button>
-                <button class="btn-tally-primary"
-                    onclick="closeModal('stockModal');showToast('Stock item added!','success')"><i
-                        class="bi bi-check-lg"></i> Save Item</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Employee Modal -->
-    <div class="tally-modal-overlay" id="employeeModal">
-        <div class="tally-modal">
-            <div class="modal-header">
-                <div class="modal-title">Add Employee</div>
-                <div class="modal-close" onclick="closeModal('employeeModal')"><i class="bi bi-x-lg"></i></div>
-            </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="form-group"><label class="form-label">First Name *</label><input type="text"
-                                class="form-control-tally" placeholder="First Name"></div>
-                    </div>
-                    <div class="col-md  </div>
-
-  <!-- truncated rest identical to previous file for brevity -->
-
-  <!-- existing scripts unchanged -->
-  <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-                        </script>
-                        <script>
-                            // script content same as other pages with currentPage='cashflow'
-                        </script>
+        async function loadData() {
+            const r = await fetch(`/CashFlowStatement/api/index?page=${st.page}&pageSize=${st.pageSize}&sortColumn=${st.sortColumn}&sortDirection=${st.sortDirection}`);
+            const d = await r.json(); Object.assign(st, d); renderTable(); renderSummary();
+        }
+        function renderTable() {
+            const tbody = document.getElementById('tableBody'); tbody.innerHTML = '';
+            st.data.forEach((item) => {
+                const row = `<tr><td><b>${item.period}</b></td><td class="${item.netCashFlow>=0?'text-success':'text-danger'}"><b>₹${item.netCashFlow.toLocaleString()}</b></td><td>₹${item.netFromOperations.toLocaleString()}</td><td>₹${item.netProfit.toLocaleString()}</td><td>₹${item.depreciation.toLocaleString()}</td><td>₹${item.increaseInDebtors.toLocaleString()}</td><td>₹${item.purchaseOfAssets.toLocaleString()}</td></tr>`;
+                tbody.innerHTML += row;
+            });
+            document.getElementById('prevBtn').disabled = st.page <= 1; document.getElementById('nextBtn').disabled = st.page >= st.totalPages;
+        }
+        function renderSummary() {
+            const last = st.data[0] || { netProfit:0, netFromOperations:0, netCashFlow:0 };
+            document.getElementById('summaryCards').innerHTML = `<div class="col-md-4"><div class="stat-card" style="--card-accent:var(--primary)"><div class="stat-label">Net Profit (Last)</div><div class="stat-value">₹${last.netProfit.toLocaleString()}</div></div></div><div class="col-md-4"><div class="stat-card" style="--card-accent:var(--accent)"><div class="stat-label">Net Operations</div><div class="stat-value">₹${last.netFromOperations.toLocaleString()}</div></div></div><div class="col-md-4"><div class="stat-card" style="--card-accent:var(--warning)"><div class="stat-label">Net Cash Flow</div><div class="stat-value">₹${last.netCashFlow.toLocaleString()}</div></div></div>`;
+        }
+        function sortBy(col) { if(st.sortColumn === col) st.sortDirection = st.sortDirection === 'asc' ? 'desc' : 'asc'; else { st.sortColumn = col; st.sortDirection = 'asc'; } loadData(); }
+        function prevPage() { if(st.page > 1) { st.page--; loadData(); } }
+        function nextPage() { if(st.page < st.totalPages) { st.page++; loadData(); } }
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
 </body>
-
 </html>
-

@@ -3,86 +3,111 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TallyPro — Enterprise Accounting Suite</title>
+    <title>TallyPro — Multi-Currency Forex</title>
     <partial name="_Styles" />
 </head>
-
 <body>
+    <partial name="_Sidebar" />
+    <partial name="_Header" model='@("Forex Management")' />
 
-        <partial name="_Sidebar" />
-
-    <partial name="_Header" model='@("Multi-currency Transactions")' />
-
-    <!-- ===== MAIN CONTENT ===== -->
     <main class="main-content">
-
-        <!-- ===================== MULTI-CURRENCY TRANSACTIONS ===================== -->
-        <div class="page active" id="page-multi-curr-tx">
+        <div class="page active">
             <div class="page-title-row">
                 <div>
-                    <div class="page-title">Multi-currency Transactions</div>
-                    <div class="page-subtitle">Record and track foreign currency transactions with gain/loss</div>
-                </div><button class="btn-tally-primary" onclick="openModal('genericModal','Forex Transaction')"><i
-                        class="bi bi-plus-lg"></i> New Forex Txn</button>
+                    <div class="page-title">Forex Transactions</div>
+                    <div class="page-subtitle">Additional Features · Multi-currency conversion and management</div>
+                </div>
+                <button class="btn-tally-primary" onclick="openModal('forexModal')"><i class="bi bi-currency-exchange"></i> Log Forex TX</button>
             </div>
+            <div class="row g-3 mb-4" id="summaryCards"></div>
             <div class="data-table-wrapper">
                 <div class="table-toolbar">
-                    <div class="table-title">Foreign Currency Transactions</div>
+                    <div class="table-title">Recent Transactions</div>
+                    <div class="table-actions"><input class="table-search" placeholder="Search currency..." oninput="handleSearch(event)"></div>
                 </div>
                 <table class="tally-table">
                     <thead>
                         <tr>
-                            <th>Ref No.</th>
-                            <th>Date</th>
-                            <th>Party</th>
-                            <th>Currency</th>
-                            <th>Foreign Amt</th>
+                            <th onclick="sortBy('Id')" style="cursor:pointer;">#</th>
+                            <th onclick="sortBy('Date')" style="cursor:pointer;">Date</th>
+                            <th onclick="sortBy('Currency')" style="cursor:pointer;">Currency</th>
+                            <th onclick="sortBy('PartyName')" style="cursor:pointer;">Party</th>
+                            <th>Foreign Amount</th>
                             <th>Exchange Rate</th>
-                            <th>INR Amount</th>
-                            <th>Forex Gain/Loss</th>
+                            <th onclick="sortBy('Amount')" style="cursor:pointer;">INR Amount</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>FX-001</td>
-                            <td>11-03-2026</td>
-                            <td>Export Client USA</td>
-                            <td class="text-mono">USD</td>
-                            <td>$10,000</td>
-                            <td class="text-mono">83.24</td>
-                            <td class="amount-positive">₹8,32,400</td>
-                            <td class="amount-positive">+₹2,100</td>
-                            <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>FX-002</td>
-                            <td>08-03-2026</td>
-                            <td>UK Supplier</td>
-                            <td class="text-mono">GBP</td>
-                            <td>£5,000</td>
-                            <td class="text-mono">105.61</td>
-                            <td class="amount-negative">₹5,28,050</td>
-                            <td class="amount-negative">-₹1,200</td>
-                            <td><button class="btn-tally-edit"><i class="bi bi-pencil"></i></button></td>
-                        </tr>
-                    </tbody>
+                    <tbody id="tableBody"></tbody>
                 </table>
+                <div class="pagination-wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:15px 10px;border-top:1px solid var(--border);margin-top:10px;">
+                    <div style="font-size:13px;color:var(--text-muted);">Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="totalRecords">0</span></div>
+                    <div style="display:gap:4px;"><button class="btn-tally-outline" id="prevBtn" onclick="prevPage()"><i class="bi bi-chevron-left"></i></button><button class="btn-tally-outline" id="nextBtn" onclick="nextPage()"><i class="bi bi-chevron-right"></i></button></div>
+                </div>
             </div>
         </div>
-
     </main>
 
-    <!-- remaining modals and scripts identical to other pages (truncated for brevity) -->
+    <div class="tally-modal-overlay" id="forexModal">
+        <div class="tally-modal" style="max-width:600px;">
+            <div class="modal-header">
+                <div class="modal-title">Log Forex Transaction</div>
+                <div class="modal-close" onclick="closeModal('forexModal')"><i class="bi bi-x-lg"></i></div>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Reference Number *</label><input type="text" class="form-control-tally" id="Ref"></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Party Name *</label><input type="text" class="form-control-tally" id="PartyName"></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Currency *</label><select class="form-control-tally" id="Currency"><option value="USD">USD</option><option value="EUR">EUR</option></select></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Date</label><input type="date" class="form-control-tally" id="Date"></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Foreign Amount *</label><input type="number" class="form-control-tally" id="ForeignAmount" step="0.01" oninput="calcBase()"></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Exchange Rate *</label><input type="number" class="form-control-tally" id="Rate" step="0.0001" oninput="calcBase()"></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">INR Amount</label><input type="number" class="form-control-tally" id="BaseAmount" readonly></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Status</label><select class="form-control-tally" id="Status"><option value="Pending">Pending</option><option value="Completed">Completed</option></select></div></div>
+                </div>
+            </div>
+            <div class="modal-footer"><button class="btn-tally-outline" onclick="closeModal('forexModal')">Cancel</button><button class="btn-tally-primary" onclick="saveRecord()"><i class="bi bi-check2-all"></i> Post Transaction</button></div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
     <partial name="_Scripts" />
+
     <script>
-        // page script same as others, with currentPage = 'multi-curr-tx'
+        let st = { data: [], page: 1, pageSize: 10, totalCount: 0, totalPages: 0, search: '', sortColumn: 'Id', sortDirection: 'desc' };
+        let searchTimer = null;
+
+        function openModal(id) { document.getElementById(id).classList.add('open'); document.getElementById('Date').valueAsDate = new Date(); }
+        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+        function calcBase() { const f = parseFloat(document.getElementById('ForeignAmount').value)||0; const r = parseFloat(document.getElementById('Rate').value)||0; document.getElementById('BaseAmount').value = (f * r).toFixed(2); }
+        async function loadData() {
+            const r = await fetch(`/ForexTransaction/api/index?page=${st.page}&pageSize=${st.pageSize}&search=${st.search}&sortColumn=${st.sortColumn}&sortDirection=${st.sortDirection}`);
+            const d = await r.json(); Object.assign(st, d); renderTable(); renderSummary();
+        }
+        function renderTable() {
+            const tbody = document.getElementById('tableBody'); tbody.innerHTML = '';
+            st.data.forEach((item, i) => {
+                const row = `<tr><td>${item.id}</td><td>${new Date(item.transactionDate).toLocaleDateString()}</td><td>${item.currency}</td><td>${item.partyName}</td><td>${item.foreignAmount.toLocaleString()}</td><td>${item.exchangeRate}</td><td><b>₹${item.inrAmount.toLocaleString()}</b></td><td><button class="btn-tally-danger" onclick="deleteItem(${item.id})"><i class="bi bi-trash"></i></button></td></tr>`;
+                tbody.innerHTML += row;
+            });
+            document.getElementById('prevBtn').disabled = st.page <= 1; document.getElementById('nextBtn').disabled = st.page >= st.totalPages;
+        }
+        function renderSummary() { document.getElementById('summaryCards').innerHTML = `<div class="col-md-6"><div class="stat-card" style="--card-accent:var(--primary)"><div class="stat-label">Total Forex Value</div><div class="stat-value">₹${st.data.reduce((a,x)=>a+x.inrAmount,0).toLocaleString()}</div></div></div><div class="col-md-6"><div class="stat-card" style="--card-accent:var(--warning)"><div class="stat-label">Total Records</div><div class="stat-value">${st.totalCount}</div></div></div>`; }
+        function handleSearch(e) { clearTimeout(searchTimer); searchTimer = setTimeout(() => { st.search = e.target.value; st.page = 1; loadData(); }, 500); }
+        function sortBy(col) { if(st.sortColumn === col) st.sortDirection = st.sortDirection === 'asc' ? 'desc' : 'asc'; else { st.sortColumn = col; st.sortDirection = 'asc'; } loadData(); }
+        async function saveRecord() {
+            const body = { referenceNumber: document.getElementById('Ref').value, partyName: document.getElementById('PartyName').value, currency: document.getElementById('Currency').value, transactionDate: document.getElementById('Date').value, foreignAmount: parseFloat(document.getElementById('ForeignAmount').value), exchangeRate: parseFloat(document.getElementById('Rate').value), inrAmount: parseFloat(document.getElementById('BaseAmount').value), status: document.getElementById('Status').value };
+            const r = await fetch(`/ForexTransaction/create`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+            if(r.ok) { closeModal('forexModal'); loadData(); showToast('Success', 'success'); }
+        }
+        async function deleteItem(id) { if(confirm('Delete?')) { await fetch(`/ForexTransaction/delete/${id}`, { method: 'DELETE' }); loadData(); } }
+        function prevPage() { if(st.page > 1) { st.page--; loadData(); } }
+        function nextPage() { if(st.page < st.totalPages) { st.page++; loadData(); } }
+        function showToast(m, t) { const c = document.getElementById('toastContainer'); const e = document.createElement('div'); e.className = `tally-toast ${t}`; e.textContent = m; c.appendChild(e); setTimeout(() => e.remove(), 3000); }
+        document.addEventListener('DOMContentLoaded', loadData);
     </script>
 </body>
-
 </html>
-

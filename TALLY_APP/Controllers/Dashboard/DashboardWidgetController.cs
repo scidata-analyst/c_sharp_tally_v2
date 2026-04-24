@@ -16,7 +16,7 @@ namespace TALLY_APP.Controllers.Dashboard
      */
     [ApiController]
     [Route("api/Dashboard/DashboardWidget")]
-    public class DashboardWidgetController : ControllerBase
+    public class DashboardWidgetController : Controller
     {
         private readonly IDashboardWidgetService _service;
 
@@ -103,4 +103,10 @@ namespace TALLY_APP.Controllers.Dashboard
         }
     }
 }
+
+
+
+
+
+
 

@@ -8,19 +8,22 @@ using TALLY_APP.DTOs.Response.InventoryManagement;
 
 namespace TALLY_APP.Controllers.InventoryManagement
 {
-    [ApiController]
+    
+    
+    
     [Route("BatchRegister")]
+    [ApiController]
     public class BatchRegisterController : Controller
     {
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/InventoryManagement/batch-expiry.cshtml");
+
         private readonly IBatchRegisterService _service;
 
         public BatchRegisterController(IBatchRegisterService service)
         {
             _service = service;
         }
-
-        [HttpGet("")]
-        public IActionResult Index() => View("~/Views/InventoryManagement/batch-tracking.cshtml");
 
         [HttpGet("all")]
         public async Task<ActionResult<List<BatchRegisterResponse>>> GetAll()
@@ -89,3 +92,14 @@ namespace TALLY_APP.Controllers.InventoryManagement
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+

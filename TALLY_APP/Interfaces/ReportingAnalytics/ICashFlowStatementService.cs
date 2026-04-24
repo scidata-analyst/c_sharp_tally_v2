@@ -1,52 +1,10 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using TALLY_APP.DTOs.Request.ReportingAnalytics;
 using TALLY_APP.DTOs.Response.ReportingAnalytics;
 
 namespace TALLY_APP.Interfaces.ReportingAnalytics
 {
-    /**
-     * =====================================================
-     * Interface: ICashFlowStatementService
-     * =====================================================
-     *
-     * Purpose:
-     * Defines contract for CashFlowStatement business operations.
-     * Acts as abstraction layer between Controller and Service.
-     *
-     * Architecture:
-     * Controller  Interface  Service Implementation
-     */
     public interface ICashFlowStatementService
     {
-        /**
-         * Get all records
-         */
-        Task<List<CashFlowStatementResponse>> All();
-
-        /**
-         * Get paginated records
-         */
-        Task<List<CashFlowStatementResponse>> Index();
-
-        /**
-         * Get single record by ID
-         */
-        Task<CashFlowStatementResponse> View(long id);
-
-        /**
-         * Create new record
-         */
-        Task<CashFlowStatementResponse> Create(CashFlowStatementRequest request);
-
-        /**
-         * Update existing record
-         */
-        Task<CashFlowStatementResponse> Update(long id, CashFlowStatementRequest request);
-
-        /**
-         * Delete record
-         */
-        Task<bool> Delete(long id);
+        Task<PaginatedCashFlowStatementResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "desc");
     }
 }

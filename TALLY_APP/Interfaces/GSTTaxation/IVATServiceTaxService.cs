@@ -3,50 +3,15 @@ using System.Threading.Tasks;
 using TALLY_APP.DTOs.Request.GSTTaxation;
 using TALLY_APP.DTOs.Response.GSTTaxation;
 
-namespace TALLY_APP.Interfaces.GSTTaxation
+namespace TALLY_APP.Interfaces.GstTaxation
 {
-    /**
-     * =====================================================
-     * Interface: IVATServiceTaxService
-     * =====================================================
-     *
-     * Purpose:
-     * Defines contract for VATServiceTax business operations.
-     * Acts as abstraction layer between Controller and Service.
-     *
-     * Architecture:
-     * Controller  Interface  Service Implementation
-     */
     public interface IVATServiceTaxService
     {
-        /**
-         * Get all records
-         */
         Task<List<VATServiceTaxResponse>> All();
-
-        /**
-         * Get paginated records
-         */
-        Task<List<VATServiceTaxResponse>> Index();
-
-        /**
-         * Get single record by ID
-         */
+        Task<PaginatedVATServiceTaxResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc");
         Task<VATServiceTaxResponse> View(long id);
-
-        /**
-         * Create new record
-         */
         Task<VATServiceTaxResponse> Create(VATServiceTaxRequest request);
-
-        /**
-         * Update existing record
-         */
         Task<VATServiceTaxResponse> Update(long id, VATServiceTaxRequest request);
-
-        /**
-         * Delete record
-         */
         Task<bool> Delete(long id);
     }
 }

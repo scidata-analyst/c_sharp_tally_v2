@@ -5,48 +5,13 @@ using TALLY_APP.DTOs.Response.RemoteAccessSecurity;
 
 namespace TALLY_APP.Interfaces.RemoteAccessSecurity
 {
-    /**
-     * =====================================================
-     * Interface: IAuditLogService
-     * =====================================================
-     *
-     * Purpose:
-     * Defines contract for AuditLog business operations.
-     * Acts as abstraction layer between Controller and Service.
-     *
-     * Architecture:
-     * Controller  Interface  Service Implementation
-     */
     public interface IAuditLogService
     {
-        /**
-         * Get all records
-         */
         Task<List<AuditLogResponse>> All();
-
-        /**
-         * Get paginated records
-         */
-        Task<List<AuditLogResponse>> Index();
-
-        /**
-         * Get single record by ID
-         */
+        Task<PaginatedAuditLogResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "desc");
         Task<AuditLogResponse> View(long id);
-
-        /**
-         * Create new record
-         */
         Task<AuditLogResponse> Create(AuditLogRequest request);
-
-        /**
-         * Update existing record
-         */
         Task<AuditLogResponse> Update(long id, AuditLogRequest request);
-
-        /**
-         * Delete record
-         */
         Task<bool> Delete(long id);
     }
 }

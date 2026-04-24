@@ -90,4 +90,21 @@ namespace TALLY_APP.DTOs.Response.MultiLocationBranch
         public DateTime UpdatedAt { get; set; }
 
     }
+
+    /**
+     * Response DTO: PaginatedBranchResponse
+     *
+     * Purpose:
+     * API response model for paginated branch list
+     */
+    public class PaginatedBranchResponse
+    {
+        public List<BranchResponse> Data { get; set; }
+        public int TotalCount { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages { get; set; }
+        public bool HasPreviousPage { get; set; }
+        public bool HasNextPage { get; set; }
+    }
 }

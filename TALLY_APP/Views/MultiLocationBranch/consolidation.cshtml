@@ -3,55 +3,146 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TallyPro — Enterprise Accounting Suite</title>
+    <title>TallyPro — Data Consolidation</title>
     <partial name="_Styles" />
 </head>
-
 <body>
+    <partial name="_Sidebar" />
+    <partial name="_Header" model='@("Consolidation")' />
 
-        <partial name="_Sidebar" />
-
-    <partial name="_Header" model='@("Consolidation of Accounts")' />
-
-    <!-- ===== MAIN CONTENT ===== -->
     <main class="main-content">
-
-        <!-- ===================== CONSOLIDATION OF ACCOUNTS ===================== -->
         <div class="page active" id="page-consolidation">
             <div class="page-title-row">
                 <div>
-                    <div class="page-title">Consolidation of Accounts</div>
-                    <div class="page-subtitle">Consolidated financial view across all branches</div>
+                    <div class="page-title">Branch Consolidation</div>
+                    <div class="page-subtitle">Multi-Location · Consolidate revenue and stock across branches</div>
+                </div>
+                <button class="btn-tally-primary" onclick="openModal('consModal')"><i class="bi bi-diagram-3"></i> Run Consolidation</button>
+            </div>
+            <div class="row g-3 mb-4" id="summaryCards"></div>
+            <div class="data-table-wrapper">
+                <div class="table-toolbar">
+                    <div class="table-title">Consolidation History</div>
+                    <div class="table-actions"><input class="table-search" placeholder="Search history..." oninput="handleSearch(event)"></div>
+                </div>
+                <table class="tally-table">
+                    <thead>
+                        <tr>
+                            <th onclick="sortBy('Id')" style="cursor:pointer;"># <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('Period')" style="cursor:pointer;">Period <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('BranchName')" style="cursor:pointer;">Branch <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('Revenue')" style="cursor:pointer;">Revenue <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('StockValue')" style="cursor:pointer;">Stock Value <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('ConsolidatedAt')" style="cursor:pointer;">Consolidated On <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+                <div class="pagination-wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:15px 10px;border-top:1px solid var(--border);margin-top:10px;">
+                    <div style="font-size:13px;color:var(--text-muted);">Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="totalRecords">0</span> records</div>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <label style="font-size:13px;color:var(--text-muted);">Rows:</label>
+                        <select id="pageSizeSelect" class="form-control-tally" style="width:70px;padding:4px 8px;" onchange="changePageSize()"><option value="5">5</option><option value="10" selected>10</option><option value="25">25</option><option value="50">50</option></select>
+                        <div style="display:flex;gap:4px;">
+                            <button class="btn-tally-outline" id="prevBtn" style="padding:6px 12px;" onclick="prevPage()"><i class="bi bi-chevron-left"></i></button>
+                            <span id="pageNumbers" style="display:flex;gap:2px;"></span>
+                            <button class="btn-tally-outline" id="nextBtn" style="padding:6px 12px;" onclick="nextPage()"><i class="bi bi-chevron-right"></i></button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="tally-card">
-                <div class="card-label mb-3">Consolidated Balance — All Branches</div>
-                <div class="info-row"><span class="info-key">Mumbai HQ Revenue</span><span
-                        class="info-val amount-positive">₹24,10,000</span></div>
-                <div class="info-row"><span class="info-key">Delhi Branch Revenue</span><span
-                        class="info-val amount-positive">₹12,50,000</span></div>
-                <div class="info-row"><span class="info-key">Bangalore Branch Revenue</span><span
-                        class="info-val amount-positive">₹8,20,000</span></div>
-                <div class="info-row"><span class="info-key">Chennai Branch Revenue</span><span
-                        class="info-val amount-positive">₹3,40,000</span></div>
-                <div class="border-sep"></div>
-                <div class="info-row"><span class="info-key fw-800">CONSOLIDATED TOTAL</span><span
-                        class="info-val fw-800" style="color:var(--primary);font-size:18px;">₹48,20,000</span></div>
-            </div>
         </div>
-
     </main>
 
-    <!-- remaining modals and scripts identical to other pages (truncated for brevity) -->
+    <!-- Consolidation Modal -->
+    <div class="tally-modal-overlay" id="consModal">
+        <div class="tally-modal" style="max-width:600px;">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Run Data Consolidation</div>
+                <div class="modal-close" onclick="closeModal('consModal')"><i class="bi bi-x-lg"></i></div>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Branch ID *</label><input type="number" class="form-control-tally" id="BranchId"><div class="field-error" id="error-BranchId"></div></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Period *</label><input type="text" class="form-control-tally" id="Period" placeholder="e.g. FY 2024-25 Q1"><div class="field-error" id="error-Period"></div></div></div>
+
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Consolidated Revenue</label><input type="number" step="0.01" class="form-control-tally" id="Revenue"><div class="field-error" id="error-Revenue"></div></div></div>
+                    <div class="col-md-6"><div class="form-group"><label class="form-label">Consolidated Stock Value</label><input type="number" step="0.01" class="form-control-tally" id="StockValue"><div class="field-error" id="error-StockValue"></div></div></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-tally-outline" onclick="closeModal('consModal')">Cancel</button>
+                <button class="btn-tally-primary" onclick="saveRecord()"><i class="bi bi-lightning-fill"></i> Execute Consolidation</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="tally-modal-overlay" id="deleteModal">
+        <div class="delete-confirm" style="margin:auto;"><div class="del-icon">🗑️</div><h5 style="font-family:var(--font-display);color:var(--text-primary);margin-bottom:8px;">Delete Record?</h5><p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">This action cannot be undone.</p><div class="d-flex justify-content-center gap-3"><button class="btn-tally-outline" onclick="closeModal('deleteModal')">Cancel</button><button class="btn-tally-danger" style="padding:8px 20px;font-size:13px;" onclick="confirmDelete()"><i class="bi bi-trash"></i> Yes, Delete</button></div></div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
     <partial name="_Scripts" />
+
     <script>
-        // page script same as others, with currentPage = 'consolidation'
+        let st = { data: [], page: 1, pageSize: 10, totalCount: 0, totalPages: 0, search: '', sortColumn: 'ConsolidatedAt', sortDirection: 'desc', hasPreviousPage: false, hasNextPage: false, editingId: null };
+        let deleteTarget = null; let searchTimer = null;
+
+        function openModal(id, item = null) { const o = document.getElementById(id); if (!o) return; o.classList.add('open'); if (id === 'consModal') { clearErrors(); if (item) { st.editingId = item.id; document.getElementById('modalTitle').textContent = 'Edit Consolidation'; document.getElementById('BranchId').value = item.branchId||''; document.getElementById('Period').value = item.period||''; document.getElementById('Revenue').value = item.revenue||0; document.getElementById('StockValue').value = item.stockValue||0; } else { st.editingId = null; document.getElementById('modalTitle').textContent = 'Run Data Consolidation'; document.getElementById('BranchId').value=''; document.getElementById('Period').value=''; ['Revenue','StockValue'].forEach(f=>document.getElementById(f).value='0'); } } }
+        function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
+        function clearErrors() { document.querySelectorAll('.field-error').forEach(el => el.textContent = ''); }
+        function showFieldError(f, msg) { const el = document.getElementById('error-' + f); if (el) el.textContent = msg; }
+
+        async function loadData() {
+            const params = new URLSearchParams({ page: st.page, pageSize: st.pageSize, search: st.search, sortColumn: st.sortColumn, sortDirection: st.sortDirection });
+            try { const r = await fetch(`/BranchConsolidation/api/index?${params}`); if (!r.ok) throw new Error(); const d = await r.json(); Object.assign(st, { data: d.data||[], totalCount: d.totalCount||0, totalPages: d.totalPages||0, page: d.page||1, hasPreviousPage: d.hasPreviousPage||false, hasNextPage: d.hasNextPage||false }); renderTable(); renderPagination(); renderSummary(); } catch(e) { showToast('Failed to load','error'); }
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody'); tbody.innerHTML = '';
+            if (!st.data.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text-muted);">No records found</td></tr>'; return; }
+            const s = ((st.page-1)*st.pageSize)+1;
+            st.data.forEach((item, i) => {
+                const bName = item.branch ? item.branch.branchName : `Branch ID: ${item.branchId}`;
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${s+i}</td><td style="font-weight:600">${esc(item.period)}</td><td>${esc(bName)}</td><td>₹${fmt(item.revenue)}</td><td>₹${fmt(item.stockValue)}</td><td>${new Date(item.consolidatedAt).toLocaleString('en-IN')}</td><td><button class="btn-tally-edit" onclick="editItem(${item.id})"><i class="bi bi-pencil"></i></button> <button class="btn-tally-danger" onclick="deleteItem(${item.id})"><i class="bi bi-trash"></i></button></td>`;
+                tbody.appendChild(row);
+            });
+            document.getElementById('showingStart').textContent = st.totalCount > 0 ? s : 0; document.getElementById('showingEnd').textContent = Math.min(s+st.pageSize-1, st.totalCount); document.getElementById('totalRecords').textContent = st.totalCount;
+        }
+
+        function renderSummary() {
+            document.getElementById('summaryCards').innerHTML = `<div class="col-md-4"><div class="stat-card" style="--card-accent:var(--accent)"><div class="stat-label">Total Syncs</div><div class="stat-value">${st.totalCount}</div></div></div><div class="col-md-4"><div class="stat-card" style="--card-accent:var(--primary)"><div class="stat-label">Total Validated Revenue</div><div class="stat-value">₹${fmt(st.data.reduce((a,i)=>a+i.revenue,0))}</div></div></div><div class="col-md-4"><div class="stat-card" style="--card-accent:var(--warning)"><div class="stat-label">Total Validated Stock</div><div class="stat-value">₹${fmt(st.data.reduce((a,i)=>a+i.stockValue,0))}</div></div></div>`;
+        }
+
+        function renderPagination() { const el = document.getElementById('pageNumbers'); el.innerHTML = ''; const max=5; let s=Math.max(1,st.page-Math.floor(max/2)); let e=Math.min(st.totalPages,s+max-1); if(e-s<max-1) s=Math.max(1,e-max+1); for(let i=s;i<=e;i++){const b=document.createElement('button');b.className=`btn-tally-outline ${i===st.page?'active':''}`;b.style.cssText='padding:6px 10px;min-width:36px;';b.textContent=i;b.onclick=()=>goToPage(i);el.appendChild(b);} document.getElementById('prevBtn').disabled=!st.hasPreviousPage; document.getElementById('nextBtn').disabled=!st.hasNextPage; document.getElementById('pageSizeSelect').value=st.pageSize; }
+
+        function goToPage(p){if(p<1||p>st.totalPages)return;st.page=p;loadData();} function prevPage(){if(st.hasPreviousPage)goToPage(st.page-1);} function nextPage(){if(st.hasNextPage)goToPage(st.page+1);} function changePageSize(){st.pageSize=parseInt(document.getElementById('pageSizeSelect').value);st.page=1;loadData();}
+        function sortBy(col){if(st.sortColumn===col)st.sortDirection=st.sortDirection==='asc'?'desc':'asc';else{st.sortColumn=col;st.sortDirection='asc';}st.page=1;loadData();}
+        function handleSearch(e){clearTimeout(searchTimer);searchTimer=setTimeout(()=>{st.search=e.target.value.trim();st.page=1;loadData();},500);}
+
+        async function saveRecord(){
+            clearErrors();
+            const btn = document.querySelector('.modal-footer .btn-tally-primary');
+            btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Consolidating...'; btn.disabled = true;
+            
+            const fd={branchId:parseInt(document.getElementById('BranchId').value)||null,period:document.getElementById('Period').value.trim(),revenue:parseFloat(document.getElementById('Revenue').value)||0,stockValue:parseFloat(document.getElementById('StockValue').value)||0,consolidatedAt:new Date().toISOString()};
+            try{const url=st.editingId?`/BranchConsolidation/update/${st.editingId}`:`/BranchConsolidation/create`;const m=st.editingId?'PUT':'POST';const r=await fetch(url,{method:m,headers:{'Content-Type':'application/json'},body:JSON.stringify(fd)});const d=await r.json();if(!r.ok){if(r.status===400&&d.errors){for(const[f,msgs]of Object.entries(d.errors))showFieldError(f,msgs.join(', '));return;}throw new Error(d.message||'Failed');}closeModal('consModal');showToast(st.editingId?'Consolidation updated!':'Consolidation successful!','success');loadData();}catch(e){showToast('Error: '+e.message,'error');}finally{btn.innerHTML = '<i class="bi bi-lightning-fill"></i> Execute Consolidation'; btn.disabled = false;}
+        }
+
+        function editItem(id){const item=st.data.find(i=>i.id===id);if(item)openModal('consModal',item);} function deleteItem(id){deleteTarget={id};openModal('deleteModal');}
+        async function confirmDelete(){if(!deleteTarget)return;try{const r=await fetch(`/BranchConsolidation/delete/${deleteTarget.id}`,{method:'DELETE'});if(!r.ok)throw new Error();closeModal('deleteModal');showToast('Deleted','success');loadData();}catch(e){showToast('Delete failed','error');}finally{deleteTarget=null;}}
+
+        function esc(t){if(!t)return'';const d=document.createElement('div');d.textContent=t;return d.innerHTML;} function fmt(n){return parseFloat(n||0).toLocaleString('en-IN',{maximumFractionDigits:2});}
+        function showToast(msg,type='success'){const icons={success:'✅',error:'❌',info:'ℹ️'};const c=document.getElementById('toastContainer');if(!c)return;const t=document.createElement('div');t.className=`tally-toast ${type}`;t.innerHTML=`<span style="font-size:16px">${icons[type]}</span><span>${msg}</span>`;c.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(20px)';t.style.transition='0.3s ease';setTimeout(()=>t.remove(),300);},3000);}
+
+        document.addEventListener('DOMContentLoaded',()=>{loadData();document.querySelectorAll('.tally-modal-overlay').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)closeModal(this.id);}));});
+        document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.tally-modal-overlay.open').forEach(m=>m.classList.remove('open'));});
     </script>
 </body>
-
 </html>
-

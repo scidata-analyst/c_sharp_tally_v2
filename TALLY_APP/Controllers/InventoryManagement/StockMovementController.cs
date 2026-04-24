@@ -8,19 +8,22 @@ using TALLY_APP.DTOs.Response.InventoryManagement;
 
 namespace TALLY_APP.Controllers.InventoryManagement
 {
-    [ApiController]
+    
+    
+    
     [Route("StockMovement")]
+    [ApiController]
     public class StockMovementController : Controller
     {
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/InventoryManagement/stock-movements.cshtml");
+
         private readonly IStockMovementService _service;
 
         public StockMovementController(IStockMovementService service)
         {
             _service = service;
         }
-
-        [HttpGet("")]
-        public IActionResult Index() => View("~/Views/InventoryManagement/stock-movement.cshtml");
 
         [HttpGet("all")]
         public async Task<ActionResult<List<StockMovementResponse>>> GetAll()
@@ -89,3 +92,14 @@ namespace TALLY_APP.Controllers.InventoryManagement
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+

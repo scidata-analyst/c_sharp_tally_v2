@@ -1,98 +1,28 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.AdditionalFeatures;
-
 using Mapster;
 using TALLY_APP.Interfaces.AdditionalFeatures;
 using TALLY_APP.DTOs.Request.AdditionalFeatures;
 using TALLY_APP.DTOs.Response.AdditionalFeatures;
-
 using TALLY_APP.Models.AdditionalFeatures;
 
 namespace TALLY_APP.Services.AdditionalFeatures
 {
-    /**
-     * @class AutomationRuleService
-     * @description Business logic layer for AutomationRule module.
-     */
     public class AutomationRuleService : IAutomationRuleService
     {
         private readonly AutomationRuleRepository _repository;
+        public AutomationRuleService(AutomationRuleRepository repository) => _repository = repository;
 
-        /**
-         * @constructor
-         * @param {AutomationRuleRepository} repository
-         */
-        public AutomationRuleService(AutomationRuleRepository repository)
+        public async Task<PaginatedAutomationRuleResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc")
         {
-            _repository = repository;
+            var (items, totalCount) = await _repository.Index(page, pageSize, search, sortColumn, sortDirection);
+            return new PaginatedAutomationRuleResponse { Data = items.Adapt<List<AutomationRuleResponse>>(), TotalCount = totalCount, Page = page, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize), HasPreviousPage = page > 1, HasNextPage = page < (int)Math.Ceiling(totalCount / (double)pageSize) };
         }
 
-        /**
-         * @method All
-         * @returns {Task<List<AutomationRule>>}
-         */
-        
-
-        public async Task<List<AutomationRuleResponse>> All()
-        {
-            var entities = await _repository.GetAllAsync();
-            return entities.Adapt<List<AutomationRuleResponse>>();
-        }
-
-        public async Task<List<AutomationRuleResponse>> Index()
-        {
-            var entities = await _repository.GetAllAsync();
-            return entities.Adapt<List<AutomationRuleResponse>>();
-        }
-
-
-        /**
-         * @method View
-         * @param {long} id
-         * @returns {Task<AutomationRule>}
-         */
-        public async Task<AutomationRuleResponse> View(long id)
-        {
-            var entity = await _repository.GetByIdAsync(id);
-            return entity.Adapt<AutomationRuleResponse>();
-        }
-
-        /**
-         * @method Create
-         * @param {AutomationRule} entity
-         */
-        public async Task<AutomationRuleResponse> Create(AutomationRuleRequest request)
-        {
-            var entity = request.Adapt<AutomationRule>();
-            await _repository.AddAsync(entity);
-            return entity.Adapt<AutomationRuleResponse>();
-        }
-
-        /**
-         * @method Update
-         * @param {long} id
-         * @param {AutomationRule} entity
-         */
-        public async Task<AutomationRuleResponse> Update(long id, AutomationRuleRequest request)
-        {
-            var entity = request.Adapt<AutomationRule>();
-            entity.Id = id;
-            await _repository.UpdateAsync(entity);
-            return entity.Adapt<AutomationRuleResponse>();
-        }
-
-        /**
-         * @method Delete
-         * @param {long} id
-         */
-        public async Task<bool> Delete(long id)
-        {
-            await _repository.DeleteAsync(id);
-            return true;
-        }
+        public async Task<AutomationRuleResponse> Create(AutomationRuleRequest request) { var e = request.Adapt<AutomationRule>(); e.CreatedAt = e.UpdatedAt = DateTime.UtcNow; await _repository.Create(e); return e.Adapt<AutomationRuleResponse>(); }
+        public async Task<AutomationRuleResponse> Update(long id, AutomationRuleRequest request) { var e = request.Adapt<AutomationRule>(); e.Id = id; e.UpdatedAt = DateTime.UtcNow; await _repository.Update(e); return e.Adapt<AutomationRuleResponse>(); }
+        public async Task<bool> Delete(long id) { await _repository.Delete(id); return true; }
     }
 }
-
-
-

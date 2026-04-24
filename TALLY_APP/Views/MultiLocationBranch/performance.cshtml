@@ -1,0 +1,161 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TallyPro — Branch Performance</title>
+    <partial name="_Styles" />
+</head>
+<body>
+    <partial name="_Sidebar" />
+    <partial name="_Header" model='@("Performance")' />
+
+    <main class="main-content">
+        <div class="page active" id="page-performance">
+            <div class="page-title-row">
+                <div>
+                    <div class="page-title">Branch Performance Metrics</div>
+                    <div class="page-subtitle">Multi-Location · Monitor sales, targets, and stock efficiency</div>
+                </div>
+                <button class="btn-tally-primary" onclick="openModal('perfModal')"><i class="bi bi-graph-up-arrow"></i> Add Metric Entry</button>
+            </div>
+            <div class="row g-3 mb-4" id="summaryCards"></div>
+            <div class="data-table-wrapper">
+                <div class="table-toolbar">
+                    <div class="table-title">Performance Records</div>
+                    <div class="table-actions"><input class="table-search" placeholder="Search branches..." oninput="handleSearch(event)"></div>
+                </div>
+                <table class="tally-table">
+                    <thead>
+                        <tr>
+                            <th onclick="sortBy('Id')" style="cursor:pointer;"># <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('BranchName')" style="cursor:pointer;">Branch <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th>Stock (Op/Cl)</th>
+                            <th onclick="sortBy('Revenue')" style="cursor:pointer;">Revenue <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('Target')" style="cursor:pointer;">Target <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th onclick="sortBy('AchievedPercentage')" style="cursor:pointer;">Target Achieved <i class="bi bi-arrow-down-up ms-1" style="font-size:10px"></i></th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+                <div class="pagination-wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:15px 10px;border-top:1px solid var(--border);margin-top:10px;">
+                    <div style="font-size:13px;color:var(--text-muted);">Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="totalRecords">0</span> records</div>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <label style="font-size:13px;color:var(--text-muted);">Rows:</label>
+                        <select id="pageSizeSelect" class="form-control-tally" style="width:70px;padding:4px 8px;" onchange="changePageSize()"><option value="5">5</option><option value="10" selected>10</option><option value="25">25</option><option value="50">50</option></select>
+                        <div style="display:flex;gap:4px;">
+                            <button class="btn-tally-outline" id="prevBtn" style="padding:6px 12px;" onclick="prevPage()"><i class="bi bi-chevron-left"></i></button>
+                            <span id="pageNumbers" style="display:flex;gap:2px;"></span>
+                            <button class="btn-tally-outline" id="nextBtn" style="padding:6px 12px;" onclick="nextPage()"><i class="bi bi-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Performance Modal -->
+    <div class="tally-modal-overlay" id="perfModal">
+        <div class="tally-modal" style="max-width:700px;">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Record Performance Metric</div>
+                <div class="modal-close" onclick="closeModal('perfModal')"><i class="bi bi-x-lg"></i></div>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-12"><div class="form-group"><label class="form-label">Branch Name *</label><input type="text" class="form-control-tally" id="BranchName"><div class="field-error" id="error-BranchName"></div></div></div>
+                    
+                    <h6 style="margin-bottom: 5px; margin-top: 20px; color: var(--primary);">Inventory Flow</h6>
+                    <div class="col-md-3"><div class="form-group"><label class="form-label">Opening Stock</label><input type="number" step="0.01" class="form-control-tally" id="OpeningStock"><div class="field-error" id="error-OpeningStock"></div></div></div>
+                    <div class="col-md-3"><div class="form-group"><label class="form-label">Received</label><input type="number" step="0.01" class="form-control-tally" id="Received"><div class="field-error" id="error-Received"></div></div></div>
+                    <div class="col-md-3"><div class="form-group"><label class="form-label">Sold</label><input type="number" step="0.01" class="form-control-tally" id="Sold"><div class="field-error" id="error-Sold"></div></div></div>
+                    <div class="col-md-3"><div class="form-group"><label class="form-label">Closing Stock</label><input type="number" step="0.01" class="form-control-tally" id="ClosingStock"><div class="field-error" id="error-ClosingStock"></div></div></div>
+
+                    <h6 style="margin-bottom: 5px; margin-top: 20px; color: var(--primary);">Sales Performance</h6>
+                    <div class="col-md-4"><div class="form-group"><label class="form-label">Revenue *</label><input type="number" step="0.01" class="form-control-tally calc" id="Revenue"><div class="field-error" id="error-Revenue"></div></div></div>
+                    <div class="col-md-4"><div class="form-group"><label class="form-label">Target *</label><input type="number" step="0.01" class="form-control-tally calc" id="Target"><div class="field-error" id="error-Target"></div></div></div>
+                    <div class="col-md-4"><div class="form-group"><label class="form-label">Achieved %</label><div style="position:relative;"><input type="number" step="0.01" class="form-control-tally" id="AchievedPercentage" readonly style="background:var(--bg-tertiary);font-weight:600;"><span style="position:absolute;right:12px;top:8px;color:var(--text-muted)">%</span></div><div class="field-error" id="error-AchievedPercentage"></div></div></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-tally-outline" onclick="closeModal('perfModal')">Cancel</button>
+                <button class="btn-tally-primary" onclick="saveRecord()"><i class="bi bi-check-lg"></i> Save Metrics</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="tally-modal-overlay" id="deleteModal">
+        <div class="delete-confirm" style="margin:auto;"><div class="del-icon">🗑️</div><h5 style="font-family:var(--font-display);color:var(--text-primary);margin-bottom:8px;">Delete Metric?</h5><p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">This action cannot be undone.</p><div class="d-flex justify-content-center gap-3"><button class="btn-tally-outline" onclick="closeModal('deleteModal')">Cancel</button><button class="btn-tally-danger" style="padding:8px 20px;font-size:13px;" onclick="confirmDelete()"><i class="bi bi-trash"></i> Yes, Delete</button></div></div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+    <partial name="_Scripts" />
+
+    <script>
+        let st = { data: [], page: 1, pageSize: 10, totalCount: 0, totalPages: 0, search: '', sortColumn: 'Id', sortDirection: 'desc', hasPreviousPage: false, hasNextPage: false, editingId: null };
+        let deleteTarget = null; let searchTimer = null;
+
+        function openModal(id, item = null) { const o = document.getElementById(id); if (!o) return; o.classList.add('open'); if (id === 'perfModal') { clearErrors(); if (item) { st.editingId = item.id; document.getElementById('modalTitle').textContent = 'Edit Performance Metric'; document.getElementById('BranchName').value = item.branchName||''; document.getElementById('OpeningStock').value = item.openingStock||0; document.getElementById('Received').value = item.received||0; document.getElementById('Sold').value = item.sold||0; document.getElementById('ClosingStock').value = item.closingStock||0; document.getElementById('Revenue').value = item.revenue||0; document.getElementById('Target').value = item.target||0; document.getElementById('AchievedPercentage').value = item.achievedPercentage||0; } else { st.editingId = null; document.getElementById('modalTitle').textContent = 'Record Performance Metric'; document.getElementById('BranchName').value=''; ['OpeningStock','Received','Sold','ClosingStock','Revenue','Target','AchievedPercentage'].forEach(f=>document.getElementById(f).value='0'); } } }
+        function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
+        function clearErrors() { document.querySelectorAll('.field-error').forEach(el => el.textContent = ''); }
+        function showFieldError(f, msg) { const el = document.getElementById('error-' + f); if (el) el.textContent = msg; }
+
+        function calcPerf() {
+            const rev = parseFloat(document.getElementById('Revenue').value) || 0;
+            const tgt = parseFloat(document.getElementById('Target').value) || 0;
+            const ach = tgt > 0 ? (rev / tgt) * 100 : 0;
+            const el = document.getElementById('AchievedPercentage');
+            el.value = ach.toFixed(2);
+            el.style.color = ach >= 100 ? 'var(--success)' : (ach >= 80 ? 'var(--warning)' : 'var(--danger)');
+        }
+        document.querySelectorAll('.calc').forEach(e => e.addEventListener('input', calcPerf));
+
+        async function loadData() {
+            const params = new URLSearchParams({ page: st.page, pageSize: st.pageSize, search: st.search, sortColumn: st.sortColumn, sortDirection: st.sortDirection });
+            try { const r = await fetch(`/BranchPerformance/api/index?${params}`); if (!r.ok) throw new Error(); const d = await r.json(); Object.assign(st, { data: d.data||[], totalCount: d.totalCount||0, totalPages: d.totalPages||0, page: d.page||1, hasPreviousPage: d.hasPreviousPage||false, hasNextPage: d.hasNextPage||false }); renderTable(); renderPagination(); renderSummary(); } catch(e) { showToast('Failed to load','error'); }
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody'); tbody.innerHTML = '';
+            if (!st.data.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text-muted);">No records found</td></tr>'; return; }
+            const s = ((st.page-1)*st.pageSize)+1;
+            st.data.forEach((item, i) => {
+                let color = item.achievedPercentage >= 100 ? 'var(--success)' : (item.achievedPercentage >= 80 ? 'var(--warning)' : 'var(--danger)');
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${s+i}</td><td style="font-weight:600">${esc(item.branchName)}</td><td style="font-size:12px;color:var(--text-muted)">Op: ₹${fmt(item.openingStock)}<br>Cl: ₹${fmt(item.closingStock)}</td><td style="font-weight:600">₹${fmt(item.revenue)}</td><td>₹${fmt(item.target)}</td><td><div style="display:flex;align-items:center;gap:8px;"><div style="width:60px;height:6px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${Math.min(100,item.achievedPercentage)}%;background:${color};"></div></div><span style="font-weight:600;color:${color}">${fmt(item.achievedPercentage)}%</span></div></td><td><button class="btn-tally-edit" onclick="editItem(${item.id})"><i class="bi bi-pencil"></i></button> <button class="btn-tally-danger" onclick="deleteItem(${item.id})"><i class="bi bi-trash"></i></button></td>`;
+                tbody.appendChild(row);
+            });
+            document.getElementById('showingStart').textContent = st.totalCount > 0 ? s : 0; document.getElementById('showingEnd').textContent = Math.min(s+st.pageSize-1, st.totalCount); document.getElementById('totalRecords').textContent = st.totalCount;
+        }
+
+        function renderSummary() {
+            const totalRev = st.data.reduce((a,i)=>a+i.revenue,0);
+            const totalTgt = st.data.reduce((a,i)=>a+i.target,0);
+            const globalAch = totalTgt > 0 ? (totalRev/totalTgt)*100 : 0;
+            document.getElementById('summaryCards').innerHTML = `<div class="col-md-3"><div class="stat-card" style="--card-accent:var(--accent)"><div class="stat-label">Metric Records</div><div class="stat-value">${st.totalCount}</div></div></div><div class="col-md-3"><div class="stat-card" style="--card-accent:var(--primary)"><div class="stat-label">Total Validated Revenue</div><div class="stat-value">₹${fmt(totalRev)}</div></div></div><div class="col-md-3"><div class="stat-card" style="--card-accent:var(--danger)"><div class="stat-label">Total Global Target</div><div class="stat-value">₹${fmt(totalTgt)}</div></div></div><div class="col-md-3"><div class="stat-card" style="--card-accent:${globalAch>=100?'var(--success)':'var(--warning)'}"><div class="stat-label">Global Target Achieved</div><div class="stat-value">${fmt(globalAch)}%</div></div></div>`;
+        }
+
+        function renderPagination() { const el = document.getElementById('pageNumbers'); el.innerHTML = ''; const max=5; let s=Math.max(1,st.page-Math.floor(max/2)); let e=Math.min(st.totalPages,s+max-1); if(e-s<max-1) s=Math.max(1,e-max+1); for(let i=s;i<=e;i++){const b=document.createElement('button');b.className=`btn-tally-outline ${i===st.page?'active':''}`;b.style.cssText='padding:6px 10px;min-width:36px;';b.textContent=i;b.onclick=()=>goToPage(i);el.appendChild(b);} document.getElementById('prevBtn').disabled=!st.hasPreviousPage; document.getElementById('nextBtn').disabled=!st.hasNextPage; document.getElementById('pageSizeSelect').value=st.pageSize; }
+
+        function goToPage(p){if(p<1||p>st.totalPages)return;st.page=p;loadData();} function prevPage(){if(st.hasPreviousPage)goToPage(st.page-1);} function nextPage(){if(st.hasNextPage)goToPage(st.page+1);} function changePageSize(){st.pageSize=parseInt(document.getElementById('pageSizeSelect').value);st.page=1;loadData();}
+        function sortBy(col){if(st.sortColumn===col)st.sortDirection=st.sortDirection==='asc'?'desc':'asc';else{st.sortColumn=col;st.sortDirection='asc';}st.page=1;loadData();}
+        function handleSearch(e){clearTimeout(searchTimer);searchTimer=setTimeout(()=>{st.search=e.target.value.trim();st.page=1;loadData();},500);}
+
+        async function saveRecord(){clearErrors();const fd={branchName:document.getElementById('BranchName').value.trim(),openingStock:parseFloat(document.getElementById('OpeningStock').value)||0,received:parseFloat(document.getElementById('Received').value)||0,sold:parseFloat(document.getElementById('Sold').value)||0,closingStock:parseFloat(document.getElementById('ClosingStock').value)||0,revenue:parseFloat(document.getElementById('Revenue').value)||0,target:parseFloat(document.getElementById('Target').value)||0,achievedPercentage:parseFloat(document.getElementById('AchievedPercentage').value)||0};try{const url=st.editingId?`/BranchPerformance/update/${st.editingId}`:`/BranchPerformance/create`;const m=st.editingId?'PUT':'POST';const r=await fetch(url,{method:m,headers:{'Content-Type':'application/json'},body:JSON.stringify(fd)});const d=await r.json();if(!r.ok){if(r.status===400&&d.errors){for(const[f,msgs]of Object.entries(d.errors))showFieldError(f,msgs.join(', '));return;}throw new Error(d.message||'Failed');}closeModal('perfModal');showToast(st.editingId?'Updated!':'Saved!','success');loadData();}catch(e){showToast('Save failed: '+e.message,'error');}}
+
+        function editItem(id){const item=st.data.find(i=>i.id===id);if(item)openModal('perfModal',item);} function deleteItem(id){deleteTarget={id};openModal('deleteModal');}
+        async function confirmDelete(){if(!deleteTarget)return;try{const r=await fetch(`/BranchPerformance/delete/${deleteTarget.id}`,{method:'DELETE'});if(!r.ok)throw new Error();closeModal('deleteModal');showToast('Deleted','success');loadData();}catch(e){showToast('Delete failed','error');}finally{deleteTarget=null;}}
+
+        function esc(t){if(!t)return'';const d=document.createElement('div');d.textContent=t;return d.innerHTML;} function fmt(n){return parseFloat(n||0).toLocaleString('en-IN',{maximumFractionDigits:2});}
+        function showToast(msg,type='success'){const icons={success:'✅',error:'❌',info:'ℹ️'};const c=document.getElementById('toastContainer');if(!c)return;const t=document.createElement('div');t.className=`tally-toast ${type}`;t.innerHTML=`<span style="font-size:16px">${icons[type]}</span><span>${msg}</span>`;c.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(20px)';t.style.transition='0.3s ease';setTimeout(()=>t.remove(),300);},3000);}
+
+        document.addEventListener('DOMContentLoaded',()=>{loadData();document.querySelectorAll('.tally-modal-overlay').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)closeModal(this.id);}));});
+        document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.tally-modal-overlay.open').forEach(m=>m.classList.remove('open'));});
+    </script>
+</body>
+</html>

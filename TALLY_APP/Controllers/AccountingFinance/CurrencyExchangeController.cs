@@ -14,19 +14,22 @@ namespace TALLY_APP.Controllers.AccountingFinance
      * Description:
      * Handles all CRUD operations for CurrencyExchange module.
      */
-    [ApiController]
+    
+    
+    
     [Route("CurrencyExchange")]
+    [ApiController]
     public class CurrencyExchangeController : Controller
     {
+        [HttpGet("")]
+        public IActionResult Index() => View("~/Views/AccountingFinance/multicurrency.cshtml");
+
         private readonly ICurrencyExchangeService _service;
 
         public CurrencyExchangeController(ICurrencyExchangeService service)
         {
             _service = service;
         }
-
-        [HttpGet("")]
-        public IActionResult Index() => View("~/Views/AccountingFinance/multicurrency.cshtml");
 
         /**
          * Get all records
@@ -113,3 +116,14 @@ namespace TALLY_APP.Controllers.AccountingFinance
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+

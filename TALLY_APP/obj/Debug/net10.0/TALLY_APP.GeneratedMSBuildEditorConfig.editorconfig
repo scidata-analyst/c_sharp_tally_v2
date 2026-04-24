@@ -70,8 +70,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkaXRpb25hbEZlYXR1cmVzXG11bHRpLWN1cnItdHguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[F:/DASHBOARD_APP/GIT_VERSION/TALLY/TALLY_APP/Views/BankingPayments/bank-integration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFua2luZ1BheW1lbnRzXGJhbmstaW50ZWdyYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [F:/DASHBOARD_APP/GIT_VERSION/TALLY/TALLY_APP/Views/BankingPayments/banking-integration.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFua2luZ1BheW1lbnRzXGJhbmtpbmctaW50ZWdyYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/DASHBOARD_APP/GIT_VERSION/TALLY/TALLY_APP/Views/BankingPayments/payment-processing.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFua2luZ1BheW1lbnRzXHBheW1lbnQtcHJvY2Vzc2luZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/DASHBOARD_APP/GIT_VERSION/TALLY/TALLY_APP/Views/BankingPayments/payment-reminders.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFua2luZ1BheW1lbnRzXHBheW1lbnQtcmVtaW5kZXJzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [F:/DASHBOARD_APP/GIT_VERSION/TALLY/TALLY_APP/Views/BankingPayments/payments.cshtml]
@@ -94,12 +106,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR1NUVGF4YXRpb25cZ3N0LWNhbGMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[F:/DASHBOARD_APP/GIT_VERSION/TALLY/TALLY_APP/Views/GSTTaxation/gst-entries.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR1NUVGF4YXRpb25cZ3N0LWVudHJpZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/DASHBOARD_APP/GIT_VERSION/TALLY/TALLY_APP/Views/GSTTaxation/gst-returns.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR1NUVGF4YXRpb25cZ3N0LXJldHVybnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [F:/DASHBOARD_APP/GIT_VERSION/TALLY/TALLY_APP/Views/GSTTaxation/tax-reports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR1NUVGF4YXRpb25cdGF4LXJlcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [F:/DASHBOARD_APP/GIT_VERSION/TALLY/TALLY_APP/Views/GSTTaxation/tds-tcs.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR1NUVGF4YXRpb25cdGRzLXRjcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/DASHBOARD_APP/GIT_VERSION/TALLY/TALLY_APP/Views/GSTTaxation/vat-service-tax.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR1NUVGF4YXRpb25cdmF0LXNlcnZpY2UtdGF4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [F:/DASHBOARD_APP/GIT_VERSION/TALLY/TALLY_APP/Views/GSTTaxation/vat-service.cshtml]
@@ -144,6 +168,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [F:/DASHBOARD_APP/GIT_VERSION/TALLY/TALLY_APP/Views/MultiLocationBranch/consolidation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTXVsdGlMb2NhdGlvbkJyYW5jaFxjb25zb2xpZGF0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/DASHBOARD_APP/GIT_VERSION/TALLY/TALLY_APP/Views/MultiLocationBranch/performance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTXVsdGlMb2NhdGlvbkJyYW5jaFxwZXJmb3JtYW5jZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [F:/DASHBOARD_APP/GIT_VERSION/TALLY/TALLY_APP/Views/PayrollManagement/deductions.cshtml]

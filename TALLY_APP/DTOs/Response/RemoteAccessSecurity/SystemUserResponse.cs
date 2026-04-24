@@ -1,75 +1,32 @@
 using System;
+using System.Collections.Generic;
 
 namespace TALLY_APP.DTOs.Response.RemoteAccessSecurity
 {
     /**
-     * Response DTO: SystemUser
-     *
-     * Purpose:
-     * API response model for SystemUser
+     * Response DTO: SystemUserResponse
      */
     public class SystemUserResponse
     {
-        /**
-         * Field: Id
-         * Type: long
-         * Description: Response property for SystemUser
-         */
         public long Id { get; set; }
-        /**
-         * Field: FullName
-         * Type: string
-         * Description: Response property for SystemUser
-         */
         public string FullName { get; set; }
-        /**
-         * Field: Email
-         * Type: string
-         * Description: Response property for SystemUser
-         */
         public string Email { get; set; }
-        /**
-         * Field: Role
-         * Type: string
-         * Description: Response property for SystemUser
-         */
         public string Role { get; set; }
-        /**
-         * Field: PasswordHash
-         * Type: string
-         * Description: Response property for SystemUser
-         */
-        public string PasswordHash { get; set; }
-        /**
-         * Field: ModuleAccess
-         * Type: string
-         * Description: Response property for SystemUser
-         */
         public string ModuleAccess { get; set; }
-        /**
-         * Field: LastLogin
-         * Type: DateTime
-         * Description: Response property for SystemUser
-         */
         public DateTime LastLogin { get; set; }
-        /**
-         * Field: Status
-         * Type: string
-         * Description: Response property for SystemUser
-         */
         public string Status { get; set; }
-        /**
-         * Field: CreatedAt
-         * Type: DateTime
-         * Description: Response property for SystemUser
-         */
         public DateTime CreatedAt { get; set; }
-        /**
-         * Field: UpdatedAt
-         * Type: DateTime
-         * Description: Response property for SystemUser
-         */
         public DateTime UpdatedAt { get; set; }
+    }
 
+    public class PaginatedSystemUserResponse
+    {
+        public List<SystemUserResponse> Data { get; set; }
+        public int TotalCount { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages { get; set; }
+        public bool HasPreviousPage { get; set; }
+        public bool HasNextPage { get; set; }
     }
 }

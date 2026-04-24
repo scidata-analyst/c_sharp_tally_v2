@@ -3,88 +3,82 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TallyPro — Enterprise Accounting Suite</title>
+    <title>TallyPro — Stock Reports</title>
     <partial name="_Styles" />
 </head>
-
 <body>
+    <partial name="_Sidebar" />
+    <partial name="_Header" model='@("Stock Reports")' />
 
-        <partial name="_Sidebar" />
-
-    <partial name="_Header" model='@("Stock & Inventory Reports")' />
-
-    <!-- ===== MAIN CONTENT ===== -->
     <main class="main-content">
-
-        <!-- ===================== STOCK & INVENTORY REPORTS ===================== -->
-        <div class="page active" id="page-stock-reports">
+        <div class="page active">
             <div class="page-title-row">
                 <div>
-                    <div class="page-title">Stock & Inventory Reports</div>
-                    <div class="page-subtitle">Comprehensive stock analysis and reports</div>
-                </div><button class="btn-tally-outline"><i class="bi bi-download"></i> Export</button>
+                    <div class="page-title">Stock Valuation & Reports</div>
+                    <div class="page-subtitle">Reporting · Real-time inventory status</div>
+                </div>
             </div>
+            
+            <div class="row g-3 mb-4" id="summaryCards"></div>
+
             <div class="data-table-wrapper">
                 <div class="table-toolbar">
-                    <div class="table-title">Stock Summary Report</div>
+                    <div class="table-title">Inventory Status</div>
+                    <div class="table-actions"><input class="table-search" placeholder="Search items..." oninput="handleSearch(event)"></div>
                 </div>
                 <table class="tally-table">
                     <thead>
                         <tr>
-                            <th>Item</th>
+                            <th onclick="sortBy('ItemName')" style="cursor:pointer;">Item Name</th>
                             <th>Category</th>
-                            <th>Opening</th>
-                            <th>In</th>
-                            <th>Out</th>
-                            <th>Closing</th>
-                            <th>Value</th>
+                            <th>Opening Qty</th>
+                            <th>Stock In</th>
+                            <th>Stock Out</th>
+                            <th onclick="sortBy('ClosingQty')" style="cursor:pointer;">Closing Qty</th>
+                            <th>Stock Value</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Steel Pipe 2"</td>
-                            <td>Pipes</td>
-                            <td>500</td>
-                            <td class="amount-positive">200</td>
-                            <td class="amount-negative">358</td>
-                            <td>342</td>
-                            <td class="amount-positive">₹3,42,000</td>
-                        </tr>
-                        <tr>
-                            <td>Copper Wire 1.5mm</td>
-                            <td>Electrical</td>
-                            <td>200</td>
-                            <td class="amount-positive">50</td>
-                            <td class="amount-negative">232</td>
-                            <td>18</td>
-                            <td class="amount-positive">₹36,000</td>
-                        </tr>
-                        <tr>
-                            <td>Laptop Dell XPS 15</td>
-                            <td>Electronics</td>
-                            <td>50</td>
-                            <td class="amount-positive">10</td>
-                            <td class="amount-negative">26</td>
-                            <td>34</td>
-                            <td class="amount-positive">₹34,00,000</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="tableBody"></tbody>
                 </table>
+                <div class="pagination-wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:15px 10px;border-top:1px solid var(--border);margin-top:10px;">
+                    <div style="font-size:13px;color:var(--text-muted);">Showing <span id="showingStart">0</span> to <span id="showingEnd">0</span> of <span id="totalRecords">0</span></div>
+                    <div style="display:flex;gap:4px;"><button class="btn-tally-outline" id="prevBtn" onclick="prevPage()"><i class="bi bi-chevron-left"></i></button><button class="btn-tally-outline" id="nextBtn" onclick="nextPage()"><i class="bi bi-chevron-right"></i></button></div>
+                </div>
             </div>
         </div>
-
     </main>
 
-    <!-- remaining modals and scripts identical to other pages (truncated for brevity) -->
+    <div class="toast-container" id="toastContainer"></div>
     <partial name="_Scripts" />
+
     <script>
-        // page script same as others, with currentPage = 'stock-reports'
+        let st = { data: [], page: 1, pageSize: 10, totalCount: 0, totalPages: 0, search: '', sortColumn: 'Id', sortDirection: 'asc' };
+        let searchTimer = null;
+
+        async function loadData() {
+            const r = await fetch(`/StockReport/api/index?page=${st.page}&pageSize=${st.pageSize}&search=${st.search}&sortColumn=${st.sortColumn}&sortDirection=${st.sortDirection}`);
+            const d = await r.json(); Object.assign(st, d); renderTable(); renderSummary();
+        }
+        function renderTable() {
+            const tbody = document.getElementById('tableBody'); tbody.innerHTML = '';
+            st.data.forEach((item) => {
+                const row = `<tr><td><b>${item.itemName}</b></td><td><span class="badge-tally badge-info">${item.category}</span></td><td>${item.openingQty}</td><td>${item.stockIn}</td><td>${item.stockOut}</td><td class="${item.closingQty<=5?'text-danger font-bold':''}"><b>${item.closingQty}</b></td><td><b>₹${item.stockValue.toLocaleString()}</b></td></tr>`;
+                tbody.innerHTML += row;
+            });
+            document.getElementById('prevBtn').disabled = st.page <= 1; document.getElementById('nextBtn').disabled = st.page >= st.totalPages;
+        }
+        function renderSummary() {
+            const totalVal = st.data.reduce((a,x)=>a+x.stockValue,0);
+            document.getElementById('summaryCards').innerHTML = `<div class="col-md-6"><div class="stat-card" style="--card-accent:var(--primary)"><div class="stat-label">Total Stock Valuation</div><div class="stat-value">₹${totalVal.toLocaleString()}</div></div></div><div class="col-md-6"><div class="stat-card" style="--card-accent:var(--warning)"><div class="stat-label">Low Stock Items</div><div class="stat-value">${st.data.filter(x=>x.closingQty<=5).length}</div></div></div>`;
+        }
+        function handleSearch(e) { clearTimeout(searchTimer); searchTimer = setTimeout(() => { st.search = e.target.value; st.page = 1; loadData(); }, 500); }
+        function sortBy(col) { if(st.sortColumn === col) st.sortDirection = st.sortDirection === 'asc' ? 'desc' : 'asc'; else { st.sortColumn = col; st.sortDirection = 'asc'; } loadData(); }
+        function prevPage() { if(st.page > 1) { st.page--; loadData(); } }
+        function nextPage() { if(st.page < st.totalPages) { st.page++; loadData(); } }
+        document.addEventListener('DOMContentLoaded', loadData);
     </script>
 </body>
-
 </html>
-

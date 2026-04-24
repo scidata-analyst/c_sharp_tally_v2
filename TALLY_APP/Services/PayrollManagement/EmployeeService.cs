@@ -1,98 +1,82 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.PayrollManagement;
-
 using Mapster;
 using TALLY_APP.Interfaces.PayrollManagement;
 using TALLY_APP.DTOs.Request.PayrollManagement;
 using TALLY_APP.DTOs.Response.PayrollManagement;
-
 using TALLY_APP.Models.PayrollManagement;
 
 namespace TALLY_APP.Services.PayrollManagement
 {
-    /**
-     * @class EmployeeService
-     * @description Business logic layer for Employee module.
-     */
     public class EmployeeService : IEmployeeService
     {
         private readonly EmployeeRepository _repository;
 
-        /**
-         * @constructor
-         * @param {EmployeeRepository} repository
-         */
         public EmployeeService(EmployeeRepository repository)
         {
             _repository = repository;
         }
 
-        /**
-         * @method All
-         * @returns {Task<List<Employee>>}
-         */
-        
-
         public async Task<List<EmployeeResponse>> All()
         {
-            var entities = await _repository.GetAllAsync();
+            var entities = await _repository.All();
             return entities.Adapt<List<EmployeeResponse>>();
         }
 
-        public async Task<List<EmployeeResponse>> Index()
+        public async Task<PaginatedEmployeeResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc")
         {
-            var entities = await _repository.GetAllAsync();
-            return entities.Adapt<List<EmployeeResponse>>();
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+            if (pageSize > 100) pageSize = 100;
+
+            var (items, totalCount) = await _repository.Index(page, pageSize, search, sortColumn, sortDirection);
+            var data = items.Adapt<List<EmployeeResponse>>();
+            int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            return new PaginatedEmployeeResponse
+            {
+                Data = data,
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                HasPreviousPage = page > 1,
+                HasNextPage = page < totalPages
+            };
         }
 
-
-        /**
-         * @method View
-         * @param {long} id
-         * @returns {Task<Employee>}
-         */
         public async Task<EmployeeResponse> View(long id)
         {
-            var entity = await _repository.GetByIdAsync(id);
+            var entity = await _repository.View(id);
             return entity.Adapt<EmployeeResponse>();
         }
 
-        /**
-         * @method Create
-         * @param {Employee} entity
-         */
         public async Task<EmployeeResponse> Create(EmployeeRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
             var entity = request.Adapt<Employee>();
-            await _repository.AddAsync(entity);
+            entity.CreatedAt = DateTime.UtcNow;
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _repository.Create(entity);
             return entity.Adapt<EmployeeResponse>();
         }
 
-        /**
-         * @method Update
-         * @param {long} id
-         * @param {Employee} entity
-         */
         public async Task<EmployeeResponse> Update(long id, EmployeeRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
             var entity = request.Adapt<Employee>();
             entity.Id = id;
-            await _repository.UpdateAsync(entity);
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _repository.Update(entity);
             return entity.Adapt<EmployeeResponse>();
         }
 
-        /**
-         * @method Delete
-         * @param {long} id
-         */
         public async Task<bool> Delete(long id)
         {
-            await _repository.DeleteAsync(id);
+            await _repository.Delete(id);
             return true;
         }
     }
 }
-
-
-
