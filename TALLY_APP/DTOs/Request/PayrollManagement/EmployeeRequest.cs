@@ -41,7 +41,7 @@ namespace TALLY_APP.DTOs.Request.PayrollManagement
          * Type: DateTime
          * Description: Request property for Employee
          */
-        public DateTime JoiningDate { get; set; }
+        public DateTime? JoiningDate { get; set; }
         /**
          * Field: Department
          * Type: string
@@ -64,28 +64,28 @@ namespace TALLY_APP.DTOs.Request.PayrollManagement
          * Description: Request property for Employee
          */
         [Range(0, double.MaxValue)]
-        public decimal BasicSalary { get; set; }
+        public decimal? BasicSalary { get; set; }
         /**
          * Field: Hra
          * Type: decimal
          * Description: Request property for Employee
          */
         [Range(0, double.MaxValue)]
-        public decimal Hra { get; set; }
+        public decimal? Hra { get; set; }
         /**
          * Field: Allowances
          * Type: decimal
          * Description: Request property for Employee
          */
         [Range(0, double.MaxValue)]
-        public decimal Allowances { get; set; }
+        public decimal? Allowances { get; set; }
         /**
          * Field: GrossSalary
          * Type: decimal
          * Description: Request property for Employee
          */
         [Range(0, double.MaxValue)]
-        public decimal GrossSalary { get; set; }
+        public decimal? GrossSalary { get; set; }
         /**
          * Field: PanNumber
          * Type: string
@@ -131,13 +131,14 @@ namespace TALLY_APP.DTOs.Request.PayrollManagement
          * Type: DateTime
          * Description: Request property for Employee
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for Employee
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

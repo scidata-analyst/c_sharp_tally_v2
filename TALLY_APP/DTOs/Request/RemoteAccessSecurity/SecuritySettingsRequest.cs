@@ -17,7 +17,7 @@ namespace TALLY_APP.DTOs.Request.RemoteAccessSecurity
          * Type: DateTime
          * Description: Request property for SecuritySettings
          */
-        public DateTime LastBackup { get; set; }
+        public DateTime? LastBackup { get; set; }
         /**
          * Field: BackupSchedule
          * Type: string
@@ -71,13 +71,14 @@ namespace TALLY_APP.DTOs.Request.RemoteAccessSecurity
          * Type: DateTime
          * Description: Request property for SecuritySettings
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for SecuritySettings
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

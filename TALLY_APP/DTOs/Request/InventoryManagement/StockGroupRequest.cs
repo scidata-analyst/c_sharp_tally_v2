@@ -33,7 +33,7 @@ namespace TALLY_APP.DTOs.Request.InventoryManagement
          * Type: int
          * Description: Request property for StockGroup
          */
-        public int ItemsCount { get; set; }
+        public int? ItemsCount { get; set; }
         /**
          * Field: ValuationMethod
          * Type: string
@@ -48,7 +48,7 @@ namespace TALLY_APP.DTOs.Request.InventoryManagement
          * Description: Request property for StockGroup
          */
         [Range(0, double.MaxValue)]
-        public decimal TotalValue { get; set; }
+        public decimal? TotalValue { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -62,13 +62,14 @@ namespace TALLY_APP.DTOs.Request.InventoryManagement
          * Type: DateTime
          * Description: Request property for StockGroup
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for StockGroup
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

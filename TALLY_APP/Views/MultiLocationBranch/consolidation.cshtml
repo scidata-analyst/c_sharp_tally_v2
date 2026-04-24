@@ -131,7 +131,7 @@
             const btn = document.querySelector('.modal-footer .btn-tally-primary');
             btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Consolidating...'; btn.disabled = true;
             
-            const fd={branchId:parseInt(document.getElementById('BranchId').value)||null,period:document.getElementById('Period').value.trim(),revenue:parseFloat(document.getElementById('Revenue').value)||0,stockValue:parseFloat(document.getElementById('StockValue').value)||0,consolidatedAt:new Date().toISOString()};
+            const fd={branchId: (document.getElementById("BranchId").value) ? parseInt(document.getElementById("BranchId").value) : null,period:document.getElementById('Period').value.trim(),revenue:parseFloat(document.getElementById('Revenue').value)||0,stockValue:parseFloat(document.getElementById('StockValue').value)||0,consolidatedAt:new Date().toISOString()};
             try{const url=st.editingId?`/BranchConsolidation/update/${st.editingId}`:`/BranchConsolidation/create`;const m=st.editingId?'PUT':'POST';const r=await fetch(url,{method:m,headers:{'Content-Type':'application/json'},body:JSON.stringify(fd)});const d=await r.json();if(!r.ok){if(r.status===400&&d.errors){for(const[f,msgs]of Object.entries(d.errors))showFieldError(f,msgs.join(', '));return;}throw new Error(d.message||'Failed');}closeModal('consModal');showToast(st.editingId?'Consolidation updated!':'Consolidation successful!','success');loadData();}catch(e){showToast('Error: '+e.message,'error');}finally{btn.innerHTML = '<i class="bi bi-lightning-fill"></i> Execute Consolidation'; btn.disabled = false;}
         }
 
@@ -146,3 +146,6 @@
     </script>
 </body>
 </html>
+
+
+

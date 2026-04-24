@@ -25,13 +25,13 @@ namespace TALLY_APP.DTOs.Request.AdditionalFeatures
          * Type: DateTime
          * Description: Request property for ForexTransaction
          */
-        public DateTime TransactionDate { get; set; }
+        public DateTime? TransactionDate { get; set; }
         /**
          * Field: PartyId
          * Type: long
          * Description: Request property for ForexTransaction
          */
-        public long PartyId { get; set; }
+        public long? PartyId { get; set; }
         /**
          * Field: PartyName
          * Type: string
@@ -45,7 +45,7 @@ namespace TALLY_APP.DTOs.Request.AdditionalFeatures
          * Type: long
          * Description: Request property for ForexTransaction
          */
-        public long CurrencyId { get; set; }
+        public long? CurrencyId { get; set; }
         /**
          * Field: Currency
          * Type: string
@@ -60,28 +60,28 @@ namespace TALLY_APP.DTOs.Request.AdditionalFeatures
          * Description: Request property for ForexTransaction
          */
         [Range(0, double.MaxValue)]
-        public decimal ForeignAmount { get; set; }
+        public decimal? ForeignAmount { get; set; }
         /**
          * Field: ExchangeRate
          * Type: decimal
          * Description: Request property for ForexTransaction
          */
         [Range(0, double.MaxValue)]
-        public decimal ExchangeRate { get; set; }
+        public decimal? ExchangeRate { get; set; }
         /**
          * Field: InrAmount
          * Type: decimal
          * Description: Request property for ForexTransaction
          */
         [Range(0, double.MaxValue)]
-        public decimal InrAmount { get; set; }
+        public decimal? InrAmount { get; set; }
         /**
          * Field: ForexGainLoss
          * Type: decimal
          * Description: Request property for ForexTransaction
          */
         [Range(0, double.MaxValue)]
-        public decimal ForexGainLoss { get; set; }
+        public decimal? ForexGainLoss { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -95,7 +95,9 @@ namespace TALLY_APP.DTOs.Request.AdditionalFeatures
          * Type: DateTime
          * Description: Request property for ForexTransaction
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
     }
 }
+
+

@@ -48,7 +48,7 @@ namespace TALLY_APP.DTOs.Request.Dashboard
          * Type: int
          * Description: Request property for DashboardWidget
          */
-        public int Position { get; set; }
+        public int? Position { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -62,13 +62,14 @@ namespace TALLY_APP.DTOs.Request.Dashboard
          * Type: DateTime
          * Description: Request property for DashboardWidget
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for DashboardWidget
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

@@ -26,48 +26,49 @@ namespace TALLY_APP.DTOs.Request.ReportingAnalytics
          * Description: Request property for CashFlowStatement
          */
         [Range(0, double.MaxValue)]
-        public decimal NetProfit { get; set; }
+        public decimal? NetProfit { get; set; }
         /**
          * Field: Depreciation
          * Type: decimal
          * Description: Request property for CashFlowStatement
          */
         [Range(0, double.MaxValue)]
-        public decimal Depreciation { get; set; }
+        public decimal? Depreciation { get; set; }
         /**
          * Field: IncreaseInDebtors
          * Type: decimal
          * Description: Request property for CashFlowStatement
          */
         [Range(0, double.MaxValue)]
-        public decimal IncreaseInDebtors { get; set; }
+        public decimal? IncreaseInDebtors { get; set; }
         /**
          * Field: NetFromOperations
          * Type: decimal
          * Description: Request property for CashFlowStatement
          */
         [Range(0, double.MaxValue)]
-        public decimal NetFromOperations { get; set; }
+        public decimal? NetFromOperations { get; set; }
         /**
          * Field: PurchaseOfAssets
          * Type: decimal
          * Description: Request property for CashFlowStatement
          */
         [Range(0, double.MaxValue)]
-        public decimal PurchaseOfAssets { get; set; }
+        public decimal? PurchaseOfAssets { get; set; }
         /**
          * Field: NetCashFlow
          * Type: decimal
          * Description: Request property for CashFlowStatement
          */
         [Range(0, double.MaxValue)]
-        public decimal NetCashFlow { get; set; }
+        public decimal? NetCashFlow { get; set; }
         /**
          * Field: CreatedAt
          * Type: DateTime
          * Description: Request property for CashFlowStatement
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
     }
 }
+

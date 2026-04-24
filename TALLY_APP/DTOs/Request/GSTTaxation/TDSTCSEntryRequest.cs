@@ -25,7 +25,7 @@ namespace TALLY_APP.DTOs.Request.GSTTaxation
          * Type: long
          * Description: Request property for TDSTCSEntry
          */
-        public long PartyId { get; set; }
+        public long? PartyId { get; set; }
         /**
          * Field: PartyName
          * Type: string
@@ -48,21 +48,21 @@ namespace TALLY_APP.DTOs.Request.GSTTaxation
          * Description: Request property for TDSTCSEntry
          */
         [Range(0, double.MaxValue)]
-        public decimal PaymentAmount { get; set; }
+        public decimal? PaymentAmount { get; set; }
         /**
          * Field: TdsRate
          * Type: decimal
          * Description: Request property for TDSTCSEntry
          */
         [Range(0, double.MaxValue)]
-        public decimal TdsRate { get; set; }
+        public decimal? TdsRate { get; set; }
         /**
          * Field: TdsAmount
          * Type: decimal
          * Description: Request property for TDSTCSEntry
          */
         [Range(0, double.MaxValue)]
-        public decimal TdsAmount { get; set; }
+        public decimal? TdsAmount { get; set; }
         /**
          * Field: CertificateNumber
          * Type: string
@@ -84,13 +84,15 @@ namespace TALLY_APP.DTOs.Request.GSTTaxation
          * Type: DateTime
          * Description: Request property for TDSTCSEntry
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for TDSTCSEntry
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+
+

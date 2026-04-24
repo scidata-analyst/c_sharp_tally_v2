@@ -17,7 +17,7 @@ namespace TALLY_APP.DTOs.Request.BankingPayments
          * Type: long
          * Description: Request property for PaymentReminder
          */
-        public long PartyId { get; set; }
+        public long? PartyId { get; set; }
         /**
          * Field: PartyName
          * Type: string
@@ -40,13 +40,13 @@ namespace TALLY_APP.DTOs.Request.BankingPayments
          * Description: Request property for PaymentReminder
          */
         [Range(0, double.MaxValue)]
-        public decimal Amount { get; set; }
+        public decimal? Amount { get; set; }
         /**
          * Field: OverdueBy
          * Type: int
          * Description: Request property for PaymentReminder
          */
-        public int OverdueBy { get; set; }
+        public int? OverdueBy { get; set; }
         /**
          * Field: ReminderNumber
          * Type: string
@@ -60,7 +60,7 @@ namespace TALLY_APP.DTOs.Request.BankingPayments
          * Type: DateTime
          * Description: Request property for PaymentReminder
          */
-        public DateTime LastSent { get; set; }
+        public DateTime? LastSent { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -74,7 +74,9 @@ namespace TALLY_APP.DTOs.Request.BankingPayments
          * Type: DateTime
          * Description: Request property for PaymentReminder
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
     }
 }
+
+

@@ -17,13 +17,13 @@ namespace TALLY_APP.DTOs.Request.RemoteAccessSecurity
          * Type: DateTime
          * Description: Request property for AuditLog
          */
-        public DateTime Timestamp { get; set; }
+        public DateTime? Timestamp { get; set; }
         /**
          * Field: UserId
          * Type: long
          * Description: Request property for AuditLog
          */
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
         /**
          * Field: UserName
          * Type: string
@@ -77,7 +77,9 @@ namespace TALLY_APP.DTOs.Request.RemoteAccessSecurity
          * Type: DateTime
          * Description: Request property for AuditLog
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
     }
 }
+
+

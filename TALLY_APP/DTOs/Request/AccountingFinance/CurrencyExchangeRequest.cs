@@ -42,20 +42,20 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          * Description: Request property for CurrencyExchange
          */
         [Range(0, double.MaxValue)]
-        public decimal BuyRate { get; set; }
+        public decimal? BuyRate { get; set; }
         /**
          * Field: SellRate
          * Type: decimal
          * Description: Request property for CurrencyExchange
          */
         [Range(0, double.MaxValue)]
-        public decimal SellRate { get; set; }
+        public decimal? SellRate { get; set; }
         /**
          * Field: LastUpdated
          * Type: DateTime
          * Description: Request property for CurrencyExchange
          */
-        public DateTime LastUpdated { get; set; }
+        public DateTime? LastUpdated { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -69,13 +69,14 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          * Type: DateTime
          * Description: Request property for CurrencyExchange
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for CurrencyExchange
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

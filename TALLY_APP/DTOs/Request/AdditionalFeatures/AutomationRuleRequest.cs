@@ -41,13 +41,13 @@ namespace TALLY_APP.DTOs.Request.AdditionalFeatures
          * Type: DateTime
          * Description: Request property for AutomationRule
          */
-        public DateTime NextRun { get; set; }
+        public DateTime? NextRun { get; set; }
         /**
          * Field: LastRun
          * Type: DateTime
          * Description: Request property for AutomationRule
          */
-        public DateTime LastRun { get; set; }
+        public DateTime? LastRun { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -61,13 +61,14 @@ namespace TALLY_APP.DTOs.Request.AdditionalFeatures
          * Type: DateTime
          * Description: Request property for AutomationRule
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for AutomationRule
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

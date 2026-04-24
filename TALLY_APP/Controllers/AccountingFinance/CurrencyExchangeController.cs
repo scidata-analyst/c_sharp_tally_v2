@@ -74,8 +74,7 @@ namespace TALLY_APP.Controllers.AccountingFinance
             if (!ModelState.IsValid)
                 return BadRequest(new { errors = GetModelStateErrors() });
 
-            var result = await _service.Create(request);
-            return Ok(result);
+            try { var result = await _service.Create(request); return Ok(result); } catch (Microsoft.EntityFrameworkCore.DbUpdateException dbEx) { var inner = dbEx.InnerException?.Message ?? ""; if (inner.Contains("foreign key constraint fails")) return BadRequest(new { message = "Invalid ID provided. The related record (e.g. Party or Employee) does not exist." }); return StatusCode(500, new { message = dbEx.Message }); } catch (System.Exception ex) { return StatusCode(500, new { message = ex.Message }); }
         }
 
         /**
@@ -87,8 +86,7 @@ namespace TALLY_APP.Controllers.AccountingFinance
             if (!ModelState.IsValid)
                 return BadRequest(new { errors = GetModelStateErrors() });
 
-            var result = await _service.Update(id, request);
-            return Ok(result);
+            try { var result = await _service.Update(id, request); return Ok(result); } catch (Microsoft.EntityFrameworkCore.DbUpdateException dbEx) { var inner = dbEx.InnerException?.Message ?? ""; if (inner.Contains("foreign key constraint fails")) return BadRequest(new { message = "Invalid ID provided. The related record (e.g. Party or Employee) does not exist." }); return StatusCode(500, new { message = dbEx.Message }); } catch (System.Exception ex) { return StatusCode(500, new { message = ex.Message }); }
         }
 
         /**
@@ -116,6 +114,8 @@ namespace TALLY_APP.Controllers.AccountingFinance
         }
     }
 }
+
+
 
 
 

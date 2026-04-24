@@ -163,7 +163,7 @@
         function sortBy(col){if(st.sortColumn===col)st.sortDirection=st.sortDirection==='asc'?'desc':'asc';else{st.sortColumn=col;st.sortDirection='asc';}st.page=1;loadData();}
         function handleSearch(e){clearTimeout(searchTimer);searchTimer=setTimeout(()=>{st.search=e.target.value.trim();st.page=1;loadData();},500);}
 
-        async function saveRecord(){clearErrors();const fd={employeeId:parseInt(document.getElementById('EmployeeId').value)||null,period:document.getElementById('Period').value.trim(),basicSalary:parseFloat(document.getElementById('BasicSalary').value)||0,hra:parseFloat(document.getElementById('Hra').value)||0,allowances:parseFloat(document.getElementById('Allowances').value)||0,grossPay:parseFloat(document.getElementById('GrossPay').value)||0,pfDeduction:parseFloat(document.getElementById('PfDeduction').value)||0,esiDeduction:parseFloat(document.getElementById('EsiDeduction').value)||0,netPay:parseFloat(document.getElementById('NetPay').value)||0,status:document.getElementById('Status').value,payslipData:'{}'};try{const url=st.editingId?`/Payslip/update/${st.editingId}`:`/Payslip/create`;const m=st.editingId?'PUT':'POST';const r=await fetch(url,{method:m,headers:{'Content-Type':'application/json'},body:JSON.stringify(fd)});const d=await r.json();if(!r.ok){if(r.status===400&&d.errors){for(const[f,msgs]of Object.entries(d.errors))showFieldError(f,msgs.join(', '));return;}throw new Error(d.message||'Failed');}closeModal('payslipModal');showToast(st.editingId?'Payslip updated!':'Payslip generated!','success');loadData();}catch(e){showToast('Save failed: '+e.message,'error');}}
+        async function saveRecord(){clearErrors();const fd={employeeId: (document.getElementById("EmployeeId").value) ? parseInt(document.getElementById("EmployeeId").value) : null,period:document.getElementById('Period').value.trim(),basicSalary: (document.getElementById("BasicSalary").value) ? parseFloat(document.getElementById("BasicSalary").value) : null,hra:parseFloat(document.getElementById('Hra').value)||0,allowances:parseFloat(document.getElementById('Allowances').value)||0,grossPay:parseFloat(document.getElementById('GrossPay').value)||0,pfDeduction: (document.getElementById("PfDeduction").value) ? parseFloat(document.getElementById("PfDeduction").value) : null,esiDeduction: (document.getElementById("EsiDeduction").value) ? parseFloat(document.getElementById("EsiDeduction").value) : null,netPay: (document.getElementById("NetPay").value) ? parseFloat(document.getElementById("NetPay").value) : null,status:document.getElementById('Status').value,payslipData:'{}'};try{const url=st.editingId?`/Payslip/update/${st.editingId}`:`/Payslip/create`;const m=st.editingId?'PUT':'POST';const r=await fetch(url,{method:m,headers:{'Content-Type':'application/json'},body:JSON.stringify(fd)});const d=await r.json();if(!r.ok){if(r.status===400&&d.errors){for(const[f,msgs]of Object.entries(d.errors))showFieldError(f,msgs.join(', '));return;}throw new Error(d.message||'Failed');}closeModal('payslipModal');showToast(st.editingId?'Payslip updated!':'Payslip generated!','success');loadData();}catch(e){showToast('Save failed: '+e.message,'error');}}
 
         function viewPayslip(id) {
             const item = st.data.find(i=>i.id===id);
@@ -192,3 +192,7 @@
     </script>
 </body>
 </html>
+
+
+
+

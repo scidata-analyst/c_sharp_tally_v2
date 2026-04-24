@@ -56,7 +56,7 @@ namespace TALLY_APP.DTOs.Request.RemoteAccessSecurity
          * Type: DateTime
          * Description: Request property for SystemUser
          */
-        public DateTime LastLogin { get; set; }
+        public DateTime? LastLogin { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -70,13 +70,14 @@ namespace TALLY_APP.DTOs.Request.RemoteAccessSecurity
          * Type: DateTime
          * Description: Request property for SystemUser
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for SystemUser
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

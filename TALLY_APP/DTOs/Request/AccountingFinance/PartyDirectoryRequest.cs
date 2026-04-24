@@ -73,13 +73,13 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          * Description: Request property for PartyDirectory
          */
         [Range(0, double.MaxValue)]
-        public decimal CreditLimit { get; set; }
+        public decimal? CreditLimit { get; set; }
         /**
          * Field: CreditPeriod
          * Type: int
          * Description: Request property for PartyDirectory
          */
-        public int CreditPeriod { get; set; }
+        public int? CreditPeriod { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -93,13 +93,14 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          * Type: DateTime
          * Description: Request property for PartyDirectory
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for PartyDirectory
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

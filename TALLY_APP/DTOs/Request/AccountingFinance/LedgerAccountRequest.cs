@@ -50,7 +50,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          * Description: Request property for LedgerAccount
          */
         [Range(0, double.MaxValue)]
-        public decimal OpeningBalance { get; set; }
+        public decimal? OpeningBalance { get; set; }
         /**
          * Field: BalanceType
          * Type: string
@@ -86,13 +86,14 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          * Type: DateTime
          * Description: Request property for LedgerAccount
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for LedgerAccount
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

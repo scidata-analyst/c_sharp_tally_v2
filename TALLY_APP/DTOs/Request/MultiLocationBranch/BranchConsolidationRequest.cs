@@ -17,7 +17,7 @@ namespace TALLY_APP.DTOs.Request.MultiLocationBranch
          * Type: long
          * Description: Request property for BranchConsolidation
          */
-        public long BranchId { get; set; }
+        public long? BranchId { get; set; }
         /**
          * Field: Period
          * Type: string
@@ -32,26 +32,28 @@ namespace TALLY_APP.DTOs.Request.MultiLocationBranch
          * Description: Request property for BranchConsolidation
          */
         [Range(0, double.MaxValue)]
-        public decimal Revenue { get; set; }
+        public decimal? Revenue { get; set; }
         /**
          * Field: StockValue
          * Type: decimal
          * Description: Request property for BranchConsolidation
          */
         [Range(0, double.MaxValue)]
-        public decimal StockValue { get; set; }
+        public decimal? StockValue { get; set; }
         /**
          * Field: ConsolidatedAt
          * Type: DateTime
          * Description: Request property for BranchConsolidation
          */
-        public DateTime ConsolidatedAt { get; set; }
+        public DateTime? ConsolidatedAt { get; set; }
         /**
          * Field: CreatedAt
          * Type: DateTime
          * Description: Request property for BranchConsolidation
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
     }
 }
+
+

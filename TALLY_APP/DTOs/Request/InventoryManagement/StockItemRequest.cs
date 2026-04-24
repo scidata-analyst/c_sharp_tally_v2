@@ -33,7 +33,7 @@ namespace TALLY_APP.DTOs.Request.InventoryManagement
          * Type: long
          * Description: Request property for StockItem
          */
-        public long StockGroupId { get; set; }
+        public long? StockGroupId { get; set; }
         /**
          * Field: Category
          * Type: string
@@ -55,21 +55,21 @@ namespace TALLY_APP.DTOs.Request.InventoryManagement
          * Type: int
          * Description: Request property for StockItem
          */
-        public int OpeningQty { get; set; }
+        public int? OpeningQty { get; set; }
         /**
          * Field: PurchaseRate
          * Type: decimal
          * Description: Request property for StockItem
          */
         [Range(0, double.MaxValue)]
-        public decimal PurchaseRate { get; set; }
+        public decimal? PurchaseRate { get; set; }
         /**
          * Field: SellingRate
          * Type: decimal
          * Description: Request property for StockItem
          */
         [Range(0, double.MaxValue)]
-        public decimal SellingRate { get; set; }
+        public decimal? SellingRate { get; set; }
         /**
          * Field: ValuationMethod
          * Type: string
@@ -83,14 +83,14 @@ namespace TALLY_APP.DTOs.Request.InventoryManagement
          * Type: int
          * Description: Request property for StockItem
          */
-        public int ReorderLevel { get; set; }
+        public int? ReorderLevel { get; set; }
         /**
          * Field: GstRate
          * Type: decimal
          * Description: Request property for StockItem
          */
         [Range(0, double.MaxValue)]
-        public decimal GstRate { get; set; }
+        public decimal? GstRate { get; set; }
         /**
          * Field: HsnSacCode
          * Type: string
@@ -112,13 +112,15 @@ namespace TALLY_APP.DTOs.Request.InventoryManagement
          * Type: DateTime
          * Description: Request property for StockItem
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for StockItem
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+
+

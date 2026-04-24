@@ -17,40 +17,40 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          * Type: long
          * Description: Request property for BankReconciliation
          */
-        public long BankAccountId { get; set; }
+        public long? BankAccountId { get; set; }
         /**
          * Field: StatementDate
          * Type: DateTime
          * Description: Request property for BankReconciliation
          */
-        public DateTime StatementDate { get; set; }
+        public DateTime? StatementDate { get; set; }
         /**
          * Field: BankBalance
          * Type: decimal
          * Description: Request property for BankReconciliation
          */
         [Range(0, double.MaxValue)]
-        public decimal BankBalance { get; set; }
+        public decimal? BankBalance { get; set; }
         /**
          * Field: BookBalance
          * Type: decimal
          * Description: Request property for BankReconciliation
          */
         [Range(0, double.MaxValue)]
-        public decimal BookBalance { get; set; }
+        public decimal? BookBalance { get; set; }
         /**
          * Field: UnreconciledAmount
          * Type: decimal
          * Description: Request property for BankReconciliation
          */
         [Range(0, double.MaxValue)]
-        public decimal UnreconciledAmount { get; set; }
+        public decimal? UnreconciledAmount { get; set; }
         /**
          * Field: PendingItems
          * Type: int
          * Description: Request property for BankReconciliation
          */
-        public int PendingItems { get; set; }
+        public int? PendingItems { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -64,13 +64,15 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          * Type: DateTime
          * Description: Request property for BankReconciliation
          */
-        public DateTime ReconciledAt { get; set; }
+        public DateTime? ReconciledAt { get; set; }
         /**
          * Field: CreatedAt
          * Type: DateTime
          * Description: Request property for BankReconciliation
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
     }
 }
+
+

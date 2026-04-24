@@ -26,34 +26,35 @@ namespace TALLY_APP.DTOs.Request.ReportingAnalytics
          * Description: Request property for SalesPurchaseSummary
          */
         [Range(0, double.MaxValue)]
-        public decimal TotalSales { get; set; }
+        public decimal? TotalSales { get; set; }
         /**
          * Field: TotalPurchases
          * Type: decimal
          * Description: Request property for SalesPurchaseSummary
          */
         [Range(0, double.MaxValue)]
-        public decimal TotalPurchases { get; set; }
+        public decimal? TotalPurchases { get; set; }
         /**
          * Field: GrossMargin
          * Type: decimal
          * Description: Request property for SalesPurchaseSummary
          */
         [Range(0, double.MaxValue)]
-        public decimal GrossMargin { get; set; }
+        public decimal? GrossMargin { get; set; }
         /**
          * Field: ReturnOnSales
          * Type: decimal
          * Description: Request property for SalesPurchaseSummary
          */
         [Range(0, double.MaxValue)]
-        public decimal ReturnOnSales { get; set; }
+        public decimal? ReturnOnSales { get; set; }
         /**
          * Field: CreatedAt
          * Type: DateTime
          * Description: Request property for SalesPurchaseSummary
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
     }
 }
+

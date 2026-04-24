@@ -140,7 +140,7 @@
         function sortBy(col){if(st.sortColumn===col)st.sortDirection=st.sortDirection==='asc'?'desc':'asc';else{st.sortColumn=col;st.sortDirection='asc';}st.page=1;loadData();}
         function handleSearch(e){clearTimeout(searchTimer);searchTimer=setTimeout(()=>{st.search=e.target.value.trim();st.page=1;loadData();},500);}
 
-        async function saveRecord(){clearErrors();const fd={taxType:document.getElementById('TaxType').value,period:document.getElementById('Period').value.trim(),outputTax:parseFloat(document.getElementById('OutputTax').value)||0,inputTax:parseFloat(document.getElementById('InputTax').value)||0,netTaxPayable:parseFloat(document.getElementById('NetTaxPayable').value)||0,status:document.getElementById('Status').value};try{const url=st.editingId?`/VATServiceTax/update/${st.editingId}`:`/VATServiceTax/create`;const m=st.editingId?'PUT':'POST';const r=await fetch(url,{method:m,headers:{'Content-Type':'application/json'},body:JSON.stringify(fd)});const d=await r.json();if(!r.ok){if(r.status===400&&d.errors){for(const[f,msgs]of Object.entries(d.errors))showFieldError(f,msgs.join(', '));return;}throw new Error(d.message||'Failed');}closeModal('vatModal');showToast(st.editingId?'Record updated!':'Record saved!','success');loadData();}catch(e){showToast('Save failed: '+e.message,'error');}}
+        async function saveRecord(){clearErrors();const fd={taxType:document.getElementById('TaxType').value,period:document.getElementById('Period').value.trim(),outputTax: (document.getElementById("OutputTax").value) ? parseFloat(document.getElementById("OutputTax").value) : null,inputTax: (document.getElementById("InputTax").value) ? parseFloat(document.getElementById("InputTax").value) : null,netTaxPayable:parseFloat(document.getElementById('NetTaxPayable').value)||0,status:document.getElementById('Status').value};try{const url=st.editingId?`/VATServiceTax/update/${st.editingId}`:`/VATServiceTax/create`;const m=st.editingId?'PUT':'POST';const r=await fetch(url,{method:m,headers:{'Content-Type':'application/json'},body:JSON.stringify(fd)});const d=await r.json();if(!r.ok){if(r.status===400&&d.errors){for(const[f,msgs]of Object.entries(d.errors))showFieldError(f,msgs.join(', '));return;}throw new Error(d.message||'Failed');}closeModal('vatModal');showToast(st.editingId?'Record updated!':'Record saved!','success');loadData();}catch(e){showToast('Save failed: '+e.message,'error');}}
 
         function editItem(id){const item=st.data.find(i=>i.id===id);if(item)openModal('vatModal',item);} function deleteItem(id){deleteTarget={id};openModal('deleteModal');}
         async function confirmDelete(){if(!deleteTarget)return;try{const r=await fetch(`/VATServiceTax/delete/${deleteTarget.id}`,{method:'DELETE'});if(!r.ok)throw new Error();closeModal('deleteModal');showToast('Deleted','success');loadData();}catch(e){showToast('Delete failed','error');}finally{deleteTarget=null;}}
@@ -153,3 +153,6 @@
     </script>
 </body>
 </html>
+
+
+

@@ -33,44 +33,45 @@ namespace TALLY_APP.DTOs.Request.ReportingAnalytics
          * Type: int
          * Description: Request property for StockReport
          */
-        public int OpeningQty { get; set; }
+        public int? OpeningQty { get; set; }
         /**
          * Field: StockIn
          * Type: int
          * Description: Request property for StockReport
          */
-        public int StockIn { get; set; }
+        public int? StockIn { get; set; }
         /**
          * Field: StockOut
          * Type: int
          * Description: Request property for StockReport
          */
-        public int StockOut { get; set; }
+        public int? StockOut { get; set; }
         /**
          * Field: ClosingQty
          * Type: int
          * Description: Request property for StockReport
          */
-        public int ClosingQty { get; set; }
+        public int? ClosingQty { get; set; }
         /**
          * Field: StockValue
          * Type: decimal
          * Description: Request property for StockReport
          */
         [Range(0, double.MaxValue)]
-        public decimal StockValue { get; set; }
+        public decimal? StockValue { get; set; }
         /**
          * Field: ReportDate
          * Type: DateTime
          * Description: Request property for StockReport
          */
-        public DateTime ReportDate { get; set; }
+        public DateTime? ReportDate { get; set; }
         /**
          * Field: CreatedAt
          * Type: DateTime
          * Description: Request property for StockReport
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
     }
 }
+

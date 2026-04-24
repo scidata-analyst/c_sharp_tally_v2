@@ -26,21 +26,21 @@ namespace TALLY_APP.DTOs.Request.GSTTaxation
          * Description: Request property for VATServiceTax
          */
         [Range(0, double.MaxValue)]
-        public decimal OutputTax { get; set; }
+        public decimal? OutputTax { get; set; }
         /**
          * Field: InputTax
          * Type: decimal
          * Description: Request property for VATServiceTax
          */
         [Range(0, double.MaxValue)]
-        public decimal InputTax { get; set; }
+        public decimal? InputTax { get; set; }
         /**
          * Field: NetTaxPayable
          * Type: decimal
          * Description: Request property for VATServiceTax
          */
         [Range(0, double.MaxValue)]
-        public decimal NetTaxPayable { get; set; }
+        public decimal? NetTaxPayable { get; set; }
         /**
          * Field: Period
          * Type: string
@@ -62,13 +62,14 @@ namespace TALLY_APP.DTOs.Request.GSTTaxation
          * Type: DateTime
          * Description: Request property for VATServiceTax
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for VATServiceTax
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

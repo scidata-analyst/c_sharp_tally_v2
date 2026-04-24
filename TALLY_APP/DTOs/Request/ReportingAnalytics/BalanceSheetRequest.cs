@@ -26,76 +26,77 @@ namespace TALLY_APP.DTOs.Request.ReportingAnalytics
          * Description: Request property for BalanceSheet
          */
         [Range(0, double.MaxValue)]
-        public decimal ShareCapital { get; set; }
+        public decimal? ShareCapital { get; set; }
         /**
          * Field: ReservesSurplus
          * Type: decimal
          * Description: Request property for BalanceSheet
          */
         [Range(0, double.MaxValue)]
-        public decimal ReservesSurplus { get; set; }
+        public decimal? ReservesSurplus { get; set; }
         /**
          * Field: SundryCreditors
          * Type: decimal
          * Description: Request property for BalanceSheet
          */
         [Range(0, double.MaxValue)]
-        public decimal SundryCreditors { get; set; }
+        public decimal? SundryCreditors { get; set; }
         /**
          * Field: GstPayable
          * Type: decimal
          * Description: Request property for BalanceSheet
          */
         [Range(0, double.MaxValue)]
-        public decimal GstPayable { get; set; }
+        public decimal? GstPayable { get; set; }
         /**
          * Field: TotalLiabilities
          * Type: decimal
          * Description: Request property for BalanceSheet
          */
         [Range(0, double.MaxValue)]
-        public decimal TotalLiabilities { get; set; }
+        public decimal? TotalLiabilities { get; set; }
         /**
          * Field: FixedAssets
          * Type: decimal
          * Description: Request property for BalanceSheet
          */
         [Range(0, double.MaxValue)]
-        public decimal FixedAssets { get; set; }
+        public decimal? FixedAssets { get; set; }
         /**
          * Field: StockInTrade
          * Type: decimal
          * Description: Request property for BalanceSheet
          */
         [Range(0, double.MaxValue)]
-        public decimal StockInTrade { get; set; }
+        public decimal? StockInTrade { get; set; }
         /**
          * Field: SundryDebtors
          * Type: decimal
          * Description: Request property for BalanceSheet
          */
         [Range(0, double.MaxValue)]
-        public decimal SundryDebtors { get; set; }
+        public decimal? SundryDebtors { get; set; }
         /**
          * Field: CashBank
          * Type: decimal
          * Description: Request property for BalanceSheet
          */
         [Range(0, double.MaxValue)]
-        public decimal CashBank { get; set; }
+        public decimal? CashBank { get; set; }
         /**
          * Field: TotalAssets
          * Type: decimal
          * Description: Request property for BalanceSheet
          */
         [Range(0, double.MaxValue)]
-        public decimal TotalAssets { get; set; }
+        public decimal? TotalAssets { get; set; }
         /**
          * Field: CreatedAt
          * Type: DateTime
          * Description: Request property for BalanceSheet
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
     }
 }
+

@@ -50,14 +50,14 @@ namespace TALLY_APP.DTOs.Request.InventoryManagement
          * Description: Request property for Godown
          */
         [Range(0, double.MaxValue)]
-        public decimal UsedPercentage { get; set; }
+        public decimal? UsedPercentage { get; set; }
         /**
          * Field: StockValue
          * Type: decimal
          * Description: Request property for Godown
          */
         [Range(0, double.MaxValue)]
-        public decimal StockValue { get; set; }
+        public decimal? StockValue { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -71,13 +71,14 @@ namespace TALLY_APP.DTOs.Request.InventoryManagement
          * Type: DateTime
          * Description: Request property for Godown
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for Godown
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

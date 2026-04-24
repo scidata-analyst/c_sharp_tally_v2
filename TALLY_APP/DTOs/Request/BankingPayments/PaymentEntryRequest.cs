@@ -25,7 +25,7 @@ namespace TALLY_APP.DTOs.Request.BankingPayments
          * Type: DateTime
          * Description: Request property for PaymentEntry
          */
-        public DateTime PaymentDate { get; set; }
+        public DateTime? PaymentDate { get; set; }
         /**
          * Field: PaymentMode
          * Type: string
@@ -39,7 +39,7 @@ namespace TALLY_APP.DTOs.Request.BankingPayments
          * Type: long
          * Description: Request property for PaymentEntry
          */
-        public long PartyId { get; set; }
+        public long? PartyId { get; set; }
         /**
          * Field: PartyName
          * Type: string
@@ -53,7 +53,7 @@ namespace TALLY_APP.DTOs.Request.BankingPayments
          * Type: long
          * Description: Request property for PaymentEntry
          */
-        public long BankAccountId { get; set; }
+        public long? BankAccountId { get; set; }
         /**
          * Field: BankAccount
          * Type: string
@@ -76,7 +76,7 @@ namespace TALLY_APP.DTOs.Request.BankingPayments
          * Description: Request property for PaymentEntry
          */
         [Range(0, double.MaxValue)]
-        public decimal Amount { get; set; }
+        public decimal? Amount { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -90,13 +90,15 @@ namespace TALLY_APP.DTOs.Request.BankingPayments
          * Type: DateTime
          * Description: Request property for PaymentEntry
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for PaymentEntry
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+
+

@@ -150,7 +150,7 @@
         function sortBy(col){if(st.sortColumn===col)st.sortDirection=st.sortDirection==='asc'?'desc':'asc';else{st.sortColumn=col;st.sortDirection='asc';}st.page=1;loadData();}
         function handleSearch(e){clearTimeout(searchTimer);searchTimer=setTimeout(()=>{st.search=e.target.value.trim();st.page=1;loadData();},500);}
 
-        async function saveRecord(){clearErrors();const fd={section:document.getElementById('Section').value,partyName:document.getElementById('PartyName').value.trim(),panNumber:document.getElementById('PanNumber').value.trim(),partyId:parseInt(document.getElementById('PartyId').value)||null,paymentAmount:parseFloat(document.getElementById('PaymentAmount').value)||0,tdsRate:parseFloat(document.getElementById('TdsRate').value)||0,tdsAmount:parseFloat(document.getElementById('TdsAmount').value)||0,certificateNumber:document.getElementById('CertificateNumber').value.trim(),status:document.getElementById('Status').value};try{const url=st.editingId?`/TDSTCSEntry/update/${st.editingId}`:`/TDSTCSEntry/create`;const m=st.editingId?'PUT':'POST';const r=await fetch(url,{method:m,headers:{'Content-Type':'application/json'},body:JSON.stringify(fd)});const d=await r.json();if(!r.ok){if(r.status===400&&d.errors){for(const[f,msgs]of Object.entries(d.errors))showFieldError(f,msgs.join(', '));return;}throw new Error(d.message||'Failed');}closeModal('tdsModal');showToast(st.editingId?'Entry updated!':'Entry saved!','success');loadData();}catch(e){showToast('Save failed: '+e.message,'error');}}
+        async function saveRecord(){clearErrors();const fd={section:document.getElementById('Section').value,partyName:document.getElementById('PartyName').value.trim(),panNumber:document.getElementById('PanNumber').value.trim(),partyId: (document.getElementById("PartyId").value) ? parseInt(document.getElementById("PartyId").value) : null,paymentAmount: (document.getElementById("PaymentAmount").value) ? parseFloat(document.getElementById("PaymentAmount").value) : null,tdsRate: (document.getElementById("TdsRate").value) ? parseFloat(document.getElementById("TdsRate").value) : null,tdsAmount: (document.getElementById("TdsAmount").value) ? parseFloat(document.getElementById("TdsAmount").value) : null,certificateNumber:document.getElementById('CertificateNumber').value.trim(),status:document.getElementById('Status').value};try{const url=st.editingId?`/TDSTCSEntry/update/${st.editingId}`:`/TDSTCSEntry/create`;const m=st.editingId?'PUT':'POST';const r=await fetch(url,{method:m,headers:{'Content-Type':'application/json'},body:JSON.stringify(fd)});const d=await r.json();if(!r.ok){if(r.status===400&&d.errors){for(const[f,msgs]of Object.entries(d.errors))showFieldError(f,msgs.join(', '));return;}throw new Error(d.message||'Failed');}closeModal('tdsModal');showToast(st.editingId?'Entry updated!':'Entry saved!','success');loadData();}catch(e){showToast('Save failed: '+e.message,'error');}}
 
         function editItem(id){const item=st.data.find(i=>i.id===id);if(item)openModal('tdsModal',item);} function deleteItem(id){deleteTarget={id};openModal('deleteModal');}
         async function confirmDelete(){if(!deleteTarget)return;try{const r=await fetch(`/TDSTCSEntry/delete/${deleteTarget.id}`,{method:'DELETE'});if(!r.ok)throw new Error();closeModal('deleteModal');showToast('Deleted','success');loadData();}catch(e){showToast('Delete failed','error');}finally{deleteTarget=null;}}
@@ -163,3 +163,8 @@
     </script>
 </body>
 </html>
+
+
+
+
+

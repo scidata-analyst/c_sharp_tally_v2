@@ -25,34 +25,34 @@ namespace TALLY_APP.DTOs.Request.PayrollManagement
          * Type: long
          * Description: Request property for StatutoryDeduction
          */
-        public long EmployeeId { get; set; }
+        public long? EmployeeId { get; set; }
         /**
          * Field: EmployeeContribution
          * Type: decimal
          * Description: Request property for StatutoryDeduction
          */
         [Range(0, double.MaxValue)]
-        public decimal EmployeeContribution { get; set; }
+        public decimal? EmployeeContribution { get; set; }
         /**
          * Field: EmployerContribution
          * Type: decimal
          * Description: Request property for StatutoryDeduction
          */
         [Range(0, double.MaxValue)]
-        public decimal EmployerContribution { get; set; }
+        public decimal? EmployerContribution { get; set; }
         /**
          * Field: TotalDeduction
          * Type: decimal
          * Description: Request property for StatutoryDeduction
          */
         [Range(0, double.MaxValue)]
-        public decimal TotalDeduction { get; set; }
+        public decimal? TotalDeduction { get; set; }
         /**
          * Field: DueDate
          * Type: DateTime
          * Description: Request property for StatutoryDeduction
          */
-        public DateTime DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
         /**
          * Field: Period
          * Type: string
@@ -74,13 +74,15 @@ namespace TALLY_APP.DTOs.Request.PayrollManagement
          * Type: DateTime
          * Description: Request property for StatutoryDeduction
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for StatutoryDeduction
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+
+

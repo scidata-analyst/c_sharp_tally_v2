@@ -33,7 +33,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          * Type: DateTime
          * Description: Request property for VoucherEntry
          */
-        public DateTime VoucherDate { get; set; }
+        public DateTime? VoucherDate { get; set; }
         /**
          * Field: PartyId
          * Type: long?
@@ -46,7 +46,7 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          * Description: Request property for VoucherEntry
          */
         [Range(0, double.MaxValue)]
-        public decimal Amount { get; set; }
+        public decimal? Amount { get; set; }
         /**
          * Field: PaymentMode
          * Type: string
@@ -89,13 +89,14 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          * Type: DateTime
          * Description: Request property for VoucherEntry
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for VoucherEntry
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

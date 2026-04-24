@@ -108,6 +108,11 @@
         function changePageSize() { st.pageSize = document.getElementById('pageSizeSelect').value; st.page = 1; loadData(); }
         function showToast(m, t) { const c = document.getElementById('toastContainer'); const e = document.createElement('div'); e.className = `tally-toast ${t}`; e.textContent = m; c.appendChild(e); setTimeout(() => e.remove(), 3000); }
         document.addEventListener('DOMContentLoaded', loadData);
-    </script>
+    
+        function clearErrors() { document.querySelectorAll('.field-error').forEach(el => el.textContent = ''); }
+        function showFieldError(f, msg) { const el = document.getElementById('error-' + f); if (el) el.textContent = msg; }
+</script>
 </body>
 </html>
+
+

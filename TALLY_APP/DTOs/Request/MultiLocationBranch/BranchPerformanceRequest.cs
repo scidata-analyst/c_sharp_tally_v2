@@ -26,55 +26,56 @@ namespace TALLY_APP.DTOs.Request.MultiLocationBranch
          * Description: Request property for BranchPerformance
          */
         [Range(0, double.MaxValue)]
-        public decimal OpeningStock { get; set; }
+        public decimal? OpeningStock { get; set; }
         /**
          * Field: Received
          * Type: decimal
          * Description: Request property for BranchPerformance
          */
         [Range(0, double.MaxValue)]
-        public decimal Received { get; set; }
+        public decimal? Received { get; set; }
         /**
          * Field: Sold
          * Type: decimal
          * Description: Request property for BranchPerformance
          */
         [Range(0, double.MaxValue)]
-        public decimal Sold { get; set; }
+        public decimal? Sold { get; set; }
         /**
          * Field: ClosingStock
          * Type: decimal
          * Description: Request property for BranchPerformance
          */
         [Range(0, double.MaxValue)]
-        public decimal ClosingStock { get; set; }
+        public decimal? ClosingStock { get; set; }
         /**
          * Field: Revenue
          * Type: decimal
          * Description: Request property for BranchPerformance
          */
         [Range(0, double.MaxValue)]
-        public decimal Revenue { get; set; }
+        public decimal? Revenue { get; set; }
         /**
          * Field: Target
          * Type: decimal
          * Description: Request property for BranchPerformance
          */
         [Range(0, double.MaxValue)]
-        public decimal Target { get; set; }
+        public decimal? Target { get; set; }
         /**
          * Field: AchievedPercentage
          * Type: decimal
          * Description: Request property for BranchPerformance
          */
         [Range(0, double.MaxValue)]
-        public decimal AchievedPercentage { get; set; }
+        public decimal? AchievedPercentage { get; set; }
         /**
          * Field: CreatedAt
          * Type: DateTime
          * Description: Request property for BranchPerformance
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
     }
 }
+

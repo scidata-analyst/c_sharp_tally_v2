@@ -48,7 +48,7 @@ namespace TALLY_APP.DTOs.Request.AdditionalFeatures
          * Type: DateTime
          * Description: Request property for CustomReport
          */
-        public DateTime LastGenerated { get; set; }
+        public DateTime? LastGenerated { get; set; }
         /**
          * Field: Schedule
          * Type: string
@@ -70,13 +70,14 @@ namespace TALLY_APP.DTOs.Request.AdditionalFeatures
          * Type: DateTime
          * Description: Request property for CustomReport
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for CustomReport
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

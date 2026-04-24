@@ -26,28 +26,28 @@ namespace TALLY_APP.DTOs.Request.AdditionalFeatures
          * Description: Request property for Budget
          */
         [Range(0, double.MaxValue)]
-        public decimal AnnualBudget { get; set; }
+        public decimal? AnnualBudget { get; set; }
         /**
          * Field: SpentYTD
          * Type: decimal
          * Description: Request property for Budget
          */
         [Range(0, double.MaxValue)]
-        public decimal SpentYTD { get; set; }
+        public decimal? SpentYTD { get; set; }
         /**
          * Field: Remaining
          * Type: decimal
          * Description: Request property for Budget
          */
         [Range(0, double.MaxValue)]
-        public decimal Remaining { get; set; }
+        public decimal? Remaining { get; set; }
         /**
          * Field: PercentageUsed
          * Type: decimal
          * Description: Request property for Budget
          */
         [Range(0, double.MaxValue)]
-        public decimal PercentageUsed { get; set; }
+        public decimal? PercentageUsed { get; set; }
         /**
          * Field: Period
          * Type: string
@@ -69,13 +69,14 @@ namespace TALLY_APP.DTOs.Request.AdditionalFeatures
          * Type: DateTime
          * Description: Request property for Budget
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for Budget
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

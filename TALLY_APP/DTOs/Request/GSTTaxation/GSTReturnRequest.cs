@@ -33,42 +33,42 @@ namespace TALLY_APP.DTOs.Request.GSTTaxation
          * Type: DateTime
          * Description: Request property for GSTReturn
          */
-        public DateTime DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
         /**
          * Field: TotalOutward
          * Type: decimal
          * Description: Request property for GSTReturn
          */
         [Range(0, double.MaxValue)]
-        public decimal TotalOutward { get; set; }
+        public decimal? TotalOutward { get; set; }
         /**
          * Field: TaxCollected
          * Type: decimal
          * Description: Request property for GSTReturn
          */
         [Range(0, double.MaxValue)]
-        public decimal TaxCollected { get; set; }
+        public decimal? TaxCollected { get; set; }
         /**
          * Field: TotalInward
          * Type: decimal
          * Description: Request property for GSTReturn
          */
         [Range(0, double.MaxValue)]
-        public decimal TotalInward { get; set; }
+        public decimal? TotalInward { get; set; }
         /**
          * Field: ItcAvailable
          * Type: decimal
          * Description: Request property for GSTReturn
          */
         [Range(0, double.MaxValue)]
-        public decimal ItcAvailable { get; set; }
+        public decimal? ItcAvailable { get; set; }
         /**
          * Field: NetPayable
          * Type: decimal
          * Description: Request property for GSTReturn
          */
         [Range(0, double.MaxValue)]
-        public decimal NetPayable { get; set; }
+        public decimal? NetPayable { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -82,13 +82,14 @@ namespace TALLY_APP.DTOs.Request.GSTTaxation
          * Type: DateTime
          * Description: Request property for GSTReturn
          */
-        public DateTime FiledDate { get; set; }
+        public DateTime? FiledDate { get; set; }
         /**
          * Field: CreatedAt
          * Type: DateTime
          * Description: Request property for GSTReturn
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
     }
 }
+

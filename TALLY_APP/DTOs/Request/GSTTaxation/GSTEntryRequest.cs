@@ -25,13 +25,13 @@ namespace TALLY_APP.DTOs.Request.GSTTaxation
          * Type: DateTime
          * Description: Request property for GSTEntry
          */
-        public DateTime InvoiceDate { get; set; }
+        public DateTime? InvoiceDate { get; set; }
         /**
          * Field: PartyId
          * Type: long
          * Description: Request property for GSTEntry
          */
-        public long PartyId { get; set; }
+        public long? PartyId { get; set; }
         /**
          * Field: PartyName
          * Type: string
@@ -70,42 +70,42 @@ namespace TALLY_APP.DTOs.Request.GSTTaxation
          * Description: Request property for GSTEntry
          */
         [Range(0, double.MaxValue)]
-        public decimal TaxableAmount { get; set; }
+        public decimal? TaxableAmount { get; set; }
         /**
          * Field: GstRate
          * Type: decimal
          * Description: Request property for GSTEntry
          */
         [Range(0, double.MaxValue)]
-        public decimal GstRate { get; set; }
+        public decimal? GstRate { get; set; }
         /**
          * Field: CgstAmount
          * Type: decimal
          * Description: Request property for GSTEntry
          */
         [Range(0, double.MaxValue)]
-        public decimal CgstAmount { get; set; }
+        public decimal? CgstAmount { get; set; }
         /**
          * Field: SgstAmount
          * Type: decimal
          * Description: Request property for GSTEntry
          */
         [Range(0, double.MaxValue)]
-        public decimal SgstAmount { get; set; }
+        public decimal? SgstAmount { get; set; }
         /**
          * Field: IgstAmount
          * Type: decimal
          * Description: Request property for GSTEntry
          */
         [Range(0, double.MaxValue)]
-        public decimal IgstAmount { get; set; }
+        public decimal? IgstAmount { get; set; }
         /**
          * Field: TotalTax
          * Type: decimal
          * Description: Request property for GSTEntry
          */
         [Range(0, double.MaxValue)]
-        public decimal TotalTax { get; set; }
+        public decimal? TotalTax { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -119,13 +119,15 @@ namespace TALLY_APP.DTOs.Request.GSTTaxation
          * Type: DateTime
          * Description: Request property for GSTEntry
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for GSTEntry
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+
+

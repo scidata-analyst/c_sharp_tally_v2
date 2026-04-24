@@ -73,7 +73,7 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
         [HttpPost("create")]
         public async Task<ActionResult<BalanceSheetResponse>> Create([FromBody] BalanceSheetRequest request)
         {
-            return await _service.Create(request);
+            try { return await _service.Create(request); } catch (Microsoft.EntityFrameworkCore.DbUpdateException dbEx) { var inner = dbEx.InnerException?.Message ?? ""; if (inner.Contains("foreign key constraint fails")) return BadRequest(new { message = "Invalid ID provided. The related record (e.g. Party or Employee) does not exist." }); return StatusCode(500, new { message = dbEx.Message }); } catch (System.Exception ex) { return StatusCode(500, new { message = ex.Message }); }
         }
 
         /**
@@ -103,6 +103,8 @@ namespace TALLY_APP.Controllers.ReportingAnalytics
         }
     }
 }
+
+
 
 
 

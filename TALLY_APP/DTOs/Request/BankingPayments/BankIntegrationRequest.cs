@@ -57,7 +57,7 @@ namespace TALLY_APP.DTOs.Request.BankingPayments
          * Type: DateTime
          * Description: Request property for BankIntegration
          */
-        public DateTime LastSync { get; set; }
+        public DateTime? LastSync { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -71,13 +71,14 @@ namespace TALLY_APP.DTOs.Request.BankingPayments
          * Type: DateTime
          * Description: Request property for BankIntegration
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for BankIntegration
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

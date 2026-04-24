@@ -58,14 +58,14 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          * Description: Request property for BankAccount
          */
         [Range(0, double.MaxValue)]
-        public decimal OpeningBalance { get; set; }
+        public decimal? OpeningBalance { get; set; }
         /**
          * Field: CurrentBalance
          * Type: decimal
          * Description: Request property for BankAccount
          */
         [Range(0, double.MaxValue)]
-        public decimal CurrentBalance { get; set; }
+        public decimal? CurrentBalance { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -79,13 +79,14 @@ namespace TALLY_APP.DTOs.Request.AccountingFinance
          * Type: DateTime
          * Description: Request property for BankAccount
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         /**
          * Field: UpdatedAt
          * Type: DateTime
          * Description: Request property for BankAccount
          */
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
+

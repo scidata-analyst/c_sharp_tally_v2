@@ -26,55 +26,56 @@ namespace TALLY_APP.DTOs.Request.ReportingAnalytics
          * Description: Request property for ProfitLoss
          */
         [Range(0, double.MaxValue)]
-        public decimal SalesRevenue { get; set; }
+        public decimal? SalesRevenue { get; set; }
         /**
          * Field: OtherIncome
          * Type: decimal
          * Description: Request property for ProfitLoss
          */
         [Range(0, double.MaxValue)]
-        public decimal OtherIncome { get; set; }
+        public decimal? OtherIncome { get; set; }
         /**
          * Field: GrossIncome
          * Type: decimal
          * Description: Request property for ProfitLoss
          */
         [Range(0, double.MaxValue)]
-        public decimal GrossIncome { get; set; }
+        public decimal? GrossIncome { get; set; }
         /**
          * Field: CostOfGoodsSold
          * Type: decimal
          * Description: Request property for ProfitLoss
          */
         [Range(0, double.MaxValue)]
-        public decimal CostOfGoodsSold { get; set; }
+        public decimal? CostOfGoodsSold { get; set; }
         /**
          * Field: EmployeeCosts
          * Type: decimal
          * Description: Request property for ProfitLoss
          */
         [Range(0, double.MaxValue)]
-        public decimal EmployeeCosts { get; set; }
+        public decimal? EmployeeCosts { get; set; }
         /**
          * Field: AdminOverheads
          * Type: decimal
          * Description: Request property for ProfitLoss
          */
         [Range(0, double.MaxValue)]
-        public decimal AdminOverheads { get; set; }
+        public decimal? AdminOverheads { get; set; }
         /**
          * Field: NetProfit
          * Type: decimal
          * Description: Request property for ProfitLoss
          */
         [Range(0, double.MaxValue)]
-        public decimal NetProfit { get; set; }
+        public decimal? NetProfit { get; set; }
         /**
          * Field: CreatedAt
          * Type: DateTime
          * Description: Request property for ProfitLoss
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
     }
 }
+

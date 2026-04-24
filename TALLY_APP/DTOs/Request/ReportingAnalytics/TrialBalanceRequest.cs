@@ -34,42 +34,42 @@ namespace TALLY_APP.DTOs.Request.ReportingAnalytics
          * Description: Request property for TrialBalance
          */
         [Range(0, double.MaxValue)]
-        public decimal OpeningDr { get; set; }
+        public decimal? OpeningDr { get; set; }
         /**
          * Field: OpeningCr
          * Type: decimal
          * Description: Request property for TrialBalance
          */
         [Range(0, double.MaxValue)]
-        public decimal OpeningCr { get; set; }
+        public decimal? OpeningCr { get; set; }
         /**
          * Field: TransactionDr
          * Type: decimal
          * Description: Request property for TrialBalance
          */
         [Range(0, double.MaxValue)]
-        public decimal TransactionDr { get; set; }
+        public decimal? TransactionDr { get; set; }
         /**
          * Field: TransactionCr
          * Type: decimal
          * Description: Request property for TrialBalance
          */
         [Range(0, double.MaxValue)]
-        public decimal TransactionCr { get; set; }
+        public decimal? TransactionCr { get; set; }
         /**
          * Field: ClosingDr
          * Type: decimal
          * Description: Request property for TrialBalance
          */
         [Range(0, double.MaxValue)]
-        public decimal ClosingDr { get; set; }
+        public decimal? ClosingDr { get; set; }
         /**
          * Field: ClosingCr
          * Type: decimal
          * Description: Request property for TrialBalance
          */
         [Range(0, double.MaxValue)]
-        public decimal ClosingCr { get; set; }
+        public decimal? ClosingCr { get; set; }
         /**
          * Field: Period
          * Type: string
@@ -83,7 +83,8 @@ namespace TALLY_APP.DTOs.Request.ReportingAnalytics
          * Type: DateTime
          * Description: Request property for TrialBalance
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
     }
 }
+

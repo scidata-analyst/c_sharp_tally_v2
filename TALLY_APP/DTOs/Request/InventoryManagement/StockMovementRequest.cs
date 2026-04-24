@@ -25,7 +25,7 @@ namespace TALLY_APP.DTOs.Request.InventoryManagement
          * Type: DateTime
          * Description: Request property for StockMovement
          */
-        public DateTime MovementDate { get; set; }
+        public DateTime? MovementDate { get; set; }
         /**
          * Field: MovementType
          * Type: string
@@ -39,25 +39,25 @@ namespace TALLY_APP.DTOs.Request.InventoryManagement
          * Type: long
          * Description: Request property for StockMovement
          */
-        public long ItemId { get; set; }
+        public long? ItemId { get; set; }
         /**
          * Field: FromGodownId
          * Type: long
          * Description: Request property for StockMovement
          */
-        public long FromGodownId { get; set; }
+        public long? FromGodownId { get; set; }
         /**
          * Field: ToGodownId
          * Type: long
          * Description: Request property for StockMovement
          */
-        public long ToGodownId { get; set; }
+        public long? ToGodownId { get; set; }
         /**
          * Field: Quantity
          * Type: int
          * Description: Request property for StockMovement
          */
-        public int Quantity { get; set; }
+        public int? Quantity { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -71,7 +71,9 @@ namespace TALLY_APP.DTOs.Request.InventoryManagement
          * Type: DateTime
          * Description: Request property for StockMovement
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
     }
 }
+
+

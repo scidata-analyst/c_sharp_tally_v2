@@ -25,63 +25,63 @@ namespace TALLY_APP.DTOs.Request.PayrollManagement
          * Type: long
          * Description: Request property for PayrollRun
          */
-        public long EmployeeId { get; set; }
+        public long? EmployeeId { get; set; }
         /**
          * Field: BasicSalary
          * Type: decimal
          * Description: Request property for PayrollRun
          */
         [Range(0, double.MaxValue)]
-        public decimal BasicSalary { get; set; }
+        public decimal? BasicSalary { get; set; }
         /**
          * Field: Hra
          * Type: decimal
          * Description: Request property for PayrollRun
          */
         [Range(0, double.MaxValue)]
-        public decimal Hra { get; set; }
+        public decimal? Hra { get; set; }
         /**
          * Field: Allowances
          * Type: decimal
          * Description: Request property for PayrollRun
          */
         [Range(0, double.MaxValue)]
-        public decimal Allowances { get; set; }
+        public decimal? Allowances { get; set; }
         /**
          * Field: GrossSalary
          * Type: decimal
          * Description: Request property for PayrollRun
          */
         [Range(0, double.MaxValue)]
-        public decimal GrossSalary { get; set; }
+        public decimal? GrossSalary { get; set; }
         /**
          * Field: PfDeduction
          * Type: decimal
          * Description: Request property for PayrollRun
          */
         [Range(0, double.MaxValue)]
-        public decimal PfDeduction { get; set; }
+        public decimal? PfDeduction { get; set; }
         /**
          * Field: EsiDeduction
          * Type: decimal
          * Description: Request property for PayrollRun
          */
         [Range(0, double.MaxValue)]
-        public decimal EsiDeduction { get; set; }
+        public decimal? EsiDeduction { get; set; }
         /**
          * Field: TdsDeduction
          * Type: decimal
          * Description: Request property for PayrollRun
          */
         [Range(0, double.MaxValue)]
-        public decimal TdsDeduction { get; set; }
+        public decimal? TdsDeduction { get; set; }
         /**
          * Field: NetPay
          * Type: decimal
          * Description: Request property for PayrollRun
          */
         [Range(0, double.MaxValue)]
-        public decimal NetPay { get; set; }
+        public decimal? NetPay { get; set; }
         /**
          * Field: Status
          * Type: string
@@ -95,13 +95,15 @@ namespace TALLY_APP.DTOs.Request.PayrollManagement
          * Type: DateTime
          * Description: Request property for PayrollRun
          */
-        public DateTime ProcessedAt { get; set; }
+        public DateTime? ProcessedAt { get; set; }
         /**
          * Field: CreatedAt
          * Type: DateTime
          * Description: Request property for PayrollRun
          */
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
     }
 }
+
+
