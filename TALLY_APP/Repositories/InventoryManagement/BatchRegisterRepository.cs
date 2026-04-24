@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TALLY_APP.Data;
 using TALLY_APP.Models.InventoryManagement;
@@ -14,59 +15,72 @@ namespace TALLY_APP.Repositories.InventoryManagement
     {
         private readonly ApplicationDbContext _context;
 
-        /**
-         * @constructor
-         * @param {ApplicationDbContext} context - Database context instance
-         */
         public BatchRegisterRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        /**
-         * @method GetAllAsync
-         * @returns {Task<List<BatchRegister>>}
-         */
-        public async Task<List<BatchRegister>> GetAllAsync()
+        public async Task<List<BatchRegister>> All()
         {
             return await _context.Set<BatchRegister>().ToListAsync();
         }
 
-        /**
-         * @method GetByIdAsync
-         * @param {long} id
-         * @returns {Task<BatchRegister>}
-         */
-        public async Task<BatchRegister> GetByIdAsync(long id)
+        public async Task<(List<BatchRegister> items, int totalCount)> Index(
+            int page = 1,
+            int pageSize = 10,
+            string search = "",
+            string sortColumn = "Id",
+            string sortDirection = "asc")
+        {
+            var query = _context.Set<BatchRegister>().AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                search = search.ToLower();
+                query = query.Where(x =>
+                    x.BatchNumber.ToLower().Contains(search) ||
+                    x.SerialRange.ToLower().Contains(search) ||
+                    x.Status.ToLower().Contains(search));
+            }
+
+            int totalCount = await query.CountAsync();
+
+            bool ascending = sortDirection.ToLower() == "asc";
+            query = sortColumn.ToLower() switch
+            {
+                "batchnumber" => ascending ? query.OrderBy(x => x.BatchNumber) : query.OrderByDescending(x => x.BatchNumber),
+                "manufacturingdate" => ascending ? query.OrderBy(x => x.ManufacturingDate) : query.OrderByDescending(x => x.ManufacturingDate),
+                "expirydate" => ascending ? query.OrderBy(x => x.ExpiryDate) : query.OrderByDescending(x => x.ExpiryDate),
+                "quantity" => ascending ? query.OrderBy(x => x.Quantity) : query.OrderByDescending(x => x.Quantity),
+                "serialrange" => ascending ? query.OrderBy(x => x.SerialRange) : query.OrderByDescending(x => x.SerialRange),
+                "status" => ascending ? query.OrderBy(x => x.Status) : query.OrderByDescending(x => x.Status),
+                "createdat" => ascending ? query.OrderBy(x => x.CreatedAt) : query.OrderByDescending(x => x.CreatedAt),
+                _ => ascending ? query.OrderBy(x => x.Id) : query.OrderByDescending(x => x.Id),
+            };
+
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            var items = await query.ToListAsync();
+            return (items, totalCount);
+        }
+
+        public async Task<BatchRegister?> View(long id)
         {
             return await _context.Set<BatchRegister>().FindAsync(id);
         }
 
-        /**
-         * @method AddAsync
-         * @param {BatchRegister} entity
-         */
-        public async Task AddAsync(BatchRegister entity)
+        public async Task Create(BatchRegister entity)
         {
             await _context.Set<BatchRegister>().AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
-        /**
-         * @method UpdateAsync
-         * @param {BatchRegister} entity
-         */
-        public async Task UpdateAsync(BatchRegister entity)
+        public async Task Update(BatchRegister entity)
         {
             _context.Set<BatchRegister>().Update(entity);
             await _context.SaveChangesAsync();
         }
 
-        /**
-         * @method DeleteAsync
-         * @param {long} id
-         */
-        public async Task DeleteAsync(long id)
+        public async Task Delete(long id)
         {
             var entity = await _context.Set<BatchRegister>().FindAsync(id);
             if (entity != null)

@@ -1,98 +1,82 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.InventoryManagement;
-
 using Mapster;
 using TALLY_APP.Interfaces.InventoryManagement;
 using TALLY_APP.DTOs.Request.InventoryManagement;
 using TALLY_APP.DTOs.Response.InventoryManagement;
-
 using TALLY_APP.Models.InventoryManagement;
 
 namespace TALLY_APP.Services.InventoryManagement
 {
-    /**
-     * @class BatchRegisterService
-     * @description Business logic layer for BatchRegister module.
-     */
     public class BatchRegisterService : IBatchRegisterService
     {
         private readonly BatchRegisterRepository _repository;
 
-        /**
-         * @constructor
-         * @param {BatchRegisterRepository} repository
-         */
         public BatchRegisterService(BatchRegisterRepository repository)
         {
             _repository = repository;
         }
 
-        /**
-         * @method All
-         * @returns {Task<List<BatchRegister>>}
-         */
-        
-
         public async Task<List<BatchRegisterResponse>> All()
         {
-            var entities = await _repository.GetAllAsync();
+            var entities = await _repository.All();
             return entities.Adapt<List<BatchRegisterResponse>>();
         }
 
-        public async Task<List<BatchRegisterResponse>> Index()
+        public async Task<PaginatedBatchRegisterResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc")
         {
-            var entities = await _repository.GetAllAsync();
-            return entities.Adapt<List<BatchRegisterResponse>>();
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+            if (pageSize > 100) pageSize = 100;
+
+            var (items, totalCount) = await _repository.Index(page, pageSize, search, sortColumn, sortDirection);
+            var data = items.Adapt<List<BatchRegisterResponse>>();
+            int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            return new PaginatedBatchRegisterResponse
+            {
+                Data = data,
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                HasPreviousPage = page > 1,
+                HasNextPage = page < totalPages
+            };
         }
 
-
-        /**
-         * @method View
-         * @param {long} id
-         * @returns {Task<BatchRegister>}
-         */
         public async Task<BatchRegisterResponse> View(long id)
         {
-            var entity = await _repository.GetByIdAsync(id);
+            var entity = await _repository.View(id);
             return entity.Adapt<BatchRegisterResponse>();
         }
 
-        /**
-         * @method Create
-         * @param {BatchRegister} entity
-         */
         public async Task<BatchRegisterResponse> Create(BatchRegisterRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
             var entity = request.Adapt<BatchRegister>();
-            await _repository.AddAsync(entity);
+            entity.CreatedAt = DateTime.UtcNow;
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _repository.Create(entity);
             return entity.Adapt<BatchRegisterResponse>();
         }
 
-        /**
-         * @method Update
-         * @param {long} id
-         * @param {BatchRegister} entity
-         */
         public async Task<BatchRegisterResponse> Update(long id, BatchRegisterRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
             var entity = request.Adapt<BatchRegister>();
             entity.Id = id;
-            await _repository.UpdateAsync(entity);
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _repository.Update(entity);
             return entity.Adapt<BatchRegisterResponse>();
         }
 
-        /**
-         * @method Delete
-         * @param {long} id
-         */
         public async Task<bool> Delete(long id)
         {
-            await _repository.DeleteAsync(id);
+            await _repository.Delete(id);
             return true;
         }
     }
 }
-
-
-

@@ -5,48 +5,13 @@ using TALLY_APP.DTOs.Response.InventoryManagement;
 
 namespace TALLY_APP.Interfaces.InventoryManagement
 {
-    /**
-     * =====================================================
-     * Interface: IStockMovementService
-     * =====================================================
-     *
-     * Purpose:
-     * Defines contract for StockMovement business operations.
-     * Acts as abstraction layer between Controller and Service.
-     *
-     * Architecture:
-     * Controller  Interface  Service Implementation
-     */
     public interface IStockMovementService
     {
-        /**
-         * Get all records
-         */
         Task<List<StockMovementResponse>> All();
-
-        /**
-         * Get paginated records
-         */
-        Task<List<StockMovementResponse>> Index();
-
-        /**
-         * Get single record by ID
-         */
+        Task<PaginatedStockMovementResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc");
         Task<StockMovementResponse> View(long id);
-
-        /**
-         * Create new record
-         */
         Task<StockMovementResponse> Create(StockMovementRequest request);
-
-        /**
-         * Update existing record
-         */
         Task<StockMovementResponse> Update(long id, StockMovementRequest request);
-
-        /**
-         * Delete record
-         */
         Task<bool> Delete(long id);
     }
 }

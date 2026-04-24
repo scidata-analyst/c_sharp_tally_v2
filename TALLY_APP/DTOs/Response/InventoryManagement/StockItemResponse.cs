@@ -108,4 +108,21 @@ namespace TALLY_APP.DTOs.Response.InventoryManagement
         public DateTime UpdatedAt { get; set; }
 
     }
+
+    /**
+     * Response DTO: PaginatedStockItemResponse
+     *
+     * Purpose:
+     * API response model for paginated stock item list
+     */
+    public class PaginatedStockItemResponse
+    {
+        public List<StockItemResponse> Data { get; set; }
+        public int TotalCount { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages { get; set; }
+        public bool HasPreviousPage { get; set; }
+        public bool HasNextPage { get; set; }
+    }
 }

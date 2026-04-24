@@ -1,98 +1,82 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TALLY_APP.Repositories.InventoryManagement;
-
 using Mapster;
 using TALLY_APP.Interfaces.InventoryManagement;
 using TALLY_APP.DTOs.Request.InventoryManagement;
 using TALLY_APP.DTOs.Response.InventoryManagement;
-
 using TALLY_APP.Models.InventoryManagement;
 
 namespace TALLY_APP.Services.InventoryManagement
 {
-    /**
-     * @class StockItemService
-     * @description Business logic layer for StockItem module.
-     */
     public class StockItemService : IStockItemService
     {
         private readonly StockItemRepository _repository;
 
-        /**
-         * @constructor
-         * @param {StockItemRepository} repository
-         */
         public StockItemService(StockItemRepository repository)
         {
             _repository = repository;
         }
 
-        /**
-         * @method All
-         * @returns {Task<List<StockItem>>}
-         */
-        
-
         public async Task<List<StockItemResponse>> All()
         {
-            var entities = await _repository.GetAllAsync();
+            var entities = await _repository.All();
             return entities.Adapt<List<StockItemResponse>>();
         }
 
-        public async Task<List<StockItemResponse>> Index()
+        public async Task<PaginatedStockItemResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc")
         {
-            var entities = await _repository.GetAllAsync();
-            return entities.Adapt<List<StockItemResponse>>();
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+            if (pageSize > 100) pageSize = 100;
+
+            var (items, totalCount) = await _repository.Index(page, pageSize, search, sortColumn, sortDirection);
+            var data = items.Adapt<List<StockItemResponse>>();
+            int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            return new PaginatedStockItemResponse
+            {
+                Data = data,
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                HasPreviousPage = page > 1,
+                HasNextPage = page < totalPages
+            };
         }
 
-
-        /**
-         * @method View
-         * @param {long} id
-         * @returns {Task<StockItem>}
-         */
         public async Task<StockItemResponse> View(long id)
         {
-            var entity = await _repository.GetByIdAsync(id);
+            var entity = await _repository.View(id);
             return entity.Adapt<StockItemResponse>();
         }
 
-        /**
-         * @method Create
-         * @param {StockItem} entity
-         */
         public async Task<StockItemResponse> Create(StockItemRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
             var entity = request.Adapt<StockItem>();
-            await _repository.AddAsync(entity);
+            entity.CreatedAt = DateTime.UtcNow;
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _repository.Create(entity);
             return entity.Adapt<StockItemResponse>();
         }
 
-        /**
-         * @method Update
-         * @param {long} id
-         * @param {StockItem} entity
-         */
         public async Task<StockItemResponse> Update(long id, StockItemRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
             var entity = request.Adapt<StockItem>();
             entity.Id = id;
-            await _repository.UpdateAsync(entity);
+            entity.UpdatedAt = DateTime.UtcNow;
+            await _repository.Update(entity);
             return entity.Adapt<StockItemResponse>();
         }
 
-        /**
-         * @method Delete
-         * @param {long} id
-         */
         public async Task<bool> Delete(long id)
         {
-            await _repository.DeleteAsync(id);
+            await _repository.Delete(id);
             return true;
         }
     }
 }
-
-
-

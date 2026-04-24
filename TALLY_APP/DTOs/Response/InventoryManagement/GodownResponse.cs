@@ -72,4 +72,21 @@ namespace TALLY_APP.DTOs.Response.InventoryManagement
         public DateTime UpdatedAt { get; set; }
 
     }
+
+    /**
+     * Response DTO: PaginatedGodownResponse
+     *
+     * Purpose:
+     * API response model for paginated godown list
+     */
+    public class PaginatedGodownResponse
+    {
+        public List<GodownResponse> Data { get; set; }
+        public int TotalCount { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages { get; set; }
+        public bool HasPreviousPage { get; set; }
+        public bool HasNextPage { get; set; }
+    }
 }

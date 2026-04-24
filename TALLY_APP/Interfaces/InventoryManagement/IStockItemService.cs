@@ -5,48 +5,13 @@ using TALLY_APP.DTOs.Response.InventoryManagement;
 
 namespace TALLY_APP.Interfaces.InventoryManagement
 {
-    /**
-     * =====================================================
-     * Interface: IStockItemService
-     * =====================================================
-     *
-     * Purpose:
-     * Defines contract for StockItem business operations.
-     * Acts as abstraction layer between Controller and Service.
-     *
-     * Architecture:
-     * Controller  Interface  Service Implementation
-     */
     public interface IStockItemService
     {
-        /**
-         * Get all records
-         */
         Task<List<StockItemResponse>> All();
-
-        /**
-         * Get paginated records
-         */
-        Task<List<StockItemResponse>> Index();
-
-        /**
-         * Get single record by ID
-         */
+        Task<PaginatedStockItemResponse> Index(int page = 1, int pageSize = 10, string search = "", string sortColumn = "Id", string sortDirection = "asc");
         Task<StockItemResponse> View(long id);
-
-        /**
-         * Create new record
-         */
         Task<StockItemResponse> Create(StockItemRequest request);
-
-        /**
-         * Update existing record
-         */
         Task<StockItemResponse> Update(long id, StockItemRequest request);
-
-        /**
-         * Delete record
-         */
         Task<bool> Delete(long id);
     }
 }

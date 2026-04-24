@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\DASHBOARD_APP\\GIT_VERSION\\TALLY\\tally_app\\TALLY_APP.csproj": {}
+    "F:\\DASHBOARD_APP\\GIT_VERSION\\TALLY\\TALLY_APP\\TALLY_APP.csproj": {}
   },
   "projects": {
-    "F:\\DASHBOARD_APP\\GIT_VERSION\\TALLY\\tally_app\\TALLY_APP.csproj": {
+    "F:\\DASHBOARD_APP\\GIT_VERSION\\TALLY\\TALLY_APP\\TALLY_APP.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\DASHBOARD_APP\\GIT_VERSION\\TALLY\\tally_app\\TALLY_APP.csproj",
+        "projectUniqueName": "F:\\DASHBOARD_APP\\GIT_VERSION\\TALLY\\TALLY_APP\\TALLY_APP.csproj",
         "projectName": "TALLY_APP",
-        "projectPath": "F:\\DASHBOARD_APP\\GIT_VERSION\\TALLY\\tally_app\\TALLY_APP.csproj",
+        "projectPath": "F:\\DASHBOARD_APP\\GIT_VERSION\\TALLY\\TALLY_APP\\TALLY_APP.csproj",
         "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "F:\\DASHBOARD_APP\\GIT_VERSION\\TALLY\\tally_app\\obj\\",
+        "outputPath": "F:\\DASHBOARD_APP\\GIT_VERSION\\TALLY\\TALLY_APP\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config"
